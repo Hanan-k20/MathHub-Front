@@ -36,7 +36,7 @@ function ProblemForm(props) {
   }
   return (
     <div>
-      <h1>Pet Form</h1>
+      <h1>Question</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Question topic </label>
         <input type="text" name="title" id="title" value={formState.title} onChange={handleChange}/>
