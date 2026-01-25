@@ -50,7 +50,7 @@ const update = async (problemId, formData) => {
 }
 
 // delete problems
-const remove = async (problmsId) => {
+const remove = async (problemId) => {
     try {
         const response = await axios.delete(`${BASE_URL}/${problemId}`, authConfig())
 
