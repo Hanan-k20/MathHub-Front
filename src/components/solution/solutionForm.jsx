@@ -60,7 +60,7 @@ function SolutionForm({ updateSolution, solutionToUpdate, solution, problemId })
                     <input
                         type='text'
                         id='content'
-                        value={contant}
+                        value={content}
                         name='content'
                         className={styles.input}
                         onChange={handleChange}
