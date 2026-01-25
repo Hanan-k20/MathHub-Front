@@ -1,3 +1,4 @@
+import { useState } from 'react'; 
 import { submitvote } from '../services/voteService';
 
 function VoteButton({ problemId, solutionId, initialVoted, initialCount }) {
@@ -5,15 +6,19 @@ function VoteButton({ problemId, solutionId, initialVoted, initialCount }) {
     const [count, setCount] = useState(initialCount);
 
     const handleToggle = async () => {
-        const data = await submitvote(problemId, solutionId);
-        setIsVoted(data.voted);
-        setCount(data.total_votes);
+        try {
+            const data = await submitvote(problemId, solutionId);
+            setIsVoted(data.voted);
+            setCount(data.total_votes);
+        } catch (err) {
+            console.error("Vote failed", err);
+        }
     };
 
     return (
         <button
             type="button" 
-            onClick={handleToggle}
+            onClick={handleToggle} 
             style={{
                 color: isVoted ? '#d4ef0d' : '#808080', 
                 background: 'none',
@@ -23,9 +28,9 @@ function VoteButton({ problemId, solutionId, initialVoted, initialCount }) {
             }}
         >
             <i className={isVoted ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up"}></i>
-            <span style={{ marginLeft: '5px' }}>{votesCount}</span>
+            <span style={{ marginLeft: '5px' }}>{count}</span> 
         </button>
     );
 }
 
-export default VoteButton
+export default VoteButton;
