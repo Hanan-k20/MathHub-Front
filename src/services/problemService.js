@@ -1,67 +1,68 @@
+
 import axios from "axios";
 
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/problems`;
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/problems`
 
-// GET ALL ==================================================================================================
+const authConfig = () => ({
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+})
+
+// retrieve all 
 const index = async () => {
     try {
-        const response = await axios.get(BASE_URL);
-        console.log(response.data)
-        return response.data.problems; 
-    } catch (error) {
-        console.error(error);
-       
+        const response = await axios.get(BASE_URL, authConfig())
+        return response.data.problems
+    } catch (err) {
+        console.log(err)
     }
-};
+}
 
-// GET ONE ==================================================================================================
-const show = async (id) => {
+// retrieve ONE problem
+const show = async (problemId) => {
     try {
-        const response = await axios.get(`${BASE_URL}/${id}`);
-         return response.data.problem;  
+        const response = await axios.get(`${BASE_URL}/${problemId}`, authConfig())
+        return response.data.problem
     } catch (error) {
-        console.error(error);
-      
+        console.log(error)
     }
-};
+}
 
-// CREATE ==================================================================================================
+// create new problem
 const create = async (formData) => {
     try {
-        const response = await axios.post(BASE_URL, formData);
-        return response.data.problem;
-    } catch (error) {
-        console.error(error);
-       
-    }
-};
+        const response = await axios.post(BASE_URL, formData, authConfig())
 
-// UPDATE ==================================================================================================
+        return response.data.problem
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// edit problems
 const update = async (problemId, formData) => {
     try {
-        const response = await axios.put(`${BASE_URL}/${problemId}`, formData);
-        return response.data.problem;
-    } catch (error) {
-        console.error(error);
-       
-    }
-};
+        const response = await axios.put(`${BASE_URL}/${problemId}`, formData, authConfig())
 
-// DELETE ==================================================================================================
-const deleteOne = async (problemId) => {
+        return response.data.problem
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// delete problems
+const remove = async (problmsId) => {
     try {
-        const response = await axios.delete(`${BASE_URL}/${problemId}`);
-        return response.data; 
-    } catch (error) {
-        console.error(error);
-     
-    }
-};
+        const response = await axios.delete(`${BASE_URL}/${problemId}`, authConfig())
 
+        return response.data.problem
+    } catch (error) {
+        console.log(error)
+    }
+}
 export {
     index,
     show,
     create,
     update,
-    deleteOne,
-};
+    remove
+}
