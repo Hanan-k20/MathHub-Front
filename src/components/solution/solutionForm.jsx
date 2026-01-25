@@ -3,30 +3,12 @@ import { useNavigate, useParams } from 'react-router';
 import * as solutionService from '../../services/solutionService'
 import Swal from 'sweetalert2';
 
-function SolutionForm(props) {
-    props={ updateSolution, solutionToUpdate ,solution, problemId }
+function SolutionForm({ updateSolution, solutionToUpdate, solution, problemId }) { 
     const navigate = useNavigate()
     const { solutionId } = useParams()
     const [formState, setFormState] = useState(solutionToUpdate ? solutionToUpdate : {
-        content: ''
-    })
-    const [isVoted, setIsVoted] = useState(solution.is_voted_by_me); //initial from back end
-    const [votesCount, setVotesCount] = useState(solution.votes_count);
-
-  const handleToggleVote = async () => {
-    try {
-      const data = await submitvote(problemId, solution.id);
-      setIsVoted(data.voted);
-      setVotesCount(data.total_votes);
-    } catch (error) {
-      console.error("Error", error.message);
-      Swal.fire({icon: "error",
-                 title: "Oops...",
-                 text: "You need to log in to vote!",
-                 confirmButtonColor: "#FFD700",
-                    })
-    }
-  };
+        content: ''   
+     })
 
     useEffect(() => {
         const solutionEdit = async () => {
@@ -37,20 +19,13 @@ function SolutionForm(props) {
         solutionEdit()
     }, [solutionId])
 
-    const { content } = formState
-
-    const handleCoords = () => {
-        return new Promise((resolve, reject) => {
-            window.navigator.geolocation.getCurrentPosition(resolve, reject)
-        })
-    }
+    const { content } = formState;
 
     const handleSubmit = async (event) => {
         event.preventDefault()
 
             if (solutionId) {
-                const updatedSolution = await serviceSolution.update(solutionId, newFormState)
-                if (updatedSolution) {
+                const updatedSolution = await solutionService.update(solutionId, formState);                if (updatedSolution) {
                     navigate(`/solutions/${solutionId}`)
                 } else {
                     Swal.fire({
@@ -62,7 +37,7 @@ function SolutionForm(props) {
                 const data = await serviceSolution.create(newFormState)
                 if (data) {
                     updateSolution(data)
-                    navigate(`/solutions/${data._id}`)
+                    navigate(`/solutions/${data.id}`)
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -70,6 +45,10 @@ function SolutionForm(props) {
                     })
                 }
             }
+
+        const handleChange = (event) => {
+        setFormState({ ...formState, [event.target.name]: event.target.value });
+    };
         
         }
     return (
@@ -77,13 +56,14 @@ function SolutionForm(props) {
             <h1>Solution Form</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div>
-                    <label className={styles.label} htmlFor='contant'>Add the Solution</label>
+                    <label className={styles.label} htmlFor='content'>Add the Solution</label>
                     <input
                         type='text'
-                        id='contant'
+                        id='content'
                         value={contant}
-                        name='contant'
+                        name='content'
                         className={styles.input}
+                        onChange={handleChange}
                     />
                 </div>
                 
