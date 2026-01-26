@@ -20,19 +20,11 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
-<<<<<<< HEAD
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
         <Route path="/sign-up" element={<SignUpForm />} />
         <Route path="/sign-in" element={<SignInForm />} />
         <Route path="/cards" element={<CardList />}/>
 
-=======
-        {/* if the user is logged in we have the user object else we have the user set to null */}
-        <Route path='/' element={user ? <Dashboard /> : <Landing />} />
-        <Route path='/sign-up' element={<SignUpForm />} />
-        <Route path='/sign-in' element={<SignInForm />} />
-        
->>>>>>> main
       </Routes>
     </>
   );
