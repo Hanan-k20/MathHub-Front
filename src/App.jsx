@@ -34,19 +34,19 @@ const App = () => {
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
         <Route path="/sign-up" element={<SignUpForm />} />
         <Route path="/sign-in" element={<SignInForm />} />
-        <Route path="/cards" element={<CardList />}/>
-        <Route path="/cards/:cardId" element={<CardDetail />}/>
+        <Route path="/cards" element={<CardList cards={ cards } />}/>
+        <Route path="/cards/:cardId" element={<CardDetail problem={problem} />}/>
 
 
         <Route path="/terms" element={<TermList />}/>
-        <Route path="/terms/new" element={<TermForm />} />
+        <Route path="/terms/new" element={<TermForm updateProblem={ updateProblem} problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
         <Route path="/terms/:termId" element={<TermDetail/>} />
-        <Route path="/terms/:termId/update" element={<TermForm />}/>
+        <Route path="/terms/:termId/update" element={<TermForm updateProblem={ updateProblem} problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem}/>}/>
 
-        <Route path="/problems" element={<ProblemList />}/>
+      <Route path="/problems" element={<ProblemList  problems = { problems }/>}/>
         <Route path="/problems/new" element={<ProblemForm />} />
         <Route path="/problems/:problemId" element={<ProblemDetail/>} />
-        <Route path="/problems/:problemId/update" element={<ProblemForm />}/>
+        <Route path="/problems/:problemId/update" element={<ProblemForm props/>}/>
 
 
         <Route path="/solutions/new" element={<SolutionForm />} />
