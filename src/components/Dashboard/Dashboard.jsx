@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 
 import * as testService from '../../services/testService';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   // Access the user object from UserContext
@@ -40,6 +41,21 @@ const Dashboard = () => {
         This is the dashboard page where you can test your authentication.
       </p>
       <p><strong>{message}</strong></p>
+
+     <div style={{ background: '#222', color: '#fff', padding: '20px', margin: '20px' }}>
+      <h2>🛠️ فحص الروابط (Navigation Test)</h2>
+      <ul>
+        <li><Link to="/sign-up">Sign Up Page</Link></li>
+        <li><Link to="/sign-in">Sign In Page</Link></li>
+        <li><Link to="/cards">FlashCards List</Link></li>
+        <li><Link to="/problems">Problems List</Link></li>
+        <li><Link to="/problems/new">Create New Problem</Link></li>
+      </ul>
+    </div>
+
+
+
+
     </main>
   );
 };
