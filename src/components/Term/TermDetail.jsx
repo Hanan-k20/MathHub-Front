@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react"
 import * as termService from '../../services/termService'
-import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router";
+import { useNavigate, useParams ,Link} from "react-router";
 
 function TermDetail({findTermToUpdate,deleteTerm}) {
 
-    const {findTermToUpdate,deleteTerm}=props
   const [term,setTerm] = useState(null)
   const {id}=useParams()
   const navigate=useNavigate()
@@ -13,7 +11,7 @@ function TermDetail({findTermToUpdate,deleteTerm}) {
     ()=>{
     const getOneTerm = async(id)=>{
     const term = await termService.show(id)
-    setPet(term)
+    setTerm(term)
   }
  if(id) getOneTerm(id)
 },[id])
@@ -34,8 +32,18 @@ const handleDelete =async()=>{
 
   return (
     <div>
-      
-    </div>
+      <h1>Name:{term.name}</h1>
+      <h3>Definition:{term.definition}</h3>
+      <p>Example:{term.example}</p>
+      <p>Category:{term.category}</p>
+      <p>Created by::{term.created_At}</p>
+
+      <div>
+        <Link onClick={()=>  findTermToUpdate(id) } to={`/terms/${id}/update`}>Edit</Link>
+        <br/>
+        <button onClick={handleDelete}>Delete</button>
+      </div>
+       </div>
   )
 }
 
