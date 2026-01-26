@@ -21,7 +21,7 @@ const index = async () => {
 const show = async (problemId) => {
     try {
         const response = await axios.get(`${BASE_URL}/${problemId}`, authConfig())
-        return response.data.problem
+        return response.data
     } catch (error) {
         console.log(error)
     }
@@ -32,7 +32,7 @@ const create = async (formData) => {
     try {
         const response = await axios.post(BASE_URL, formData, authConfig())
 
-        return response.data.problem
+        return response.data
     } catch (error) {
         console.log(error)
     }
@@ -43,7 +43,7 @@ const update = async (problemId, formData) => {
     try {
         const response = await axios.put(`${BASE_URL}/${problemId}`, formData, authConfig())
 
-        return response.data.problem
+        return response.data
     } catch (error) {
         console.log(error)
     }
@@ -54,7 +54,7 @@ const remove = async (problemId) => {
     try {
         const response = await axios.delete(`${BASE_URL}/${problemId}`, authConfig())
 
-        return response.data.problem
+        return response.data
     } catch (error) {
         console.log(error)
     }
