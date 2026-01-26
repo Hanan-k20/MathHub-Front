@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from "react-router";
 import * as termService from '../../services/termService'
-import MathView from 'react-mathlive';
+import 'mathlive';
 const category = {
     'Algebra': '➗',
     'Geometry': '📐',
@@ -49,34 +49,45 @@ function TermForm({ addTerm, termToUpdate, updateOneTerm }) {
         }
     }
 
-    return (
+   return (
         <form onSubmit={handleSubmit}>
             <h2>{termToUpdate ? "Edit Term" : "New Term"}</h2>
+            
+            <label>Name:</label>
             <input name="name" value={formState.name} onChange={handleChange} placeholder="Name" required />
+            
             <label>Definition (Math Mode):</label>
-            <MathView
-                mathfieldConfig={{
-                    smartFence: true,
-                    virtualKeyboardMode: "onfocus",
-                }}
-                value={formState.definition}
-                onChange={(value) => setFormState({ ...formState, definition: value })} />
+            
+            <div style={{ border: '1px solid #ccc', margin: '5px 0' }}>
+                <math-field 
+                    onInput={evt => setFormState({ ...formState, definition: evt.target.value })}
+                    style={{ width: '100%', padding: '8px' }}
+                >
+                    {formState.definition}
+                </math-field>
+            </div>
 
             <label>Example:</label>
-            <MathView
-                value={formState.example}
-                 onChange={(value) => setFormState({ ...formState, example: value })}/>
+
+            <div style={{ border: '1px solid #ccc', margin: '5px 0' }}>
+                <math-field 
+                    onInput={evt => setFormState({ ...formState, example: evt.target.value })}
+                    style={{ width: '100%', padding: '8px' }}
+                >
+                    {formState.example}
+                </math-field>
+            </div>
 
             <label>Category:</label>
             <select name="category" value={formState.category} onChange={handleChange}>
                 <option value="">-- Select a Category (Optional) --</option>
-
                 {Object.keys(category).map((catName) => (
                     <option key={catName} value={catName}>
                         {category[catName]} {catName}
                     </option>
                 ))}
             </select>
+
             <button type="submit">Save</button>
         </form>
     )
