@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as solutionService from '../../services/solutionService'
 import MathView from 'react-mathlive';
 import Swal from 'sweetalert2';
+import MathInput from "react-math-keyboard";
 
-function SolutionForm({ updateSolution, solutionToUpdate, solution, problemId }) { 
+function SolutionForm({ updateSolution, solutionToUpdate }) { 
     const navigate = useNavigate()
     const { solutionId } = useParams()
-    const [formState, setFormState] = useState(solutionToUpdate ? solutionToUpdate : {
-        content: ''   
-     })
+    
+    const [formState, setFormState] = useState({
+        content: ''
+    })
 
     useEffect(() => {
         const solutionEdit = async () => {
@@ -22,42 +24,46 @@ function SolutionForm({ updateSolution, solutionToUpdate, solution, problemId })
 
     const { content } = formState;
 
+   const handleChange = (event) => {
+        setFormState({ ...formState, [event.target.name]: event.target.value });
+    };
+        // FOR THE KEYBOORD
+    const handleMathChange = (mathValue) => {
+        setFormState({ ...formState, content: mathValue });
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault()
 
+        try {
             if (solutionId) {
-                const updatedSolution = await solutionService.update(solutionId, formState);                if (updatedSolution) {
+                const updatedSolution = await solutionService.update(solutionId, formState);
+                if (updatedSolution) {
                     navigate(`/solutions/${solutionId}`)
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Failed to update solution",
-                    })
                 }
             } else {
-                const data = await serviceSolution.create(newFormState)
+                const data = await solutionService.create(formState) 
                 if (data) {
-                    updateSolution(data)
+                    if(updateSolution) updateSolution(data)
                     navigate(`/solutions/${data.id}`)
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Failed to create solution",
-                    })
                 }
             }
-
-        const handleChange = (event) => {
-        setFormState({ ...formState, [event.target.name]: event.target.value });
-    };
-        
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Something went wrong!",
+                text: error.message
+            })
         }
+    };
+
     return (
         <main className={styles.main}>
             <h1>Solution Form</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div>
                     <label className={styles.label} htmlFor='content'>Add the Solution</label>
+                    
                     <input
                         type='text'
                         id='content'
@@ -65,16 +71,28 @@ function SolutionForm({ updateSolution, solutionToUpdate, solution, problemId })
                         name='content'
                         className={styles.input}
                         onChange={handleChange}
+                        placeholder="Write or use keyboard below"
                     />
+                    {/* MATH KEYBOARD */}
+                    <div style={{ marginTop: '20px', direction: 'ltr' }}>
+                        <MathInput 
+                            setValue={handleMathChange} 
+                            value={content}
+                        />
+                    </div>
                 </div>
                 
-                <div>
-                    <button className={styles.button} type="submit">{solutionToUpdate ? 'Update Solution' : 'Create Solution'}</button>
-                    <button className={styles.button} onClick={() => navigate('/')}>Cancel</button>
+                <div style={{ marginTop: '20px' }}>
+                    <button className={styles.button} type="submit">
+                        {solutionId ? 'Update Solution' : 'Create Solution'}
+                    </button>
+                    <button className={styles.button} type="button" onClick={() => navigate('/')}>
+                        Cancel
+                    </button>
                 </div>
             </form>
         </main>
     )
 }
 
-export default SolutionForm
+export default SolutionForm;

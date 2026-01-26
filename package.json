@@ -11,12 +11,22 @@
   },
   "dependencies": {
     "axios": "^1.13.2",
+    "katex": "^0.16.28",
     "react": "^19.2.0",
     "react-card-flip": "^1.2.3",
     "react-dom": "^19.2.0",
+<<<<<<< HEAD
+    "react-katex": "^3.1.0",
+    "react-math-keyboard": "^2.0.12",
+    "react-mathjax2": "^0.0.2",
+    "react-router": "^7.11.0",
+    "react-router-dom": "^7.13.0",
+    "sweetalert2": "^11.26.17"
+=======
     "react-mathjax2": "^0.0.2",
     "react-mathlive": "^3.0.5-preview.1",
     "react-router": "^7.11.0"
+>>>>>>> main
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
