@@ -26,6 +26,7 @@ import { UserContext } from './contexts/UserContext'
 
 const App = () => {
   const { user } = useContext(UserContext);
+  
 
   return (
     <>
@@ -38,19 +39,19 @@ const App = () => {
         <Route path="/cards/:cardId" element={<CardDetail problem={problem} />}/>
 
 
-        <Route path="/terms" element={<TermList />}/>
+        <Route path="/terms" element={<TermList terms={terms}/>}/>
         <Route path="/terms/new" element={<TermForm updateProblem={ updateProblem} problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
-        <Route path="/terms/:termId" element={<TermDetail/>} />
+        <Route path="/terms/:termId" element={<TermDetail findTermToUpdate={findTermToUpdate} deleteTerm={deleteTerm}/>} />
         <Route path="/terms/:termId/update" element={<TermForm updateProblem={ updateProblem} problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem}/>}/>
 
       <Route path="/problems" element={<ProblemList  problems = { problems }/>}/>
-        <Route path="/problems/new" element={<ProblemForm />} />
-        <Route path="/problems/:problemId" element={<ProblemDetail/>} />
-        <Route path="/problems/:problemId/update" element={<ProblemForm props/>}/>
+        <Route path="/problems/new" element={<ProblemForm updateProblem={ updateProblem} problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
+        <Route path="/problems/:problemId" element={<ProblemDetail findTermToUpdate={findTermToUpdate} deleteTerm={deleteTerm} />} />
+        <Route path="/problems/:problemId/update" element={<ProblemForm updateProblem={ updateProblem} problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem}/>}/>
 
 
-        <Route path="/solutions/new" element={<SolutionForm />} />
-        <Route path="/problems/:problemId/update" element={<SolutionForm />}/>
+        <Route path="/solutions/new" element={<SolutionForm updateSolution={updateSolution}/>} />
+        <Route path="/problems/:problemId/update" element={<SolutionForm updateSolution={updateSolution} />}/>
        
 
       </Routes>
