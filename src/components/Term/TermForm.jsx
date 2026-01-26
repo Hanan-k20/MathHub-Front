@@ -1,7 +1,7 @@
-import { useState } from 'react' // 1. إضافة useState
+import { useState } from 'react'
 import { useNavigate, useParams } from "react-router";
-import * as termService from '../../services/termService' // 2. استيراد السيرفيس
-
+import * as termService from '../../services/termService'
+import MathView from 'react-mathlive';
 const category = {
     'Algebra': '➗',
     'Geometry': '📐',
@@ -53,10 +53,20 @@ function TermForm({ addTerm, termToUpdate, updateOneTerm }) {
         <form onSubmit={handleSubmit}>
             <h2>{termToUpdate ? "Edit Term" : "New Term"}</h2>
             <input name="name" value={formState.name} onChange={handleChange} placeholder="Name" required />
-            <label>Definition:</label>
-            <textarea name="definition" value={formState.definition} onChange={handleChange} placeholder="Definition" required />
+            <label>Definition (Math Mode):</label>
+            <MathView
+                mathfieldConfig={{
+                    smartFence: true,
+                    virtualKeyboardMode: "onfocus",
+                }}
+                value={formState.definition}
+                onChange={(value) => setFormState({ ...formState, definition: value })} />
+
             <label>Example:</label>
-            <textarea name="example" value={formState.example} onChange={handleChange} placeholder="Example" />
+            <MathView
+                value={formState.example}
+                 onChange={(value) => setFormState({ ...formState, example: value })}/>
+
             <label>Category:</label>
             <select name="category" value={formState.category} onChange={handleChange}>
                 <option value="">-- Select a Category (Optional) --</option>
