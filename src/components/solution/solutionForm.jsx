@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as solutionService from '../../services/solutionService'
 import MathView from 'react-mathlive';
 import Swal from 'sweetalert2';
-import MathInput from "react-math-keyboard";
 
 function SolutionForm({ updateSolution, solutionToUpdate }) { 
     const navigate = useNavigate()
@@ -28,8 +27,8 @@ function SolutionForm({ updateSolution, solutionToUpdate }) {
         setFormState({ ...formState, [event.target.name]: event.target.value });
     };
         // FOR THE KEYBOORD
-    const handleMathChange = (mathValue) => {
-        setFormState({ ...formState, content: mathValue });
+   const handleMathChange = (value) => {
+        setFormState({ ...formState, content: value });
     };
 
     const handleSubmit = async (event) => {
@@ -75,9 +74,13 @@ function SolutionForm({ updateSolution, solutionToUpdate }) {
                     />
                     {/* MATH KEYBOARD */}
                     <div style={{ marginTop: '20px', direction: 'ltr' }}>
-                        <MathInput 
-                            setValue={handleMathChange} 
-                            value={content}
+                        <MathView
+                            mathfieldConfig={{
+                                smartFence: true,
+                                virtualKeyboardMode: "onfocus",
+                            }}
+                            value={formState.content}
+                            onChange={handleMathChange}
                         />
                     </div>
                 </div>
