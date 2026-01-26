@@ -12,10 +12,11 @@ const SignUpForm = () => {
     username: '',
     password: '',
     passwordConf: '',
+    email:''
   });
   const { setUser } = useContext(UserContext);
 
-  const { username, password, passwordConf } = formData;
+  const { username, password, passwordConf,email } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -72,6 +73,18 @@ const SignUpForm = () => {
             id='confirm'
             value={passwordConf}
             name='passwordConf'
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor='email'>Email:</label>
+          <input
+            type='email'
+            id='email'
+            value={email}
+            name='email'
             onChange={handleChange}
             required
           />
