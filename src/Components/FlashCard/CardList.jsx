@@ -6,7 +6,6 @@ function CardList({ cards }) {
     return (
       <div className="container">
         <h1 id="H1">No Cards Found</h1>
-        <Link to="/cards/new" className="btn-primary">Add a New Card</Link>
       </div>
     );
   }
@@ -14,10 +13,7 @@ function CardList({ cards }) {
   return (
     <div className="container">
       <h1 id="H1">Here's all the Cards</h1>
-      
-      <Link to="/cards/new" className="btn-primary add-new-card-link">
-        Add a New Card
-      </Link>
+
 
       <div className="cards-grid">
         {cards.map((oneCard) => (
