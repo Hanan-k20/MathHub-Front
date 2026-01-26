@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
 import * as problemService from '../../services/problemService';
@@ -75,6 +72,7 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem }) {
                     <br />
                     <button onClick={handleDelete}>Delete the question</button>
                 </div>
+
             </MathJax.Context>
         </div>
 
@@ -82,4 +80,3 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem }) {
 }
 
 export default ProblemDetail
->>>>>>> main

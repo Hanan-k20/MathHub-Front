@@ -11,7 +11,7 @@ const authConfig = () => ({
 const index = async () => {
     try {
         const response = await axios.get(BASE_URL, authConfig())
-        return response.data.problems
+        return response.data
     } catch (err) {
         console.log(err)
     }
