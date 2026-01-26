@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
 import * as problemService from '../../services/problemService';
@@ -82,4 +79,3 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem }) {
 }
 
 export default ProblemDetail
->>>>>>> main
