@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import VoteButton from './VoteButton';
+import VoteButton from "../VoteButton/VoteButton";
 
 function ProblemList({ problems }) {
     const navigate = useNavigate();

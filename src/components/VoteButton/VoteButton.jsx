@@ -1,5 +1,5 @@
 import { useState } from 'react'; 
-import { submitvote } from '../services/voteService';
+import { submitvote } from "../../services/voteService";
 
 function VoteButton({ problemId, solutionId, initialVoted, initialCount }) {
     const [isVoted, setIsVoted] = useState(initialVoted);
