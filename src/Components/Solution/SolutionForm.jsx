@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as solutionService from '../../services/solutionService'
-import MathView from 'react-mathlive';
+import 'mathlive'; 
 import Swal from 'sweetalert2';
 
 function SolutionForm({ updateSolution, solutionToUpdate }) { 
@@ -27,9 +27,9 @@ function SolutionForm({ updateSolution, solutionToUpdate }) {
         setFormState({ ...formState, [event.target.name]: event.target.value });
     };
         // FOR THE KEYBOORD
-   const handleMathChange = (value) => {
-        setFormState({ ...formState, content: value });
-    };
+    const handleMathChange = (event) => {
+      setFormState({ ...formState, content: event.target.value });
+      };
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -73,17 +73,16 @@ function SolutionForm({ updateSolution, solutionToUpdate }) {
                         placeholder="Write or use keyboard below"
                     />
                     {/* MATH KEYBOARD */}
-                    <div style={{ marginTop: '20px', direction: 'ltr' }}>
-                        <MathView
-                            mathfieldConfig={{
-                                smartFence: true,
-                                virtualKeyboardMode: "onfocus",
-                            }}
-                            value={formState.content}
-                            onChange={handleMathChange}
-                        />
+                    <div style={{ border: '1px solid #ccc', borderRadius: '4px' }}>
+                           <math-field 
+                               onInput={handleMathChange}
+                               style={{ width: '100%', padding: '10px' }}
+                           >
+                               {formState.content}
+                           </math-field>
+                       </div>
                     </div>
-                </div>
+        
                 
                 <div style={{ marginTop: '20px' }}>
                     <button className={styles.button} type="submit">
