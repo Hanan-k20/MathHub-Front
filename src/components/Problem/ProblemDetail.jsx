@@ -4,48 +4,46 @@ import * as solutionService from '../../services/solutionService'
 import Swal from 'sweetalert2';
 
 function ProblemDetail(props) {
-    props={ updateSolution, solutionToUpdate ,solution, problemId }
-   
-    const [isVoted, setIsVoted] = useState(solution.is_voted_by_me); //initial from back end
-    const [votesCount, setVotesCount] = useState(solution.votes_count);
+      const {findProblemToUpdate,deleteProblem}=props
+  const [problem,setPet] = useState(null)
+  const {id}=useParams()
+  const navigate=useNavigate()
+  useEffect(
+    ()=>{
+    const getOneProblem = async(id)=>{
+    const problem = await problemService.show(id)
+    setPet(problem)
+  }
+ if(id) getOneProblem(id)
+},[id])
 
-  const handleToggleVote = async () => {
-    try {
-      const data = await submitvote(problemId, solution.id);
-      setIsVoted(data.voted);
-      setVotesCount(data.total_votes);
-    } catch (error) {
-      console.error("Error", error.message);
-      Swal.fire({icon: "error",
-                 title: "Oops...",
-                 text: "You need to log in to vote!",
-                 confirmButtonColor: "#FFD700",
-                    })
-    }
-    };
 
+const handleDelete =async()=>{
+  try {
+      const deletProblem=await problemService.deleteOne(id)
+      deleteProblem(id)
+      navigate('/')
+  } catch (error) {
+        console.log('something went wrong')
+
+  }
+}
+  if(!id) return <h1>Loading...</h1>
+  if(!problem) return <h1>Loading...</h1>
         
     return (
-        <main className={styles.main}>
-            <div className="solution-card">
-                <p>{solution.content}</p>
-
-                <button
-                    onClick={handleToggleVote}
-                    className={`vote-btn ${isVoted ? 'active' : ''}`}
-                    style={{
-                        color: isVoted ? "#FFD700" : "#808080", 
-                        cursor: "pointer",
-                        border: "none",
-                        background: "none",
-                        fontSize: "1.2rem"
-                    }}
-                >
-                    <i className={isVoted ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
-                    <span style={{ marginLeft: "8px" }}>{votesCount}</span>
-                </button>
-            </div>
-        </main>
+         <div>
+      <h1>Question topic:{problem.title}</h1>
+      <h3>{problem.equation_LaTeX}</h3>
+      <p>AI Solution:{problem.ai_solution }</p>
+      <p>Created at:{problem.created_At }</p>
+      <div>
+        <Link onClick={()=>  findProblemToUpdate(id) } to={`/problem/${id}/update`}>Edit the question</Link>
+        <br/>
+        <button onClick={handleDelete}>Delete the question</button>
+      </div>
+       </div>
+        
     )
 }
 
