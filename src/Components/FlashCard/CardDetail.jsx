@@ -1,42 +1,57 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ReactCardFlip from 'react-card-flip';
-import 'katex/dist/katex.min.css'; //ketex laibrary
-import { InlineMath, BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
+import { BlockMath } from 'react-katex';
+import './CardDetail.css'; 
 
 function CardDetail({ problem }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const navigate = useNavigate();
 
-  if (!problem) return <p>Loading...</p>;
+  if (!problem) return <p className="loading">Loading...</p>;
 
-  const handleClick = (e) => {
-    e.preventDefault();
+  const handleFlip = () => {
     setIsFlipped(!isFlipped);
   };
 
+  const handleClose = (e) => {
+    e.stopPropagation(); 
+    navigate('/cards');
+  };
+
   return (
-    <div style={{ padding: '20px' }}>
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
-
-        <div style={cardStyle}>
-          <h3>{problem.title}</h3>
-          <div style={mathContainer}>
-            <BlockMath math={problem.equation_LaTeX || ''} />
+    <div className="card-detail-wrapper">
+      <div 
+        className={`flashcard-container ${isFlipped ? 'flipped' : ''}`} 
+        onClick={handleFlip}
+      >
+        <div className="flashcard-inner">
+          
+          <div className="card-face card-front">
+            <button className="close-button" onClick={handleClose}>✕</button>
+            <span className="card-label">Question</span>
+            <div className="content-group">
+              <h3>{problem.title}</h3>
+              <div className="math-display">
+                <BlockMath math={problem.equation_LaTeX || ''} />
+              </div>
+            </div>
+            <small className="flip-hint">Click to see solution ↻</small>
           </div>
-          <button onClick={handleClick}>Flip to see answer</button>
-          <button onClick={() => navigate('/cards')}>إغلاق</button>
-        </div>
 
-        <div style={cardStyle}>
-          <h3>Solution</h3>
-          <div style={mathContainer}>
-            <BlockMath math={problem.ai_solution || ''} />
+          <div className="card-face card-back">
+            <button className="close-button" onClick={handleClose}>✕</button>
+            <span className="card-label">Solution</span>
+            <div className="content-group">
+              <div className="math-display">
+                <BlockMath math={problem.ai_solution || ''} />
+              </div>
+            </div>
+            <small className="flip-hint">Click to go back ↻</small>
           </div>
-          <button onClick={handleClick}>Back to question</button>
-          <button onClick={() => navigate('/cards')}>🗙</button>
+
         </div>
-      </ReactCardFlip>
+      </div>
     </div>
   );
 }
