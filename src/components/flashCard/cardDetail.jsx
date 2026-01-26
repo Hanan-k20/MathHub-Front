@@ -31,8 +31,8 @@ function CardDetail({ problem }) {
       <div style={cardStyle}>
        <p>Solution</p>
         <LatexRenderer latex={problem.ai_solution} />
-        <button onClick={handleClick}>العودة للسؤال</button>
-        <button onClick={handleClose} className="close-button">إغلاق</button>
+        <button onClick={handleClick}>Back to qustion</button>
+        <button onClick={handleClose} className="close-button">🗙</button>
 
       </div>
     </ReactCardFlip>
