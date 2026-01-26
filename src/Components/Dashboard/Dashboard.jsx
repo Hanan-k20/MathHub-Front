@@ -45,11 +45,9 @@ const Dashboard = () => {
      <div style={{ background: '#222', color: '#fff', padding: '20px', margin: '20px' }}>
       <h2>🛠️ فحص الروابط (Navigation Test)</h2>
       <ul>
-        <li><Link to="/sign-up">Sign Up Page</Link></li>
-        <li><Link to="/sign-in">Sign In Page</Link></li>
-        <li><Link to="/cards">FlashCards List</Link></li>
-        <li><Link to="/problems">Problems List</Link></li>
-        <li><Link to="/problems/new">Create New Problem</Link></li>
+\        <li><Link to="/cards">FlashCards Ai</Link></li>
+        <li><Link to="/problems">MathLab</Link></li>
+        <li><Link to ="/terms">Dectionary</Link></li>
       </ul>
     </div>
 

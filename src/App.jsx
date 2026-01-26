@@ -1,26 +1,26 @@
 import { useContext } from 'react';
 import { Routes, Route } from 'react-router';
 
-import NavBar from './components/NavBar/NavBar';
-import SignUpForm from './components/SignUpForm/SignUpForm';
-import SignInForm from './components/SignInForm/SignInForm';
-import Landing from './components/Landing/Landing';
-import Dashboard from './components/Dashboard/Dashboard';
+import NavBar from './Components/NavBar/NavBar';
+import SignUpForm from './Components/SignUpForm/SignUpForm';
+import SignInForm from './Components/SignInForm/SignInForm';
+import Landing from './Components/Landing/Landing';
+import Dashboard from './Components/Dashboard/Dashboard';
 
-import CardList from './components/flashCard/cardList';
-import CardDetail from './components/FlashCard/CardDetail';
+import CardList from './Components/FlashCard/CardList';
+import CardDetail from './Components/FlashCard/CardDetail';
 
-import ProblemForm from './components/Problem/problemForm';
-import ProblemList from './components/problem/problemList';
-import ProblemDetail from '/components/problem/problemDetail';
+import ProblemForm from './Components/Problem/problemForm';
+import ProblemList from './Components/Problem/problemList';
+import ProblemDetail from './Components/Problem/ProblemDetail';
 
-import TermList from './components/Term/TermList';
-import TermDetail from './components/Term/TermDetail';
-import TermForm from './components/Term/TermForm';
+import TermList from './Components/Term/TermList';
+import TermDetail from './Components/Term/TermDetail';
+import TermForm from './Components/Term/TermForm';
 
-import SolutionForm from './components/solution/solutionForm';
+import SolutionForm from './Components/Solution/SolutionForm';
 
-import { UserContext } from './contexts/UserContext';
+import { UserContext } from './contexts/UserContext'
 
 
 
