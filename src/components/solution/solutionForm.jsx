@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import * as solutionService from '../../services/solutionService'
+import MathView from 'react-mathlive';
 import Swal from 'sweetalert2';
 
 function SolutionForm({ updateSolution, solutionToUpdate, solution, problemId }) { 
