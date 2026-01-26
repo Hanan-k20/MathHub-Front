@@ -72,6 +72,7 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem }) {
                     <br />
                     <button onClick={handleDelete}>Delete the question</button>
                 </div>
+
             </MathJax.Context>
         </div>
 
