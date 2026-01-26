@@ -35,16 +35,8 @@ function TermDetail({ findTermToUpdate, deleteTerm }) {
         <MathJax.Context >
             <h1>Name:{term.name}</h1>
             <div>
-                <MathJax.Text>
-                    <h3>Definition:{term.definition}</h3>
-                </MathJax.Text>
-                <MathJax.Text>
-
-                    <p>Example:{term.example}</p>
-
-                </MathJax.Text>
-
-
+                <MathJax.Text><h3>Definition:{term.definition}</h3></MathJax.Text>
+                <MathJax.Text><p>Example:{term.example}</p></MathJax.Text>
                 <p>Category:{term.category}</p>
                 <p>Created by::{term.created_At}</p>
 
