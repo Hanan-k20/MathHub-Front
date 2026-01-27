@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import CardDetail from './CardDetail';
+
+import './CardList.css'; 
+
 
 function CardList({ cards }) {
+  const [activeProblem, setActiveProblem] = React.useState(null);
   if (!cards || cards.length === 0) {
     return (
       <div className="container">
@@ -23,18 +27,19 @@ function CardList({ cards }) {
             </div>
 
             <div className="card-footer">
-              <p>
-                Owner: <strong>{oneCard.owner?.username || "Unknown"}</strong>
-              </p>
-              
-              <Link to={`/cards/${oneCard.id}`} className="btn-card-details">
+
+              <button
+                onClick={() => setActiveProblem(oneCard)}
+                className="btn-card-details"
+              >
                 See Details
-              </Link>
+              </button>
             </div>
             
           </div>
         ))}
       </div>
+      {activeProblem && <CardDetail problem={activeProblem} onClose={() => setActiveProblem(null)} />}
     </div>
   );
 }
