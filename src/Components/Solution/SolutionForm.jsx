@@ -4,7 +4,7 @@ import * as solutionService from '../../services/solutionService'
 import 'mathlive';
 import Swal from 'sweetalert2';
 
-function SolutionForm({ updateSolution }) { 
+function SolutionForm({ updateSolution }) {
     const navigate = useNavigate()
     const { solutionId } = useParams()
 
@@ -59,27 +59,34 @@ function SolutionForm({ updateSolution }) {
     return (
         <main>
             <h1>{solutionId ? 'Edit Solution' : 'Add Solution'}</h1>
-            
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor='content'>Your Solution:</label>
 
                     <input type='text' id='content' value={content} name='content' onChange={handleChange}
-                    placeholder="Write or use keyboard below"/>
+                        placeholder="Write or use keyboard below" />
 
                     {/* (MathLive) */}
-                    <div>
-                        <math-field onInput={handleMathChange}>
+                    <div style={{ border: '1px solid #ccc', borderRadius: '4px', margin: '5px 0' }}>
+                        <math-field
+                            onInput={handleMathChange}
+                            smart-mode="true"
+                            virtual-keyboard-mode="onfocus"
+                            style={{ width: '100%', padding: '10px' }}
+                        >
                             {content}
                         </math-field>
                     </div>
+
+
                 </div>
 
                 <div>
                     <button type="submit">
                         {solutionId ? 'Update Solution' : 'Create Solution'}
                     </button>
-                    
+
                     <button type="button" onClick={() => navigate('/')}>
                         Cancel
                     </button>
