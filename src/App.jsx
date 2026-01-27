@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate, Routes, Route, useParams } from 'react-router';
+import { useNavigate, Routes, Route, useParams } from 'react-router-dom';
 import { UserContext } from './contexts/UserContext';
 import * as problemService from './services/problemService';
 import * as termService from './services/termService';
