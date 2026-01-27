@@ -14,8 +14,8 @@ function CardDetail({ problem }) {
     setIsFlipped(!isFlipped);
   };
 
-  const handleClose = (e) => {
-    e.stopPropagation(); 
+  const handleClose = (event) => {
+    event.stopPropagation(); 
     navigate('/cards');
   };
 

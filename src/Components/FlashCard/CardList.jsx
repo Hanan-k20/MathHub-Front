@@ -17,7 +17,7 @@ function CardList({ cards }) {
 
       <div className="cards-grid">
         {cards.map((oneCard) => (
-          <div key={oneCard._id} className="card-item">
+          <div key={oneCard.id} className="card-item">
             <div className="card-header">
               <h3>{oneCard.title}</h3>
             </div>
