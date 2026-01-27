@@ -16,7 +16,7 @@ function CardList({ cards }) {
     
 
       <div className="cards-grid"> 
-        {allCards.map((oneCard) => (
+        {cards.map((oneCard) => (
           <div key={oneCard._id} className="card-item">
             
             <div className="card-header">

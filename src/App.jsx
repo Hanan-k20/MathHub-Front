@@ -1,5 +1,19 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Routes, Route } from 'react-router';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate, Routes, Route, useParams } from 'react-router'; 
+import { UserContext } from './contexts/UserContext'; 
+// Components
+import NavBar from './Components/NavBar/NavBar';
+import Dashboard from './Components/Dashboard/Dashboard';
+import Landing from './Components/Landing/Landing';
+import CardList from './components/flashCard/cardList';
+import CardDetail from './components/flashCard/CardDetail';
+import ProblemList from './Components/Problem/problemList';
+import ProblemForm from './Components/Problem/problemForm';
+import ProblemDetail from './Components/Problem/ProblemDetail';
+import TermList from './Components/Term/TermList';
+import TermDetail from './Components/Term/TermDetail';
+import TermForm from './Components/Term/TermForm';
+import SolutionForm from './Components/Solution/SolutionForm';
 
 const App = () => {
   const navigate = useNavigate();
@@ -9,7 +23,8 @@ const App = () => {
   const [problemToUpdate, setProblemToUpdate] = useState(null);
   const [solutions, setSolutions] = useState([]);
   const [solutionToUpdate, setSolutionToUpdate] = useState(null);
-  const [terms, setTerms] = useState(null)
+  const [terms, setTerms] = useState([]);
+  const [termToUpdate, setTermToUpdate] = useState(null);
 
   useEffect(() => {
     const getAllProblems = async () => {
@@ -68,16 +83,18 @@ const updateOneTerm = (updatedTerm) => {
 const deleteTerm = (id) => {
   setTerms(terms.filter(oneTerm=> oneTerm.id !== Number(id)));
 };
-
+//---Card--
+const CardDetailWrapper = () => {
+    const { cardId } = useParams(); 
+    const problem = problems.find((oneproblem) => oneproblem.id === Number(cardId)); 
+    return <CardDetail problem={problem} />;
+  };
 
   return (
     <>
       <NavBar />
       <Routes>
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
-
-
-        <Route path="/cards" element={<CardList cards={problems} />} />
 
         {/* Problem Routes */}
         <Route path="/problems" element={<ProblemList problems={problems} />} />
@@ -115,6 +132,11 @@ const deleteTerm = (id) => {
           path="/terms/:id/update"
           element={<TermForm termToUpdate={termToUpdate} updateOneTerm={updateOneTerm} />}
         />
+        {/* cards Route*/}
+        <Route path="/cards" element={<CardList cards={problems} />} />
+        <Route path="/cards/:cardId" element={<CardDetailWrapper />} />
+
+
       </Routes>
     </>
   );
