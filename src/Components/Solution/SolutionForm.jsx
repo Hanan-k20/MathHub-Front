@@ -4,7 +4,7 @@ import * as solutionService from '../../services/solutionService'
 import 'mathlive'; 
 import Swal from 'sweetalert2';
 
-function SolutionForm({ updateSolution, solutionToUpdate }) { 
+function SolutionForm({ updateSolution }) { 
     const navigate = useNavigate()
     const { solutionId } = useParams()
     
