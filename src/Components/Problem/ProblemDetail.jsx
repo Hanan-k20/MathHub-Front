@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
 import * as problemService from '../../services/problemService';
+import VoteButton from "../VoteButton/VoteButton";
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import Swal from 'sweetalert2';
 
 const mathJaxConfig = {
-  loader: { load: ["input/tex", "output/chtml"] },
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]],
-    displayMath: [["$$", "$$"], ["\\[", "\\]"]]
-  }
+    loader: { load: ["input/tex", "output/chtml"] },
+    tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+    }
 };
 
 function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
@@ -74,15 +75,23 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
                 <h6>Created at: {problem.created_At}</h6>
                 <hr />
-                
+
                 <h3>User Solutions:</h3>
                 <div>
                     {problem.Solutions && problem.Solutions.length > 0 ? (
                         problem.Solutions.map((oneSolution) => (
                             <div key={oneSolution.id} style={{ borderBottom: '1px solid #ddd', padding: '10px 0' }}>
                                 <div>
-                                    <strong>Solution:</strong> 
+                                    <strong>Solution:</strong>
                                     <MathJax dynamic>{oneSolution.content}</MathJax>
+                                </div>
+                                <div style={{ marginTop: '10px' }}>
+                                    <VoteButton
+                                        problemId={problem.id}
+                                        solutionId={oneSolution.id}
+                                        initialVoted={oneSolution.voted} // تأكد أن السيرفر يرسل هذه القيمة
+                                        initialCount={oneSolution.votes_count || 0}
+                                    />
                                 </div>
                                 <p><small>By: {oneSolution.user?.username || "Anonymous"}</small></p>
                             </div>
@@ -94,15 +103,15 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
                 {problem.user_id === user?.id && (
                     <div style={{ marginTop: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-                        <Link 
+                        <Link
                             className="btn-edit"
-                            onClick={() => findProblemToUpdate(problem)} 
+                            onClick={() => findProblemToUpdate(problem)}
                             to={`/problems/${problemId}/update`}
                             style={{ color: '#007bff', fontWeight: 'bold' }}
                         >
                             📝 Edit Question
                         </Link>
-                        <button 
+                        <button
                             onClick={handleDelete}
                             style={{ background: 'none', border: 'none', color: '#d33', cursor: 'pointer', textDecoration: 'underline', fontSize: '16px' }}
                         >
@@ -113,13 +122,13 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
                 {user && problem.user_id !== user.id && (
                     <div style={{ marginTop: '30px' }}>
-                        <Link 
-                            to={`/problems/${problemId}/solutions/new`} 
-                            style={{ 
-                                padding: '12px 25px', 
-                                backgroundColor: '#28a745', 
-                                color: 'white', 
-                                borderRadius: '5px', 
+                        <Link
+                            to={`/problems/${problemId}/solutions/new`}
+                            style={{
+                                padding: '12px 25px',
+                                backgroundColor: '#28a745',
+                                color: 'white',
+                                borderRadius: '5px',
                                 textDecoration: 'none',
                                 display: 'inline-block',
                                 fontWeight: 'bold'

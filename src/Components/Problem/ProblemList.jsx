@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router';
-import VoteButton from "../VoteButton/VoteButton";
 
 function ProblemList({ problems }) {
     const navigate = useNavigate();
@@ -22,9 +21,6 @@ function ProblemList({ problems }) {
                                 <span>By: {oneProblem.user?.username || 'Unknown'}</span>
                             </div>
 
-                            <div style={{ marginTop: '5px' }}>
-                                <VoteButton problemId={oneProblem.id} />
-                            </div>
 
                         </li>
 
