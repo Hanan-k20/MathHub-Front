@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import * as authService from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
+import'./SignUp.css'
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -37,8 +38,8 @@ const handleSubmit = async (evt) => {
   };
 
   return (
-    <main>
-      <h1>Sign Up</h1>
+<main className="signup-wrapper">
+          <h1>Sign Up</h1>
       {message && <p style={{ color: 'red' }}>{message}</p>}
       <form onSubmit={handleSubmit}>
         <div>
