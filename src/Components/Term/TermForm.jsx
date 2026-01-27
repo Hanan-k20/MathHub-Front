@@ -15,7 +15,7 @@ const category = {
 }
 
 function TermForm(props) {
-    const { addTerm, termToUpdate, updateOneTerm }=props
+    const { addTerm, termToUpdate, updateOneTerm } = props
     const navigate = useNavigate()
 
     const [formState, setFormState] = useState(termToUpdate ? termToUpdate : {
@@ -50,19 +50,23 @@ function TermForm(props) {
         }
     }
 
-   return (
+    return (
         <form onSubmit={handleSubmit}>
             <h2>{termToUpdate ? "Edit Term" : "New Term"}</h2>
-            
-            <label>Name:</label>
-            <input name="name" value={formState.name} onChange={handleChange} placeholder="Name" required />
-            
-            <label>Definition (Math Mode):</label>
 
-            <div style={{ border: '1px solid #ccc', margin: '5px 0' }}>
-                <math-field 
+            <label>Titel:</label>
+            <input name="name" value={formState.name} onChange={handleChange} required />
+
+            <label>Definition:</label>
+
+            <div style={{ border: '1px solid #ccc', margin: '5px 0', borderRadius: '4px' }}>
+                <math-field
                     onInput={evt => setFormState({ ...formState, definition: evt.target.value })}
-                    style={{ width: '100%', padding: '8px' }}
+                    style={{ width: '100%', padding: '8px', fontSize: '1.2rem' }}
+
+                    smart-mode="true"
+                    virtual-keyboard-mode="onfocus"
+                    smart-fence="true"
                 >
                     {formState.definition}
                 </math-field>
@@ -71,9 +75,12 @@ function TermForm(props) {
             <label>Example:</label>
 
             <div style={{ border: '1px solid #ccc', margin: '5px 0' }}>
-                <math-field 
+                <math-field
                     onInput={evt => setFormState({ ...formState, example: evt.target.value })}
-                    style={{ width: '100%', padding: '8px' }}
+                    style={{ width: '100%', padding: '8px', fontSize: '1.2rem' }}
+                    smart-mode="true"
+
+                    virtual-keyboard-mode="onfocus"
                 >
                     {formState.example}
                 </math-field>
@@ -81,7 +88,7 @@ function TermForm(props) {
 
             <label>Category:</label>
             <select name="category" value={formState.category} onChange={handleChange}>
-                <option value="">-- Select a Category (Optional) --</option>
+                <option value="">-- Select --</option>
                 {Object.keys(category).map((catName) => (
                     <option key={catName} value={catName}>
                         {category[catName]} {catName}
@@ -89,7 +96,7 @@ function TermForm(props) {
                 ))}
             </select>
 
-            <button type="submit">Save</button>    
+            <button type="submit">Save</button>
         </form>
     )
 }
