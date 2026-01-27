@@ -79,6 +79,7 @@ function SolutionForm({ updateSolution }) {
                         </math-field>
                     </div>
 
+
                 </div>
 
                 <div>
