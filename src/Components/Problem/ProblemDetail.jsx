@@ -14,11 +14,13 @@ const mathJaxConfig = {
     }
 };
 
-function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
+function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: propId }) {
     const [problem, setProblem] = useState(null);
-    const { problemId } = useParams();
-    const navigate = useNavigate();
 
+    const { problemId: paramId } = useParams();
+    const problemId = propId || paramId;
+
+    const navigate = useNavigate();
     useEffect(() => {
         const getOneProblem = async (pId) => {
             try {
@@ -59,8 +61,6 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
     if (!problemId || !problem) return <h1>Loading...</h1>;
 
-    console.log("Current Solutions:", problem.solutions);
-
     return (
         <MathJaxContext config={mathJaxConfig}>
             <div className="problem-page-wrapper">
@@ -76,7 +76,7 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
                             <MathJax>{`\\(${problem.equation_LaTeX}\\)`}</MathJax>
                         </div>
                         <div className="meta-info">
-                            <span>ID: #{problemId.slice(-5)}</span>
+                            <span>ID: #{String(problemId).slice(-5)}</span>
                             <span>{problem.created_At}</span>
                         </div>
                     </section>

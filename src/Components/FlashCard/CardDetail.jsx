@@ -31,6 +31,7 @@ function CardDetail({ problem, onClose }) {
             </div>
 
             <div className="card-face card-back">
+              <button className="close-button" onClick={onClose}>✕</button>
               <span className="card-label" >Solution</span>
               <div className="content-group">
                 <div className="scroll-box">
