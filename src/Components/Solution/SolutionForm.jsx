@@ -64,8 +64,6 @@ function SolutionForm({ updateSolution }) {
                 <div>
                     <label htmlFor='content'>Your Solution:</label>
 
-                    <input type='text' id='content' value={content} name='content' onChange={handleChange}
-                        placeholder="Write or use keyboard below" />
 
                     {/* (MathLive) */}
                     <div style={{ border: '1px solid #ccc', borderRadius: '4px', margin: '5px 0' }}>

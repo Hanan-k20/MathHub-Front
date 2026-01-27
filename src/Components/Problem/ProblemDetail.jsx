@@ -101,7 +101,7 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
                     )}
                 </div>
 
-                {problem.user_id === user?.id && (
+                {(user?.username === problem.user?.username || user?.sub === String(problem.user_id)) ? (
                     <div style={{ marginTop: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}>
                         <Link
                             className="btn-edit"
@@ -118,25 +118,25 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
                             🗑️ Delete Question
                         </button>
                     </div>
-                )}
-
-                {user && problem.user_id !== user.id && (
-                    <div style={{ marginTop: '30px' }}>
-                        <Link
-                            to={`/problems/${problemId}/solutions/new`}
-                            style={{
-                                padding: '12px 25px',
-                                backgroundColor: '#28a745',
-                                color: 'white',
-                                borderRadius: '5px',
-                                textDecoration: 'none',
-                                display: 'inline-block',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            💡 Add Your Solution
-                        </Link>
-                    </div>
+                ) : (
+                    user && (
+                        <div style={{ marginTop: '30px' }}>
+                            <Link
+                                to={`/problems/${problemId}/solutions/new`}
+                                style={{
+                                    padding: '12px 25px',
+                                    backgroundColor: '#28a745',
+                                    color: 'white',
+                                    borderRadius: '5px',
+                                    textDecoration: 'none',
+                                    display: 'inline-block',
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                💡 Add Your Solution
+                            </Link>
+                        </div>
+                    )
                 )}
             </div>
         </MathJaxContext>
