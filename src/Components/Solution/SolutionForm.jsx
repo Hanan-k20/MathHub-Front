@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as solutionService from '../../services/solutionService'
-import 'mathlive'; 
+import 'mathlive';
 import Swal from 'sweetalert2';
 
 function SolutionForm({ updateSolution }) { 
     const navigate = useNavigate()
     const { solutionId } = useParams()
-    
+
     const [formState, setFormState] = useState({
         content: ''
     })
@@ -23,13 +23,13 @@ function SolutionForm({ updateSolution }) {
 
     const { content } = formState;
 
-   const handleChange = (event) => {
+    const handleChange = (event) => {
         setFormState({ ...formState, [event.target.name]: event.target.value });
     };
-        // FOR THE KEYBOORD
+    // FOR THE KEYBOORD
     const handleMathChange = (event) => {
-      setFormState({ ...formState, content: event.target.value });
-      };
+        setFormState({ ...formState, content: event.target.value });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -41,9 +41,9 @@ function SolutionForm({ updateSolution }) {
                     navigate(`/solutions/${solutionId}`)
                 }
             } else {
-                const data = await solutionService.create(formState) 
+                const data = await solutionService.create(formState)
                 if (data) {
-                    if(updateSolution) updateSolution(data)
+                    if (updateSolution) updateSolution(data)
                     navigate(`/solutions/${data.id}`)
                 }
             }
@@ -57,38 +57,30 @@ function SolutionForm({ updateSolution }) {
     };
 
     return (
-        <main className={styles.main}>
-            <h1>Solution Form</h1>
-            <form onSubmit={handleSubmit} className={styles.form}>
+        <main>
+            <h1>{solutionId ? 'Edit Solution' : 'Add Solution'}</h1>
+            
+            <form onSubmit={handleSubmit}>
                 <div>
-                    <label className={styles.label} htmlFor='content'>Add the Solution</label>
-                    
-                    <input
-                        type='text'
-                        id='content'
-                        value={content}
-                        name='content'
-                        className={styles.input}
-                        onChange={handleChange}
-                        placeholder="Write or use keyboard below"
-                    />
-                    {/* MATH KEYBOARD */}
-                    <div style={{ border: '1px solid #ccc', borderRadius: '4px' }}>
-                           <math-field 
-                               onInput={handleMathChange}
-                               style={{ width: '100%', padding: '10px' }}
-                           >
-                               {formState.content}
-                           </math-field>
-                       </div>
+                    <label htmlFor='content'>Your Solution:</label>
+
+                    <input type='text' id='content' value={content} name='content' onChange={handleChange}
+                    placeholder="Write or use keyboard below"/>
+
+                    {/* (MathLive) */}
+                    <div>
+                        <math-field onInput={handleMathChange}>
+                            {content}
+                        </math-field>
                     </div>
-        
-                
-                <div style={{ marginTop: '20px' }}>
-                    <button className={styles.button} type="submit">
+                </div>
+
+                <div>
+                    <button type="submit">
                         {solutionId ? 'Update Solution' : 'Create Solution'}
                     </button>
-                    <button className={styles.button} type="button" onClick={() => navigate('/')}>
+                    
+                    <button type="button" onClick={() => navigate('/')}>
                         Cancel
                     </button>
                 </div>
