@@ -7,12 +7,12 @@ import SignInForm from './Components/SignInForm/SignInForm';
 import Landing from './Components/Landing/Landing';
 import Dashboard from './Components/Dashboard/Dashboard';
 
-import CardList from './Components/FlashCard/CardList';
-import CardDetail from './Components/FlashCard/CardDetail';
+import CardList from './components/FlashCard/cardList';
+import CardDetail from './components/FlashCard/CardDetail';
 
-import ProblemForm from './Components/Problem/problemForm';
+import ProblemForm from './components/problem/problemForm';
 import ProblemList from './Components/Problem/problemList';
-import ProblemDetail from './Components/Problem/ProblemDetail';
+import ProblemDetail from './components/problem/problemDetail';
 
 import TermList from './Components/Term/TermList';
 import TermDetail from './Components/Term/TermDetail';
