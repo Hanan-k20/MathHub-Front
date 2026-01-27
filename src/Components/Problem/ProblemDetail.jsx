@@ -4,6 +4,7 @@ import * as problemService from '../../services/problemService';
 import VoteButton from "../VoteButton/VoteButton";
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import Swal from 'sweetalert2';
+import './problemDetail.css'
 
 const mathJaxConfig = {
     loader: { load: ["input/tex", "output/chtml"] },
@@ -43,10 +44,13 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
         if (result.isConfirmed) {
             try {
-                await problemService.deleteOne(problemId);
-                deleteProblem(problemId);
-                Swal.fire('Deleted!', 'The question has been removed.', 'success');
-                navigate('/problems');
+            await problemService.remove(problemId);
+            
+            Swal.fire('Deleted!', 'The question has been removed.', 'success');
+            
+            navigate('/problems');
+
+            if (deleteProblem) deleteProblem(problemId);
             } catch (error) {
                 Swal.fire('Error', 'Something went wrong while deleting', 'error');
             }
@@ -55,89 +59,95 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
     if (!problemId || !problem) return <h1>Loading...</h1>;
 
-    return (
+return (
         <MathJaxContext config={mathJaxConfig}>
-            <div>
-                <h1>Question topic: {problem.title}</h1>
+            <div className="problem-page-wrapper">
+                <div className="problem-container">
+                    
+                    <header className="problem-main-header">
+                        <span className="category-tag">Mathematical Problem</span>
+                        <h1>{problem.title} <span className="dot">.</span></h1>
+                    </header>
 
-                <div style={{ margin: '20px 0', padding: '10px', background: '#f9f9f9', borderRadius: '8px' }}>
-                    <MathJax>
-                        {`\\(${problem.equation_LaTeX}\\)`}
-                    </MathJax>
-                </div>
+                    <section className="equation-section">
+                        <div className="equation-display">
+                            <MathJax>{`\\(${problem.equation_LaTeX}\\)`}</MathJax>
+                        </div>
+                        <div className="meta-info">
+                            <span>ID: #{problemId.slice(-5)}</span>
+                            <span>{problem.created_At}</span>
+                        </div>
+                    </section>
 
-                <h3>AI Solution:</h3>
-                <div style={{ whiteSpace: 'pre-wrap', marginBottom: '20px', padding: '10px', borderLeft: '4px solid #4CAF50' }}>
-                    <MathJax dynamic>
-                        {problem.ai_solution || "Loading solution..."}
-                    </MathJax>
-                </div>
-
-                <h6>Created at: {problem.created_At}</h6>
-                <hr />
-
-                <h3>User Solutions:</h3>
-                <div>
-                    {problem.Solutions && problem.Solutions.length > 0 ? (
-                        problem.Solutions.map((oneSolution) => (
-                            <div key={oneSolution.id} style={{ borderBottom: '1px solid #ddd', padding: '10px 0' }}>
-                                <div>
-                                    <strong>Solution:</strong>
-                                    <MathJax dynamic>{oneSolution.content}</MathJax>
-                                </div>
-                                <div style={{ marginTop: '10px' }}>
-                                    <VoteButton
-                                        problemId={problem.id}
-                                        solutionId={oneSolution.id}
-                                        initialVoted={oneSolution.voted} // تأكد أن السيرفر يرسل هذه القيمة
-                                        initialCount={oneSolution.votes_count || 0}
-                                    />
-                                </div>
-                                <p><small>By: {oneSolution.user?.username || "Anonymous"}</small></p>
+                    <section className="solutions-layout">
+                        <div className="solution-entry ai-entry">
+                            <div className="entry-label">AI ASSISTANT SOLUTION</div>
+                            <div className="entry-content">
+                                <MathJax dynamic>
+                                    {problem.ai_solution || "Analyzing problem..."}
+                                </MathJax>
                             </div>
-                        ))
-                    ) : (
-                        <p>No user solutions yet.</p>
-                    )}
+                        </div>
+
+                        {/* قسم حلول المستخدمين (تأكدت من وجوده كاملاً هنا) */}
+                        <div className="user-solutions-header">
+                            <h3>COMMUNITY SOLUTIONS ({problem.Solutions?.length || 0})</h3>
+                        </div>
+
+                        <div className="solutions-list">
+                            {problem.Solutions && problem.Solutions.length > 0 ? (
+                                problem.Solutions.map((oneSolution) => (
+                                    <div key={oneSolution.id} className="solution-entry user-entry">
+                                        <div className="entry-content">
+                                            <MathJax dynamic>{oneSolution.content}</MathJax>
+                                        </div>
+                                        <div className="entry-footer">
+                                            <div className="user-info">
+                                                <span className="avatar-placeholder"></span>
+                                                <strong>{oneSolution.user?.username || "Anonymous"}</strong>
+                                            </div>
+                                            <div className="vote-section">
+                                                <VoteButton
+                                                    problemId={problem.id}
+                                                    solutionId={oneSolution.id}
+                                                    initialVoted={oneSolution.voted} 
+                                                    initialCount={oneSolution.votes_count || 0}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-state">No community solutions yet. Be the first!</div>
+                            )}
+                        </div>
+                    </section>
+
+                    {/* أزرار التحكم */}
+                    <footer className="problem-actions">
+                        {(user?.username === problem.user?.username || user?.sub === String(problem.user_id)) ? (
+                            <>
+                                <Link
+                                    className="btn btn-outline"
+                                    onClick={() => findProblemToUpdate(problem)}
+                                    to={`/problems/${problemId}/update`}
+                                >
+                                    📝 EDIT
+                                </Link>
+                                <button onClick={handleDelete} className="btn btn-danger">
+                                    🗑️ DELETE
+                                </button>
+                            </>
+                        ) : (
+                            user && (
+                                <Link to={`/problems/${problemId}/solutions/new`} className="btn btn-primary">
+                                    💡 ADD YOUR SOLUTION
+                                </Link>
+                            )
+                        )}
+                        <button onClick={() => navigate('/problems')} className="btn btn-dark">BACK</button>
+                    </footer>
                 </div>
-
-                {problem.user_id === user?.id && (
-                    <div style={{ marginTop: '20px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-                        <Link
-                            className="btn-edit"
-                            onClick={() => findProblemToUpdate(problem)}
-                            to={`/problems/${problemId}/update`}
-                            style={{ color: '#007bff', fontWeight: 'bold' }}
-                        >
-                            📝 Edit Question
-                        </Link>
-                        <button
-                            onClick={handleDelete}
-                            style={{ background: 'none', border: 'none', color: '#d33', cursor: 'pointer', textDecoration: 'underline', fontSize: '16px' }}
-                        >
-                            🗑️ Delete Question
-                        </button>
-                    </div>
-                )}
-
-                {user && problem.user_id !== user.id && (
-                    <div style={{ marginTop: '30px' }}>
-                        <Link
-                            to={`/problems/${problemId}/solutions/new`}
-                            style={{
-                                padding: '12px 25px',
-                                backgroundColor: '#28a745',
-                                color: 'white',
-                                borderRadius: '5px',
-                                textDecoration: 'none',
-                                display: 'inline-block',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            💡 Add Your Solution
-                        </Link>
-                    </div>
-                )}
             </div>
         </MathJaxContext>
     );

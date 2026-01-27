@@ -6,7 +6,8 @@ import Swal from 'sweetalert2';
 
 function SolutionForm({ updateSolution }) {
     const navigate = useNavigate()
-    const { solutionId } = useParams()
+
+    const { problemId, solutionId } = useParams()
 
     const [formState, setFormState] = useState({
         content: ''
@@ -38,16 +39,17 @@ function SolutionForm({ updateSolution }) {
             if (solutionId) {
                 const updatedSolution = await solutionService.update(solutionId, formState);
                 if (updatedSolution) {
-                    navigate(`/solutions/${solutionId}`)
+                    navigate(`/problems/${problemId}`) 
                 }
             } else {
-                const data = await solutionService.create(formState)
+               
+                const data = await solutionService.create(problemId, formState);
                 if (data) {
                     if (updateSolution) updateSolution(data)
-                    navigate(`/solutions/${data.id}`)
-                }
+                    navigate(`/problems/${problemId}`) 
+                
             }
-        } catch (error) {
+        }} catch (error) {
             Swal.fire({
                 icon: "error",
                 title: "Something went wrong!",
@@ -64,8 +66,6 @@ function SolutionForm({ updateSolution }) {
                 <div>
                     <label htmlFor='content'>Your Solution:</label>
 
-                    <input type='text' id='content' value={content} name='content' onChange={handleChange}
-                        placeholder="Write or use keyboard below" />
 
                     {/* (MathLive) */}
                     <div style={{ border: '1px solid #ccc', borderRadius: '4px', margin: '5px 0' }}>

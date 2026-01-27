@@ -21,9 +21,10 @@ const NavBar = () => {
         <ul>
           <li id='welcome-msg'>Welcome, {user.username}</li>
           <li><Link to='/'>Dashboard</Link></li>
-          <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
            <li><Link to='/cards'>FlashCards AI</Link></li>
+           <li><Link to='/problems'>MathLab</Link></li>
           <li><Link to='/terms'>Dectionary</Link></li>
+          <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
         </ul>
       ) : (
         <ul>
