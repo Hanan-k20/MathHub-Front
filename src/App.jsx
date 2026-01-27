@@ -11,7 +11,7 @@ import Landing from './Components/Landing/Landing';
 import CardList from './components/FlashCard/cardList';
 import CardDetail from './components/FlashCard/CardDetail';
 import ProblemList from './Components/Problem/problemList';
-import ProblemForm from './components/problem/problemForm';
+import ProblemForm from './components/Problem/problemForm';
 import ProblemDetail from './components/problem/problemDetail';
 import TermList from './Components/Term/TermList';
 import TermDetail from './Components/Term/TermDetail';
