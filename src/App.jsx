@@ -12,7 +12,7 @@ import CardList from './components/FlashCard/cardList';
 import CardDetail from './components/FlashCard/CardDetail';
 import ProblemList from './Components/Problem/problemList';
 import ProblemForm from './components/Problem/problemForm';
-import ProblemDetail from './components/problem/problemDetail';
+import ProblemDetail from './Components/Problem/ProblemDetail';
 import TermList from './Components/Term/TermList';
 import TermDetail from './Components/Term/TermDetail';
 import TermForm from './Components/Term/TermForm';

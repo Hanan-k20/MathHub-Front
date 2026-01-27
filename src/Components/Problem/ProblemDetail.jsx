@@ -14,11 +14,13 @@ const mathJaxConfig = {
     }
 };
 
-function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
+function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: propId }) {
     const [problem, setProblem] = useState(null);
-    const { problemId } = useParams();
-    const navigate = useNavigate();
 
+    const { problemId: paramId } = useParams();
+    const problemId = propId || paramId;
+
+    const navigate = useNavigate();
     useEffect(() => {
         const getOneProblem = async (pId) => {
             try {
@@ -44,13 +46,13 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
         if (result.isConfirmed) {
             try {
-            await problemService.remove(problemId);
-            
-            Swal.fire('Deleted!', 'The question has been removed.', 'success');
-            
-            navigate('/problems');
+                await problemService.remove(problemId);
 
-            if (deleteProblem) deleteProblem(problemId);
+                Swal.fire('Deleted!', 'The question has been removed.', 'success');
+
+                navigate('/problems');
+
+                if (deleteProblem) deleteProblem(problemId);
             } catch (error) {
                 Swal.fire('Error', 'Something went wrong while deleting', 'error');
             }
@@ -59,11 +61,11 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
     if (!problemId || !problem) return <h1>Loading...</h1>;
 
-return (
+    return (
         <MathJaxContext config={mathJaxConfig}>
             <div className="problem-page-wrapper">
                 <div className="problem-container">
-                    
+
                     <header className="problem-main-header">
                         <span className="category-tag">Mathematical Problem</span>
                         <h1>{problem.title} <span className="dot">.</span></h1>
@@ -74,7 +76,7 @@ return (
                             <MathJax>{`\\(${problem.equation_LaTeX}\\)`}</MathJax>
                         </div>
                         <div className="meta-info">
-                            <span>ID: #{problemId.slice(-5)}</span>
+                            <span>ID: #{String(problemId).slice(-5)}</span>
                             <span>{problem.created_At}</span>
                         </div>
                     </section>
@@ -110,7 +112,7 @@ return (
                                                 <VoteButton
                                                     problemId={problem.id}
                                                     solutionId={oneSolution.id}
-                                                    initialVoted={oneSolution.voted} 
+                                                    initialVoted={oneSolution.voted}
                                                     initialCount={oneSolution.votes_count || 0}
                                                 />
                                             </div>
