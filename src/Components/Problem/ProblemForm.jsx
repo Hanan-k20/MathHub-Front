@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom'
 import * as problemService from '../../services/problemService';
 import Swal from 'sweetalert2';
 import'./problemForm.css'

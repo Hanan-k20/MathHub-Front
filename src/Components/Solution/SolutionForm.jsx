@@ -39,17 +39,16 @@ function SolutionForm({ updateSolution }) {
             if (solutionId) {
                 const updatedSolution = await solutionService.update(solutionId, formState);
                 if (updatedSolution) {
-                    navigate(`/problems/${problemId}`) 
+                    navigate(`/problems/${problemId}`)
                 }
             } else {
-               
+
                 const data = await solutionService.create(problemId, formState);
                 if (data) {
-                    if (updateSolution) updateSolution(data)
-                    navigate(`/problems/${problemId}`) 
-                
+                    updateSolution(data, problemId);
+                }
             }
-        }} catch (error) {
+        } catch (error) {
             Swal.fire({
                 icon: "error",
                 title: "Something went wrong!",
@@ -76,7 +75,7 @@ function SolutionForm({ updateSolution }) {
                             style={{ width: '100%', padding: '10px' }}
                             value={content}
                         >
-        
+
                         </math-field>
                     </div>
 
@@ -88,7 +87,7 @@ function SolutionForm({ updateSolution }) {
                         {solutionId ? 'Update Solution' : 'Create Solution'}
                     </button>
 
-                    <button type="button" onClick={() => navigate('/')}>
+                    <button type="button" onClick={() => navigate(`/problems/${problemId}`)}>
                         Cancel
                     </button>
                 </div>
