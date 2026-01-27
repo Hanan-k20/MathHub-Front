@@ -7,9 +7,8 @@
     left: 29%; 
     width: 70%; 
     height: 100vh;
-    background-color: rgba(255, 255, 255, 0.05);
     z-index: 9999;
-background-color: transparent;
+    background-color: transparent;
 }
 
 .flashcard-container {
@@ -66,8 +65,8 @@ background-color: transparent;
     text-transform: uppercase;
 }
 
-.card-front .card-label { color: #ff0000;font-size:20px; }
-.card-back .card-label { color: #ff0000;font-size:20px; }
+.card-front .card-label { color: #ff0000; font-size: 20px; }
+.card-back .card-label { color: #ff0000; font-size: 20px; }
 
 .card-face h3 {
     color: #fff;
@@ -88,8 +87,11 @@ background-color: transparent;
 
 .card-back .math-display {
     font-size: 1.1rem;
-    text-align: left;
+    text-align: right;
     align-items: flex-start;
+    display: block;
+    overflow-y: auto;
+    max-height: 350px;
 }
 
 .close-button {
