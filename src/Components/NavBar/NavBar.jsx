@@ -22,14 +22,15 @@ const NavBar = () => {
           <li id='welcome-msg'>Welcome, {user.username}</li>
           <li><Link to='/'>Dashboard</Link></li>
           <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
+           <li><Link to='/cards'>FlashCards AI</Link></li>
+          <li><Link to='/terms'>Dectionary</Link></li>
         </ul>
       ) : (
         <ul>
           <li><Link to='/'>Home</Link></li>
           <li><Link to='/sign-in'>Sign In</Link></li>
           <li><Link to='/sign-up'>Sign Up</Link></li>
-          <li><Link to='/cards'>FlashCards AI</Link></li>
-          <li><Link to='/terms'>Dectionary</Link></li>
+         
         </ul>
       )}
     </nav>
