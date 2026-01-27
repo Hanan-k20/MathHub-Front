@@ -1,60 +1,51 @@
 import { useEffect, useState, useContext } from 'react';
-
 import { UserContext } from '../../contexts/UserContext';
-
 import * as testService from '../../services/testService';
 import { Link } from 'react-router-dom';
+import './Dashboard.css'; 
 
 const Dashboard = () => {
-  // Access the user object from UserContext
-  // This gives us the currently logged-in user's information (username, email) that we extract from the token
   const { user } = useContext(UserContext);
+  const [message, setMessage] = useState('');
 
-  // Create state to store the message we'll receive from the backend
-  const [ message, setMessage ] = useState('');
-
-  // useEffect runs after the component renders
-  // This is where we perform side effects like API calls
   useEffect(() => {
     const fetchTest = async () => {
       try {
-        // Make an authenticated API call to the backend test endpoint. The JWT token is automatically sent in the request headers inside the service function
         const data = await testService.test();
-
-        // Take the response data and show message
         setMessage(data.message);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
-
-    // Only fetch data if user exists (i.e., someone is logged in)
-    // This prevents errors from trying to make authenticated requests without a user
+    };
     if (user) fetchTest();
-
-  }, [user]); // only fetch if after context loads the user from localStorage
+  }, [user]);
 
   return (
-    <main>
-      <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can test your authentication.
-      </p>
-      <p><strong>{message}</strong></p>
+   <main className="dashboard-wrapper">
+  <header className="dashboard-header">
+    <h1>Welcome, <span>{user.username}</span></h1>
+  </header>
 
-     <div style={{ background: '#222', color: '#fff', padding: '20px', margin: '20px' }}>
-      <h2>🛠️ فحص الروابط (Navigation Test)</h2>
-      <ul>
-\        <li><Link to="/cards">FlashCards Ai</Link></li>
-        <li><Link to="/problems">MathLab</Link></li>
-        <li><Link to ="/terms">Dectionary</Link></li>
-      </ul>
-    </div>
+  <section className="tools-grid">
+    <Link to="/cards" className="tool-card">
+      <div className="icon">🎴</div>
+      <h3>FlashCards AI</h3>
+      <p> Smart study cards with AI .</p>
+    </Link>
 
+    <Link to="/problems" className="tool-card">
+      <div className="icon">🧬</div>
+      <h3>MathLab</h3>
+      <p>Solve complex equations with step-by-step guidance.</p>
+    </Link>
 
-
-
-    </main>
+    <Link to="/terms" className="tool-card">
+      <div className="icon">📖</div>
+      <h3>Dictionary</h3>
+      <p>Master mathematical terms and academic definitions.</p>
+    </Link>
+  </section>
+</main>
   );
 };
 
