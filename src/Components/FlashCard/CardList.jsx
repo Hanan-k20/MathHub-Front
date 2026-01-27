@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CardDetail from './CardDetail';
-
 import './CardList.css'; 
 
-
 function CardList({ cards }) {
-  const [activeProblem, setActiveProblem] = React.useState(null);
+  const [activeProblem, setActiveProblem] = useState(null);
+
   if (!cards || cards.length === 0) {
     return (
       <div className="container">
@@ -17,7 +16,6 @@ function CardList({ cards }) {
   return (
     <div className="container">
       <h1 id="H1">Here's all the Cards</h1>
-    
 
       <div className="cards-grid"> 
         {cards.map((oneCard) => (
@@ -27,7 +25,6 @@ function CardList({ cards }) {
             </div>
 
             <div className="card-footer">
-
               <button
                 onClick={() => setActiveProblem(oneCard)}
                 className="btn-card-details"
@@ -35,7 +32,6 @@ function CardList({ cards }) {
                 See Details
               </button>
             </div>
-            
           </div>
         ))}
       </div>
