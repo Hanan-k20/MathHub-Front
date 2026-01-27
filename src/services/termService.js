@@ -21,7 +21,7 @@ const index = async () => {
 const show = async (termId) => {
     try {
         const response = await axios.get(`${BASE_URL}/${termId}`, authConfig())
-        return response.data.term
+        return response.data
     } catch (error) {
         console.log(error)
     }
@@ -32,8 +32,8 @@ const create = async (formData) => {
     try {
         const response = await axios.post(BASE_URL, formData, authConfig())
 
-        return response.data.term
-    } catch (error) {
+        return response.data
+      } catch (error) {
         console.log(error)
     }
 }
@@ -43,7 +43,7 @@ const update = async (termId, formData) => {
     try {
         const response = await axios.put(`${BASE_URL}/${termId}`, formData, authConfig())
 
-        return response.data.term
+        return response.data
     } catch (error) {
         console.log(error)
     }
@@ -54,7 +54,7 @@ const remove = async (termId) => {
     try {
         const response = await axios.delete(`${BASE_URL}/${termId}`, authConfig())
 
-        return response.data.term
+        return response.data
     } catch (error) {
         console.log(error)
     }

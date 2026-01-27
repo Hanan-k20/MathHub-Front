@@ -89,7 +89,7 @@ function TermForm(props) {
                 ))}
             </select>
 
-            <button type="submit">Save</button>
+            <button type="submit">Save</button>    
         </form>
     )
 }

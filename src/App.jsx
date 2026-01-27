@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, Routes, Route, useParams } from 'react-router'; 
 import { UserContext } from './contexts/UserContext'; 
+import * as problemService from './services/problemService';
 // Components
 import NavBar from './Components/NavBar/NavBar';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -26,23 +27,24 @@ const App = () => {
   const [terms, setTerms] = useState([]);
   const [termToUpdate, setTermToUpdate] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
     const getAllProblems = async () => {
       try {
         const data = await problemService.index();
-        setProblems(data);
+        console.log("Data from server:", data);
+        setProblems(data); 
       } catch (error) {
         console.log(error);
       }
     };
     getAllProblems();
   }, []);
-
   // ---Problems ---
   const addProblem = (problem) => {
     setProblems([...problems, problem]);
     navigate('/problems');
   };
+ 
 
   const updateOneProblem = (updatedProblem) => {
     const newList = problems.map((p) => (p.id === updatedProblem.id ? updatedProblem : p));
@@ -98,8 +100,8 @@ const CardDetailWrapper = () => {
 
         {/* Problem Routes */}
         <Route path="/problems" element={<ProblemList problems={problems} />} />
-        <Route path="/problems/new" element={<ProblemForm addProblem={addProblem} />} />
-        <Route path="/problems/:problemId" element={<ProblemDetail setProblemToUpdate={setProblemToUpdate} />} />
+        <Route path="/problems/new" element={<ProblemForm updateProblem={addProblem} />} />
+        <Route path="/problems/:problemId"  element={<ProblemDetail findProblemToUpdate={setProblemToUpdate} user={user} />} />        
         <Route path="/problems/:problemId/update" element={<ProblemForm problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
 
         {/* Solution Routes*/}
@@ -119,7 +121,7 @@ const CardDetailWrapper = () => {
         />
 
         <Route
-          path="/terms/create"
+          path="/terms/new"
           element={<TermForm addTerm={addTerm} />}
         />
 

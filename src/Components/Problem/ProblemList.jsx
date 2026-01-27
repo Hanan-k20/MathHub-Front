@@ -8,33 +8,34 @@ function ProblemList({ problems }) {
         return <h1>Loading....</h1>
     }
     return (
-
         <div>
-            <h1> List</h1>
-            {
-                !problems.length ?
-                    <div>No problems Found</div>
-                    :
-                    <ul>
-                        {
-                            problems.map(
-                                (oneProblem) => (
-                                    <li key={oneProblem.id}>
+            <h1>List</h1>
+            {!problems.length ? (
+                <div>No problems Found</div>
+            ) : (
+                <ul>
+                    {problems.map((oneProblem) => (
+                        <li key={oneProblem.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px', listStyle: 'none' }}>
+                            <div style={{ cursor: 'pointer' }} onClick={() => navigate(`/problems/${oneProblem.id}`)}>
+                                <strong>{oneProblem.title}</strong>
+                                <br />
+                                <span>By: {oneProblem.user?.username || 'Unknown'}</span>
+                            </div>
 
-                                        <button onClick={() => navigate(`/oneProblems/${oneProblem.id}`)} >
-                                            {oneProblem.title}
-                                            <br />
-                                            {oneProblem.user?.username || 'Unknown'}||<VoteButton problemId={oneProblem.id} />
+                            <div style={{ marginTop: '5px' }}>
+                                <VoteButton problemId={oneProblem.id} />
+                            </div>
 
-                                        </button>
+                        </li>
 
-                                    </li>
-                                )
-                            )
-                        }
-                    </ul>}
+                    ))}
+
+                </ul>
+                
+            )}
+                <button onClick={() => navigate('/problems/new')}>Add New Problem</button>
         </div>
-    )
+    );
 }
 
 export default ProblemList
