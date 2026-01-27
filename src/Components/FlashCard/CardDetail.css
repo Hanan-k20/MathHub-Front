@@ -2,15 +2,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 70vh;
-    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 29%; 
+    width: 70%; 
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.05);
+    z-index: 9999;
+background-color: transparent;
 }
 
 .flashcard-container {
-    width: 100%;
-    max-width: 500px;
-    height: 400px;
-    perspective: 1200px;
+    width: 85%;
+    max-width: 700px;
+    height: 550px;
+    perspective: 2000px;
 }
 
 .flashcard-inner {
@@ -30,70 +36,81 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; 
+    backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 35px;
-    border-radius: 15px;
-    background: radial-gradient(circle, #331A40, #261430);
-    border: 2px solid #FF00FF50;
-    box-shadow: 0 0 25px rgba(255, 0, 255, 0.2);
-    text-align: center;
+    box-sizing: border-box;
+}
+
+.card-front {
+    background: #000;
+    border: 3px solid #ff0000;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
 }
 
 .card-back {
+    background: #000;
+    border: 3px solid #ff0000;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
     transform: rotateY(180deg);
-    border-color: #8A2BE250;
+}
+
+.card-label {
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.card-front .card-label { color: #ff0000;font-size:20px; }
+.card-back .card-label { color: #ff0000;font-size:20px; }
+
+.card-face h3 {
+    color: #fff;
+    font-size: 2rem;
+    margin: 10px 0;
+}
+
+.math-display {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.8rem;
+    overflow-y: auto;
+}
+
+.card-back .math-display {
+    font-size: 1.1rem;
+    text-align: left;
+    align-items: flex-start;
 }
 
 .close-button {
     position: absolute;
-    top: 15px;
-    right: 20px;
+    top: 20px;
+    right: 25px;
     background: none;
     border: none;
-    color: #888;
-    font-size: 26px;
+    color: #fff;
+    font-size: 30px;
     cursor: pointer;
     z-index: 10;
-    transition: color 0.3s;
-}
-
-.close-button:hover {
-    color: #FF00FF;
-    text-shadow: 0 0 10px #FF00FF;
-}
-
-.card-label {
-    color: #8A2BE2;
-    font-size: 0.85em;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
-.card-face h3 {
-    color: #FF00FF;
-    text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-}
-
-.math-display {
-    width: 100%;
-    overflow-x: auto;
-    color: #F4E8FF;
 }
 
 .flip-hint {
-    color: #f68cf6;
-    font-style: italic;
-    opacity: 0.8;
+    color: #444;
+    font-size: 0.8rem;
 }
 
-.content-group {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
+.math-display::-webkit-scrollbar { width: 4px; }
+.math-display::-webkit-scrollbar-thumb {
+    background: #ff0000;
+    border-radius: 10px;
 }

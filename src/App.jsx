@@ -91,8 +91,12 @@ const deleteTerm = (id) => {
 const CardDetailWrapper = () => {
     const { cardId } = useParams(); 
     const problem = problems.find((oneproblem) => oneproblem.id === Number(cardId)); 
+
+    if (!problem && problems.length > 0) return <h2>Problem not found!</h2>;
+    if (!problem) return <h2>Loading Card Data...</h2>;
+
     return <CardDetail problem={problem} />;
-  };
+};
 
   return (
     <>

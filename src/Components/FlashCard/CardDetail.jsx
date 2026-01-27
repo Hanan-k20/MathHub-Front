@@ -1,58 +1,49 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import './CardDetail.css'; 
 
-function CardDetail({ problem }) {
+function CardDetail({ problem, onClose }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const navigate = useNavigate();
 
-  if (!problem) return <p className="loading">Loading...</p>;
-
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-  };
-
-  const handleClose = (event) => {
-    event.stopPropagation(); 
-    navigate('/cards');
-  };
+  if (!problem) return <div className="card-detail-wrapper"><p className="loading">Loading...</p></div>;
 
   return (
-    <div className="card-detail-wrapper">
-      <div 
-        className={`flashcard-container ${isFlipped ? 'flipped' : ''}`} 
-        onClick={handleFlip}
-      >
-        <div className="flashcard-inner">
-          
-          <div className="card-face card-front">
-            <button className="close-button" onClick={handleClose}>✕</button>
-            <span className="card-label">Question</span>
-            <div className="content-group">
-              <h3>{problem.title}</h3>
-              <div className="math-display">
-                <BlockMath math={problem.equation_LaTeX || ''} />
-              </div>
-            </div>
-            <small className="flip-hint">Click to see solution ↻</small>
-          </div>
+    <MathJaxContext config={{ tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } }}>
+      <div className="card-detail-wrapper">
+        <div 
+          className={`flashcard-container ${isFlipped ? 'flipped' : ''}`} 
+          onClick={() => setIsFlipped(!isFlipped)}
+        >
+          <div className="flashcard-inner">
 
-          <div className="card-face card-back">
-            <button className="close-button" onClick={handleClose}>✕</button>
-            <span className="card-label">Solution</span>
-            <div className="content-group">
-              <div className="math-display">
-                <BlockMath math={problem.ai_solution || ''} />
+            <div className="card-face card-front">
+              <button className="close-button" onClick={onClose}>✕</button>
+              <span className="card-label">Question</span>
+              <div className="content-group">
+                <h3>{problem.title}</h3>
+                <div className="math-display">
+                  <MathJax>{"\\(" + (problem.equation_LaTeX || "") + "\\)"}</MathJax>
+                </div>
               </div>
+              <small className="flip-hint">Click to see solution ↻</small>
             </div>
-            <small className="flip-hint">Click to go back ↻</small>
-          </div>
 
+            <div className="card-face card-back">
+              <span className="card-label" >Solution</span>
+              <div className="content-group">
+                <div className="scroll-box">
+                  <MathJax dynamic className="math-display ">{problem.ai_solution || "No solution found"}</MathJax>
+                </div>
+              </div>
+              <small className="flip-hint" style={{color: '#fff'}}>Click to go back ↻</small>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
+    </MathJaxContext>
   );
 }
 
