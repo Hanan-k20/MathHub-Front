@@ -74,8 +74,9 @@ function SolutionForm({ updateSolution }) {
                             smart-mode="true"
                             virtual-keyboard-mode="onfocus"
                             style={{ width: '100%', padding: '10px' }}
+                            value={content}
                         >
-                            {content}
+        
                         </math-field>
                     </div>
 
