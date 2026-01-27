@@ -14,7 +14,8 @@ const category = {
     'Discrete Math': '🧩'
 }
 
-function TermForm({ addTerm, termToUpdate, updateOneTerm }) {
+function TermForm(props) {
+    const { addTerm, termToUpdate, updateOneTerm }=props
     const navigate = useNavigate()
 
     const [formState, setFormState] = useState(termToUpdate ? termToUpdate : {
@@ -57,7 +58,7 @@ function TermForm({ addTerm, termToUpdate, updateOneTerm }) {
             <input name="name" value={formState.name} onChange={handleChange} placeholder="Name" required />
             
             <label>Definition (Math Mode):</label>
-            
+
             <div style={{ border: '1px solid #ccc', margin: '5px 0' }}>
                 <math-field 
                     onInput={evt => setFormState({ ...formState, definition: evt.target.value })}

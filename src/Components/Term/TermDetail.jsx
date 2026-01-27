@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect ,useContext} from "react"
 import * as termService from '../../services/termService'
+import { UserContext } from '../../contexts/UserContext';
 import { useNavigate, useParams, Link } from "react-router";
 import MathJax from 'react-mathjax2';
+import Swal from 'sweetalert2';
 
 function TermDetail({ findTermToUpdate, deleteTerm }) {
-
+    const { user } = useContext(UserContext)
     const [term, setTerm] = useState(null)
     const { id } = useParams()
     const navigate = useNavigate()
