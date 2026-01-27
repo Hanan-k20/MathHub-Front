@@ -7,22 +7,18 @@ async function signUp(formData) {
     const response = await axios.post(`${BASE_URL}/register`, formData);
     const data = response.data;
 
-    // التأكد من وجود التوكن
     const token = data.token || data.access_token || data.ANY_OTHER_NAME;
     if (!token) {
       throw new Error("Registration successful but no token received.");
     }
 
-    // حفظ التوكن
     window.localStorage.setItem('token', token);
 
-    // بدلاً من فك التشفير اليدوي المعقد، لنأخذ بيانات المستخدم من الرد مباشرة
-    // أو نقوم بفك التشفير بشكل أبسط
+    
     try {
       const user = JSON.parse(window.atob(token.split('.')[1]));
       return user;
     } catch (decodeError) {
-      // إذا فشل فك التشفير، نستخدم البيانات القادمة من السيرفر مباشرة
       return { username: data.username, email: data.email };
     }
 
