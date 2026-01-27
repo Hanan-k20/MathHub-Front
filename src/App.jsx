@@ -119,7 +119,7 @@ const CardDetailWrapper = () => {
         />
 
         <Route
-          path="/terms/create"
+          path="/terms/new"
           element={<TermForm addTerm={addTerm} />}
         />
 

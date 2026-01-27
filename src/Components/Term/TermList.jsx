@@ -7,7 +7,7 @@ function TermList({ terms }) {
     return (
         <div>
             <h1>Term List</h1>
-            <Link to="/terms/create">Add Term</Link>
+            <Link to="/terms/new">Add Term</Link>
 
             {!terms.length ?
                 <div>No terms Found</div>
