@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { signIn } from '../../services/authService';
 
 import { UserContext } from '../../contexts/UserContext';
+import './SignIn.css'
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const SignInForm = () => {
   };
 
   return (
-    <main>
+    <main className="signup-wrapper">
       <h1>Sign In</h1>
       <p>{message}</p>
       <form autoComplete='off' onSubmit={handleSubmit}>

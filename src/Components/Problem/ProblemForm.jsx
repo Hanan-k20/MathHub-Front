@@ -13,8 +13,6 @@ function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
     problemToUpdate ? problemToUpdate : { title: "", equation_LaTeX: '' }
   );
 
-  const [terms, setTerms] = useState([]);
-
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     const newFormState = { ...formState, [name]: value };

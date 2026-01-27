@@ -1,0 +1,134 @@
+.signup-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: #000;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.signup-wrapper h1 {
+    font-size: 3rem;
+    color: #fff;
+    margin: 0 0 30px 0;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+}
+
+.signup-wrapper form {
+    position: relative;
+    width: 400px;
+    padding: 40px;
+    background: #0f0f0f;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.15);
+}
+
+.signup-wrapper form::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 0%, #ff0000 25%, transparent 50%);
+    top: -50%;
+    left: -50%;
+    animation: rotateBorder 3s linear infinite;
+    z-index: 1;
+}
+
+.signup-wrapper form::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: #0a0a0a;
+    border-radius: 17px;
+    z-index: 2;
+}
+
+.signup-wrapper form div, 
+.signup-wrapper label, 
+.signup-wrapper input, 
+.signup-wrapper button {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+.signup-wrapper label {
+    display: block;
+    color: #fff;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.signup-wrapper input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.signup-wrapper input:focus {
+    outline: none;
+    border-color: #ff0000;
+}
+
+.signup-wrapper button:not([type="button"]) {
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.signup-wrapper button:not([type="button"]):hover:not(:disabled) {
+    background: #d00;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+.signup-wrapper button:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.signup-wrapper button[type="button"] {
+    background: transparent;
+    color: #666;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.signup-wrapper button[type="button"]:hover {
+    color: #fff;
+}
+
+@keyframes rotateBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
