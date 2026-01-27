@@ -44,13 +44,13 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
         if (result.isConfirmed) {
             try {
-            await problemService.remove(problemId);
-            
-            Swal.fire('Deleted!', 'The question has been removed.', 'success');
-            
-            navigate('/problems');
+                await problemService.remove(problemId);
 
-            if (deleteProblem) deleteProblem(problemId);
+                Swal.fire('Deleted!', 'The question has been removed.', 'success');
+
+                navigate('/problems');
+
+                if (deleteProblem) deleteProblem(problemId);
             } catch (error) {
                 Swal.fire('Error', 'Something went wrong while deleting', 'error');
             }
@@ -59,11 +59,13 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user }) {
 
     if (!problemId || !problem) return <h1>Loading...</h1>;
 
-return (
+    console.log("Current Solutions:", problem.solutions);
+
+    return (
         <MathJaxContext config={mathJaxConfig}>
             <div className="problem-page-wrapper">
                 <div className="problem-container">
-                    
+
                     <header className="problem-main-header">
                         <span className="category-tag">Mathematical Problem</span>
                         <h1>{problem.title} <span className="dot">.</span></h1>
@@ -89,28 +91,30 @@ return (
                             </div>
                         </div>
 
-                        {/* قسم حلول المستخدمين (تأكدت من وجوده كاملاً هنا) */}
-                        <div className="user-solutions-header">
-                            <h3>COMMUNITY SOLUTIONS ({problem.Solutions?.length || 0})</h3>
-                        </div>
+                        <div className="user-solutions-area">
+                            <h3 className="user-solutions-header">
+                                COMMUNITY SOLUTIONS ({problem.solutions?.length || 0})
+                            </h3>
 
-                        <div className="solutions-list">
-                            {problem.Solutions && problem.Solutions.length > 0 ? (
-                                problem.Solutions.map((oneSolution) => (
+                            {problem.solutions && problem.solutions.length > 0 ? (
+                                problem.solutions.map((oneSolution) => (
                                     <div key={oneSolution.id} className="solution-entry user-entry">
                                         <div className="entry-content">
-                                            <MathJax dynamic>{oneSolution.content}</MathJax>
+                                            <MathJax>{`\\(${oneSolution.content}\\)`}</MathJax>
+
                                         </div>
+
                                         <div className="entry-footer">
                                             <div className="user-info">
                                                 <span className="avatar-placeholder"></span>
                                                 <strong>{oneSolution.user?.username || "Anonymous"}</strong>
                                             </div>
+
                                             <div className="vote-section">
                                                 <VoteButton
                                                     problemId={problem.id}
                                                     solutionId={oneSolution.id}
-                                                    initialVoted={oneSolution.voted} 
+                                                    initialVoted={oneSolution.is_voted}
                                                     initialCount={oneSolution.votes_count || 0}
                                                 />
                                             </div>
@@ -118,12 +122,15 @@ return (
                                     </div>
                                 ))
                             ) : (
-                                <div className="empty-state">No community solutions yet. Be the first!</div>
+                                <div className="no-solutions-placeholder">
+                                    <p>No community solutions yet. Be the first!</p>
+                                </div>
                             )}
                         </div>
+
+
                     </section>
 
-                    {/* أزرار التحكم */}
                     <footer className="problem-actions">
                         {(user?.username === problem.user?.username || user?.sub === String(problem.user_id)) ? (
                             <>
