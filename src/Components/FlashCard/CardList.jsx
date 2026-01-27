@@ -13,9 +13,9 @@ function CardList({ cards }) {
   return (
     <div className="container">
       <h1 id="H1">Here's all the Cards</h1>
+    
 
-
-      <div className="cards-grid">
+      <div className="cards-grid"> 
         {cards.map((oneCard) => (
           <div key={oneCard.id} className="card-item">
             <div className="card-header">
@@ -26,10 +26,12 @@ function CardList({ cards }) {
               <p>
                 Owner: <strong>{oneCard.owner?.username || "Unknown"}</strong>
               </p>
+              
               <Link to={`/cards/${oneCard.id}`} className="btn-card-details">
                 See Details
               </Link>
             </div>
+            
           </div>
         ))}
       </div>

@@ -6,8 +6,8 @@ import Swal from 'sweetalert2';
 import 'mathlive'; 
 
 
-function ProblemForm(props) {
-  const { updateProblem, problemToUpdate, updateOneProblem } = props;
+function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
+  
   const navigate = useNavigate();
 
   // Added term_id to the initial state
