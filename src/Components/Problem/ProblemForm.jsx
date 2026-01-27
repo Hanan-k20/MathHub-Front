@@ -1,34 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import * as problemService from '../../services/problemService';
-import * as termService from '../../services/termService'; 
 import Swal from 'sweetalert2';
 import 'mathlive'; 
 
 
-function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
-  
+function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {  
   const navigate = useNavigate();
 
   // Added term_id to the initial state
   const [formState, setFormState] = useState(
-    problemToUpdate ? problemToUpdate : { title: "", equation_LaTeX: '', term_id: '' }
+    problemToUpdate ? problemToUpdate : { title: "", equation_LaTeX: '' }
   );
 
   const [terms, setTerms] = useState([]);
-
-  // Fetch terms to populate the dropdown
-  useEffect(() => {
-    const fetchTerms = async () => {
-      try {
-        const data = await termService.index();
-        setTerms(data);
-      } catch (err) {
-        console.log("Error fetching terms:", err);
-      }
-    };
-    fetchTerms();
-  }, []);
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -41,8 +26,8 @@ function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
     const payload = { ...formState };
     
     // Simple validation
-    if (!payload.equation_LaTeX || !payload.term_id) {
-        Swal.fire('Error', 'Equation and Term are required', 'error');
+    if (!payload.equation_LaTeX) {
+        Swal.fire('Error', 'Equation is required', 'error');
         return;
     }
 
@@ -78,18 +63,6 @@ function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
             onChange={handleChange} 
         />
 
-        <label htmlFor="term_id">Term</label>
-        <select 
-            name="term_id" 
-            id="term_id" 
-            value={formState.term_id} 
-            onChange={handleChange}
-        >
-          <option value="">Select a Term</option>
-          {terms.map(term => (
-            <option key={term.id} value={term.id}>{term.name}</option>
-          ))}
-        </select>
 
         <label htmlFor="equation_LaTeX">Add the question text:</label>
         <div style={{ border: '1px solid #ccc', margin: '10px 0' }}>
@@ -101,7 +74,7 @@ function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
             </math-field>
         </div>
 
-        <button type="submit">{problemToUpdate ? 'Update Problem' : 'Add Problem'}</button>
+        <button type="submit">Send Qustion</button>
       </form>
     </div>
   );
