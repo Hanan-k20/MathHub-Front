@@ -1,9 +1,25 @@
-// This page is a simple component that just loads when the page first loads and you are not signed in
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './Landing.css';
+
 const Landing = () => {
   return (
-    <main>
-      <h1>Hello, you are on the landing page for visitors.</h1>
-      <p>Sign up now, or sign in to see your super secret dashboard!</p>
+    <main className="landing-container">
+      <div className="blob-wrapper">
+        <div className="blob"></div>
+      </div>
+      
+      <div className="landing-content">
+        <h1 className="hero-title">MASTER YOUR <span className="red-text">MATH</span></h1>
+        <p className="hero-subtitle">
+          Explore interactive flashcards, solve complex equations, and unlock your potential with AI-powered solutions.
+        </p>
+        
+        <div className="landing-buttons">
+          <Link to="/sign-up" className="btn-primary">Get Started</Link>
+          <Link to="/sign-in" className="btn-secondary">Sign In</Link>
+        </div>
+      </div>
     </main>
   );
 };
