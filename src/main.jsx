@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router' // add import for BrowserRouter
 import './index.css'
 import App from './App.jsx'
 import { UserProvider } from './contexts/UserContext'
+import { MathfieldElement } from 'mathlive';
+MathfieldElement.fontsDirectory = 'https://cdn.jsdelivr.net/npm/mathlive@latest/dist/fonts';
 
 // Wrap the App component with the BrowserRouter component to enable
 // enable route handling throughout your application.
