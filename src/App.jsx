@@ -4,6 +4,8 @@ import { UserContext } from './contexts/UserContext';
 import * as problemService from './services/problemService';
 // Components
 import NavBar from './Components/NavBar/NavBar';
+import SignUpForm from './components/SignUpForm/SignUpForm';
+import SignInForm from './components/SignInForm/SignInForm';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Landing from './Components/Landing/Landing';
 import CardList from './components/flashCard/cardList';
@@ -97,6 +99,8 @@ const CardDetailWrapper = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
+        <Route path='/sign-up' element={<SignUpForm />} />
+        <Route path='/sign-in' element={<SignInForm />} />
 
         {/* Problem Routes */}
         <Route path="/problems" element={<ProblemList problems={problems} />} />
