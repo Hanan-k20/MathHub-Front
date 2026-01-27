@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate, Routes, Route, useParams } from 'react-router'; 
-import { UserContext } from './contexts/UserContext'; 
+import { useNavigate, Routes, Route, useParams } from 'react-router';
+import { UserContext } from './contexts/UserContext';
 import * as problemService from './services/problemService';
 // Components
 import NavBar from './Components/NavBar/NavBar';
@@ -11,12 +11,14 @@ import Landing from './Components/Landing/Landing';
 import CardList from './components/FlashCard/cardList';
 import CardDetail from './components/FlashCard/CardDetail';
 import ProblemList from './Components/Problem/problemList';
-import ProblemForm from './Components/Problem/problemForm';
+import ProblemForm from './components/Problem/problemForm';
 import ProblemDetail from './components/problem/problemDetail';
 import TermList from './Components/Term/TermList';
 import TermDetail from './Components/Term/TermDetail';
 import TermForm from './Components/Term/TermForm';
 import SolutionForm from './Components/Solution/SolutionForm';
+
+import * as termService from './services/termService';
 
 const App = () => {
   const navigate = useNavigate();
@@ -29,12 +31,16 @@ const App = () => {
   const [terms, setTerms] = useState([]);
   const [termToUpdate, setTermToUpdate] = useState(null);
 
-useEffect(() => {
+  useEffect(() => {
     const getAllProblems = async () => {
       try {
         const data = await problemService.index();
         console.log("Data from server:", data);
-        setProblems(data); 
+        setProblems(data);
+
+      const termsData = await termService.index(); 
+      setTerms(termsData);
+ 
       } catch (error) {
         console.log(error);
       }
@@ -46,7 +52,7 @@ useEffect(() => {
     setProblems([...problems, problem]);
     navigate('/problems');
   };
- 
+
 
   const updateOneProblem = (updatedProblem) => {
     const newList = problems.map((p) => (p.id === updatedProblem.id ? updatedProblem : p));
@@ -67,22 +73,22 @@ useEffect(() => {
     navigate(`/problems/${problemId}`);
   };
 
-// ---Terms ---
+  // ---Terms ---
   const addTerm = (newTerm) => {
-  setTerms([...terms, newTerm]);
-};
+    setTerms([...terms, newTerm]);
+  };
 
-const findTermToUpdate = (id) => {
-  const found = terms.find(oneTerm => oneTerm.id === Number(id));
-  setTermToUpdate(found);
-};
+  const findTermToUpdate = (id) => {
+    const found = terms.find(oneTerm => oneTerm.id === Number(id));
+    setTermToUpdate(found);
+  };
 
 
-const updateOneTerm = (updatedTerm) => {
-  const updatedList = terms.map(oneTerm=> oneTerm.id === updatedTerm.id ? updatedTerm : oneTerm);
-  setTerms(updatedList);
-  setTermToUpdate(null);
-};
+  const updateOneTerm = (updatedTerm) => {
+    const updatedList = terms.map(oneTerm => oneTerm.id === updatedTerm.id ? updatedTerm : oneTerm);
+    setTerms(updatedList);
+    setTermToUpdate(null);
+  };
 
 const deleteTerm = (id) => {
   setTerms(terms.filter(oneTerm=> oneTerm.id !== Number(id)));
@@ -109,7 +115,7 @@ const CardDetailWrapper = () => {
         {/* Problem Routes */}
         <Route path="/problems" element={<ProblemList problems={problems} />} />
         <Route path="/problems/new" element={<ProblemForm updateProblem={addProblem} />} />
-        <Route path="/problems/:problemId"  element={<ProblemDetail findProblemToUpdate={setProblemToUpdate} user={user} />} />        
+        <Route path="/problems/:problemId" element={<ProblemDetail findProblemToUpdate={setProblemToUpdate} user={user} />} />
         <Route path="/problems/:problemId/update" element={<ProblemForm problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
 
         {/* Solution Routes*/}
@@ -123,25 +129,12 @@ const CardDetailWrapper = () => {
         />
 
         {/* terms Route*/}
-        <Route
-          path="/terms"
-          element={<TermList terms={terms} />}
-        />
+        <Route path="/terms" element={<TermList terms={terms} />} />
+        <Route path="/terms/new" element={<TermForm addTerm={addTerm} />} />
+        <Route path="/terms/:id/update" element={<TermForm termToUpdate={termToUpdate} updateOneTerm={updateOneTerm} />} />
+        <Route path="/terms/:id" element={<TermDetail findTermToUpdate={findTermToUpdate} deleteTerm={deleteTerm} />} />
 
-        <Route
-          path="/terms/new"
-          element={<TermForm addTerm={addTerm} />}
-        />
 
-        <Route
-          path="/terms/:id"
-          element={<TermDetail findTermToUpdate={findTermToUpdate} deleteTerm={deleteTerm} />}
-        />
-
-        <Route
-          path="/terms/:id/update"
-          element={<TermForm termToUpdate={termToUpdate} updateOneTerm={updateOneTerm} />}
-        />
         {/* cards Route*/}
         <Route path="/cards" element={<CardList cards={problems} />} />
         <Route path="/cards/:cardId" element={<CardDetailWrapper />} />
