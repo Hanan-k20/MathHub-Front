@@ -5,7 +5,7 @@
     position: fixed;
     top: 0;
     left: 29%; 
-    width: 70%; 
+    width: 71%; 
     height: 100vh;
     z-index: 9999;
     background-color: transparent;
@@ -13,7 +13,7 @@
 
 .flashcard-container {
     width: 85%;
-    max-width: 700px;
+    max-width: 650px;
     height: 550px;
     perspective: 2000px;
 }
@@ -37,61 +37,70 @@
     height: 100%;
     backface-visibility: hidden;
     border-radius: 20px;
-    padding: 40px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     box-sizing: border-box;
+    background: #000;
+    border: 3px solid #ff0000;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
 }
 
 .card-front {
-    background: #000;
-    border: 3px solid #ff0000;
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
+    justify-content: space-between;
+    align-items: center;
+    
 }
 
 .card-back {
-    background: #000;
-    border: 3px solid #ff0000;
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
     transform: rotateY(180deg);
+    display: block; 
 }
 
 .card-label {
-    font-size: 0.9rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #ff0000;
+    font-size: 20px;
     font-weight: 900;
     letter-spacing: 2px;
     text-transform: uppercase;
+    margin-bottom: 10px;
 }
-
-.card-front .card-label { color: #ff0000; font-size: 20px; }
-.card-back .card-label { color: #ff0000; font-size: 20px; }
 
 .card-face h3 {
     color: #fff;
     font-size: 2rem;
+    text-align: center;
     margin: 10px 0;
 }
 
-.math-display {
-    flex-grow: 1;
+.content-group {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 1.8rem;
-    overflow-y: auto;
+    height: 380px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 15px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.02); 
+    border-radius: 10px;
 }
 
-.card-back .math-display {
+.scroll-box {
+    width: 100%;
+    color: #fff;
     font-size: 1.1rem;
-    text-align: right;
-    align-items: flex-start;
-    display: block;
-    overflow-y: auto;
-    max-height: 350px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.scroll-box mjx-container {
+    max-width: 100% !important;
+    overflow-x: auto !important; 
+    margin: 15px 0 !important;
+    color: #fff !important;
 }
 
 .close-button {
@@ -103,16 +112,36 @@
     color: #fff;
     font-size: 30px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 100;
 }
 
 .flip-hint {
-    color: #444;
+    display: block;
+    text-align: center;
+    color: #666;
     font-size: 0.8rem;
+    margin-top: 15px;
 }
 
-.math-display::-webkit-scrollbar { width: 4px; }
-.math-display::-webkit-scrollbar-thumb {
+.card-back .flip-hint {
+    color: #fff;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+}
+
+.content-group::-webkit-scrollbar {
+    width: 5px;
+}
+
+.content-group::-webkit-scrollbar-thumb {
     background: #ff0000;
     border-radius: 10px;
 }
+
+.content-group::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
