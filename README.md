@@ -89,3 +89,6 @@ This project was built using the following documentation and tools:
 * **Background Animation (Blob Morphing):** Inspired by [Ecem Gokdogan's Tutorial](https://www.youtube.com/watch?v=vkn7_04oZ0o) – Implementing moving, rotating, and morphing shapes using CSS keyframes [00:01:34].
 * **Interactive UI Elements:** * [Custom CSS Card Effect](https://codepen.io/liyrofx/pen/poVZeEG) by **liyrofx** on CodePen - Used for the sleek, modern look of the math containers.
     * [Interactive Animation Concept](https://codepen.io/liyrofx/pen/poVZeEG) by **liyrofx** - Influenced the hover effects and interactive transitions.
+
+## 🔗 Deployment Links
+- **Backend API:** [Click here to view the API Service](https://github.com/Hanan-k20/MathHub)
