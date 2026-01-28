@@ -1,93 +1,43 @@
-.term-form-container {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    width: 100% !important;
-    min-height: 100vh !important;
-    padding: 120px 20px 60px !important; 
-    background-color: #fafafa !important;
-    box-sizing: border-box !important;
-}
-
-.term-form-card {
-    background: #ffffff !important;
-    width: 100% !important;
-    max-width: 750px !important; 
-    padding: 50px !important;
-    border-radius: 35px !important;
-    box-shadow: 0 15px 50px rgba(255, 0, 0, 0.08) !important; 
-    border: 1px solid rgba(255, 0, 0, 0.1) !important;
-}
-
-.term-form-card h2 {
-    color: #ff0000 !important;
-    text-align: center !important;
-    font-size: 2.8rem !important;
-    font-weight: 900 !important;
-    margin-bottom: 40px !important;
-}
-
-.form-group label {
-    display: block !important;
-    font-weight: 800 !important;
-    font-size: 1.6rem !important;
-    color: #111 !important;
-    margin-bottom: 12px !important;
-    text-align: left !important;
-}
-
-.form-group input, 
-.form-group select,
-math-field {
-    display: block !important;
-    width: 100% !important;
-    height: 60px !important;
-    padding: 0 20px !important;
-    font-size: 1.3rem !important;
-    border: 2px solid #f0f0f0 !important;
-    border-radius: 18px !important;
-    box-sizing: border-box !important;
-    margin-bottom: 10px !important;
+/* الحاوية الأساسية */
+.sol-math-field-wrapper {
+    width: 100%;
+    margin-top: 10px;
 }
 
 math-field {
-    min-height: 95px !important;
-    font-size: 2.1rem !important;
+    width: 100% !important;
+    /* زدنا الارتفاع الأدنى لضمان عدم تداخل أول سطرين */
+    min-height: 120px !important; 
+    max-height: 350px !important; 
+    height: auto;
+    
+    /* منع تداخل الأسطر رياضياً */
+    line-height: 1.5 !important; 
+    
     padding: 15px !important;
-}
-
-math-field::part(virtual-keyboard-toggle) {
-    color: #ff0000 !important;
-}
-
-
-math-field::part(key) {
-    border-radius: 8px !important;
-}
-
-math-field::part(key-cap):active, 
-math-field::part(key-cap).active {
-    background-color: #ff0000 !important; 
-    color: white !important;
-}
-
-.term-save-btn {
+    font-size: 1.4rem !important;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+    border-radius: 12px !important;
+    
+    /* تفعيل السكرول بار بشكل واضح */
+    overflow-y: auto !important;
     display: block !important;
-    width: 280px !important;
-    margin: 40px auto 0 !important;
-    padding: 18px !important;
-    background: #000 !important;
-    color: #fff !important;
-    border-radius: 60px !important;
-    font-weight: 900 !important;
-    font-size: 1.2rem !important;
-    border: none !important;
-    cursor: pointer !important;
-    text-transform: uppercase !important;
-    transition: 0.3s !important;
 }
 
-.term-save-btn:hover {
-    background: #ff0000 !important;
-    transform: translateY(-3px) !important;
+/* تحسين شكل شريط السحب ليظهر بوضوح كما طلبت */
+math-field::-webkit-scrollbar {
+    width: 10px !important;
+    display: block !important;
+}
+
+math-field::-webkit-scrollbar-thumb {
+    background: #888 !important; 
+    border-radius: 10px !important;
+    border: 2px solid #fff !important;
+}
+
+math-field::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    border-radius: 10px !important;
 }

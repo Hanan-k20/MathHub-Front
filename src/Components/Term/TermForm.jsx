@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from "react-router";
+import { useState, useEffect, useRef } from 'react' // تأكد من استيراد useEffect و useRef من react
+import { useNavigate } from "react-router-dom"; // تأكد من المسار الصحيح
 import * as termService from '../../services/termService'
 import 'mathlive';
 import './termForm.css'
+
 const category = {
     'Algebra': '➗',
     'Geometry': '📐',
@@ -19,12 +20,42 @@ function TermForm(props) {
     const { addTerm, termToUpdate, updateOneTerm } = props
     const navigate = useNavigate()
 
+    // 1. تعريف المراجع (Refs)
+    const defRef = useRef(null);
+    const exRef = useRef(null);
+
     const [formState, setFormState] = useState(termToUpdate ? termToUpdate : {
         name: "",
         definition: '',
         example: '',
         category: ''
     })
+
+  useEffect(() => {
+        const setupMathField = (ref) => {
+            const mf = ref.current;
+            if (mf) {
+                mf.smartMode = true;
+
+                mf.addEventListener('input', () => {
+                    mf.style.height = 'auto';
+                    const newHeight = Math.min(mf.scrollHeight, 250); 
+                    mf.style.height = newHeight + 'px';
+                });
+
+                mf.addEventListener('keydown', (evt) => {
+                    if (evt.key === 'Enter') {
+                        evt.preventDefault();
+                        mf.executeCommand(['insert', '\\\\']);
+                    }
+                });
+            }
+        };
+        setupMathField(defRef);
+        setupMathField(exRef);
+    }, []);
+
+
 
     const handleChange = (evt) => {
         setFormState({ ...formState, [evt.target.name]: evt.target.value })
@@ -51,67 +82,68 @@ function TermForm(props) {
         }
     }
 
-   return (
-    <div className="term-form-container">
-        <div className="term-form-card">
-            <h2>{termToUpdate ? "Edit Term" : "New Term"}</h2>
-            
-            <form onSubmit={handleSubmit}>
-                <div className="term-field-group">
-                    <label>Title:</label>
-                    <input 
-                        name="name" 
-                        placeholder="Enter term name..."
-                        value={formState.name} 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
-
-                <div className="term-field-group">
-                    <label>Definition:</label>
-                    <div className="math-input-wrapper">
-                        <math-field
-                            onInput={evt => setFormState({ ...formState, definition: evt.target.value })}
-                            smart-mode="true"
-                            virtual-keyboard-mode="onfocus"
-                            smart-fence="true"
-                        >
-                            {formState.definition}
-                        </math-field>
+    return (
+        <div className="term-form-container">
+            <div className="term-form-card">
+                <h2>{termToUpdate ? "Edit Term" : "New Term"}</h2>
+                
+                <form onSubmit={handleSubmit}>
+                    <div className="term-field-group">
+                        <label>Title:</label>
+                        <input 
+                            name="name" 
+                            placeholder="Enter term name..."
+                            value={formState.name} 
+                            onChange={handleChange} 
+                            required 
+                        />
                     </div>
-                </div>
 
-                <div className="term-field-group">
-                    <label>Example:</label>
-                    <div className="math-input-wrapper">
-                        <math-field
-                            onInput={evt => setFormState({ ...formState, example: evt.target.value })}
-                            smart-mode="true"
-                            virtual-keyboard-mode="onfocus"
-                        >
-                            {formState.example}
-                        </math-field>
+                    <div className="term-field-group">
+                        <label>Definition:</label>
+                        <div className="math-input-wrapper">
+                            <math-field
+                                ref={defRef}
+                                onInput={evt => setFormState({ ...formState, definition: evt.target.value })}
+                                smart-mode="true"
+                                virtual-keyboard-mode="onfocus"
+                                value={formState.definition}
+                                multiline="true"
+                            ></math-field>
+                        </div>
                     </div>
-                </div>
 
-                <div className="term-field-group">
-                    <label>Category:</label>
-                    <select name="category" value={formState.category} onChange={handleChange}>
-                        <option value="">-- Select Category --</option>
-                        {Object.keys(category).map((catName) => (
-                            <option key={catName} value={catName}>
-                                {category[catName]} {catName}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                    <div className="term-field-group">
+                        <label>Example:</label>
+                        <div className="math-input-wrapper">
+                            <math-field
+                                ref={exRef}
+                                onInput={evt => setFormState({ ...formState, example: evt.target.value })}
+                                smart-mode="true"
+                                virtual-keyboard-mode="onfocus"
+                                value={formState.example}
+                                multiline="true"
+                            ></math-field>
+                        </div>
+                    </div>
 
-                <button type="submit" className="term-save-btn">Save Term</button>
-            </form>
+                    <div className="term-field-group">
+                        <label>Category:</label>
+                        <select name="category" value={formState.category} onChange={handleChange}>
+                            <option value="">-- Select Category --</option>
+                            {Object.keys(category).map((catName) => (
+                                <option key={catName} value={catName}>
+                                    {category[catName]} {catName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <button type="submit" className="term-save-btn">Save Term</button>
+                </form>
+            </div>
         </div>
-    </div>
-);
+    );
 }
 
-export default TermForm
+export default TermForm;
