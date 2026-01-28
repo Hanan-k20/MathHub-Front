@@ -117,24 +117,12 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
 
                             {problem.solutions?.map(sol => (
                                 <div key={sol.id} className="solution-entry user-entry">
-                                    <div className="entry-content">
-                                        <MathJax>{`\\(${sol.content}\\)`}</MathJax>
-                                    </div>
+                                
 
                                     <div className="entry-footer">
                                         <strong>By: {sol.user?.username || "User"}</strong>
 
                                         <div className="sol-actions">
-
-                                            {user.username === sol.user?.username ? (
-                                                <div className="mini-buttons">
-                                                    <Link to={`/problems/${problemId}/solutions/${sol.id}/update`} className="edit-link">Edit</Link>
-                                                    <button onClick={() => handleDeleteSolution(sol.id)} className="delete-link">Delete</button>
-                                                </div>
-                                            ) : (
-                                                <p></p>
-                                            )}
-
 
                                             <VoteButton
                                                 problemId={problem.id}
