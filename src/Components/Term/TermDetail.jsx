@@ -4,6 +4,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { useNavigate, useParams, Link } from "react-router";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import Swal from 'sweetalert2';
+import './termDetail.css'; 
 
 function TermDetail({ findTermToUpdate, deleteTerm }) {
     const { user } = useContext(UserContext)
@@ -15,85 +16,93 @@ function TermDetail({ findTermToUpdate, deleteTerm }) {
         tex: {
             inlineMath: [["$", "$"], ["\\(", "\\)"]],
             displayMath: [["$$", "$$"], ["\\[", "\\]"]],
-            processEscapes: true
+            macros: {
+                imaginaryI: "i",
+                placeholder: "\\square",
+                RR: "{\\bf R}",
+            }
         }
     };
-    useEffect(
-        () => {
-            const getOneTerm = async (id) => {
-                const term = await termService.show(id)
-                setTerm(term)
-            }
-            if (id) getOneTerm(id)
-        }, [id])
 
+    useEffect(() => {
+        const getOneTerm = async (id) => {
+            const term = await termService.show(id)
+            setTerm(term)
+        }
+        if (id) getOneTerm(id)
+    }, [id])
+
+    const cleanMath = (text) => {
+        if (!text) return "";
+        return text.replace(/\\imaginaryI/g, 'i').replace(/\\placeholder/g, '\\square');
+    };
 
     const handleDelete = async () => {
         const result = await Swal.fire({
             title: 'Are you sure?',
-            text: "This will permanently delete the term!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!'
         });
         if (result.isConfirmed) {
             try {
                 await termService.remove(id)
                 deleteTerm(id)
-                Swal.fire('Deleted!', 'The term has been removed.', 'success');
                 navigate('/terms')
             } catch (error) {
-                Swal.fire('Error', 'Something went wrong while deleting', 'error');
+                Swal.fire('Error', 'Something went wrong', 'error');
             }
         }
     }
-    if (!id) return <h1>Loading...</h1>
-    if (!term) return <h1>Loading...</h1>
+
+    if (!term) return <div className="detail-modal-overlay"><h1>Loading...</h1></div>
 
     return (
-        <MathJaxContext config={config}>
-            <div style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px', maxWidth: '600px' }}>
-                <h1> Titel: {term.name}</h1>
+        <MathJaxContext config={config} version={3}>
+            <div className="detail-modal-overlay">
+                <div className="detail-card">
+                    <h1 className="detail-title">{term.name}</h1>
 
-                <hr />
-
-                <MathJax>
-                    <div style={{ marginBottom: '15px' }}>
-                        <h3>Definition:</h3>
-                        <p>{`\\( ${term.definition} \\)`}</p>
+                    <div className="info-block">
+                        <h3 className="section-label">Definition:</h3>
+                        <div className="math-display">
+                            <MathJax>{`$$ ${cleanMath(term.definition)} $$`}</MathJax>
+                        </div>
                     </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <h3>Example:</h3>
-                        <p>{`\\( ${term.example} \\)`}</p>
+                    <div className="info-block">
+                        <h3 className="section-label">Example:</h3>
+                        <div className="math-display">
+                            <MathJax>{`$$ ${cleanMath(term.example)} $$`}</MathJax>
+                        </div>
                     </div>
-                </MathJax>
 
-                <div style={{ color: '#666', fontSize: '0.9em' }}>
-                    <p><strong>Category:</strong> {term.category}</p>
-                    <p><strong>Created at:</strong> {term.created_At}</p>
-                    <p><strong>Owner:</strong> {term.user?.username}</p>
-                </div>
+                    <div className="detail-meta">
+                        <span><strong>Category:</strong> {term.category}</span>
+                        <span><strong>Owner:</strong> {term.user?.username}</span>
+                        <span><strong>Created:</strong> {new Date(term.created_At).toLocaleDateString()}</span>
+                    </div>
 
-                {(user?.sub === String(term.user_id) || user?.username === term.user?.username) && (<div style={{ marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '15px' }}>
-                    <Link
-                        onClick={() => findTermToUpdate(id)}
-                        to={`/terms/${id}/update`}
-                        style={{ marginRight: '15px', color: '#007bff', fontWeight: 'bold' }}
-                    >
-                        📝 Edit Term
-                    </Link>
-                    <button onClick={handleDelete} style={{ color: '#d33', cursor: 'pointer' }}>
-                        🗑️ Delete Term
-                    </button>
+                    <div className="detail-actions">
+                        {(user?.sub === String(term.user_id) || user?.username === term.user?.username) && (
+                            <div className="admin-controls">
+                                <Link onClick={() => findTermToUpdate(id)} to={`/terms/${id}/update`} className="btn-edit">
+                                    📝 Edit Term
+                                </Link>
+                                <button onClick={handleDelete} className="btn-delete">
+                                    🗑️ Delete Term
+                                </button>
+                            </div>
+                        )}
+                        <button onClick={() => navigate('/terms')} className="btn-back">
+                            ← Back to Dictionary
+                        </button>
+                    </div>
                 </div>
-                )}
             </div>
-            <button onClick={() => navigate('/terms')} style={{ marginTop: '10px' }}> Back </button>
         </MathJaxContext>
     );
 }
 
-export default TermDetail
+export default TermDetail;
