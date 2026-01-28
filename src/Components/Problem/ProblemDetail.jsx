@@ -20,12 +20,7 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
     const { problemId: paramId } = useParams();
     const problemId = propId || paramId;
     const navigate = useNavigate();
-    console.log("CHECK:", {
-        userId: user,
-        userSub: user?.sub,
-        problemOwnerId: problem?.user_id,
-        problemUserObj: problem?.user
-    });
+   
 
     useEffect(() => {
         const getOneProblem = async (pId) => {
@@ -60,27 +55,7 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
         }
     };
 
-    const handleDeleteSolution = async (sId) => {
-        const result = await Swal.fire({
-            title: 'Delete your solution?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Delete'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                await solutionService.remove(sId);
-                setProblem(prev => ({
-                    ...prev,
-                    solutions: prev.solutions.filter(s => s.id !== sId)
-                }));
-                Swal.fire('Deleted!', '', 'success');
-            } catch (error) {
-                Swal.fire('Error', 'Failed to delete solution', 'error');
-            }
-        }
-    };
+  
 
     if (!problem) return <h1 style={{ padding: "20px" }}>Loading Problem Data...</h1>;
 
@@ -129,6 +104,12 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
                                                 solutionId={sol.id}
                                                 initialCount={sol.votes_count}
                                             />
+                                        </div>
+
+                                        <div>
+                                               <Link to={`/problems/${problemId}/solutions/${sol.id}`}>
+                                            See the Answer ⭢
+                                    </Link>
                                         </div>
                                     </div>
                                 </div>

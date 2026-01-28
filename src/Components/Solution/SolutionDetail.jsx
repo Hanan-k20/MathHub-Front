@@ -1,24 +1,87 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import * as solutionService from '../../services/solutionService';
+import { MathJaxContext, MathJax } from 'better-react-mathjax';
+import Swal from 'sweetalert2';
 
-function SolutionDetail() {
-  return (
-    <div>
+const mathJaxConfig = {
+    loader: { load: ["input/tex", "output/chtml"] },
+    tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+    }
+};
 
+function SolutionDetail({ user, findSolutionToUpdate }) {
+    const [solution, setSolution] = useState(null);
+    const { solutionId, problemId } = useParams();
+    const navigate = useNavigate();
 
-            <div className="entry-content">
-                                        <MathJax>{`\\(${sol.content}\\)`}</MathJax>
-                                    </div>
-           {user.username === sol.user?.username ? (
-                                                <div className="mini-buttons">
-                                                    <Link to={`/problems/${problemId}/solutions/${sol.id}/update`} className="edit-link">Edit</Link>
-                                                    <button onClick={() => handleDeleteSolution(sol.id)} className="delete-link">Delete</button>
-                                                </div>
-                                            ) : (
-                                                <p></p>
-                                            )}
-      
-    </div>
-  )
+    useEffect(() => {
+        const getOneSolution = async (sId) => {
+            try {
+                const data = await solutionService.show(sId);
+                setSolution(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        if (solutionId) getOneSolution(solutionId);
+    }, [solutionId]);
+
+    const handleDeleteSolution = async (sId) => {
+        const result = await Swal.fire({
+            title: 'Delete your solution?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Delete'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await solutionService.remove(sId);
+                Swal.fire('Deleted!', '', 'success');
+                navigate(`/problems/${problemId}`);
+            } catch (error) {
+                Swal.fire('Error', 'Failed to delete', 'error');
+            }
+        }
+    };
+
+    if (!solution) return <p>Loading Solution...</p>;
+
+    return (
+        <MathJaxContext config={mathJaxConfig}>
+            <div className="solution-detail-container" style={{ padding: "20px" }}>
+                <h2>Solution Detail</h2>
+                <div className="entry-content">
+                    <MathJax>{`\\(${solution.content}\\)`}</MathJax>
+                </div>
+                <hr />
+                <p><strong>By:</strong> {solution.user?.username}</p>
+
+                {user && String(user.sub) === String(solution.user_id) && (
+                    <div className="mini-buttons">
+                        <Link
+                            className="btn-edit"
+                            to={`/problems/${problemId}/solutions/${solution.id}/update`}
+                            onClick={() => findSolutionToUpdate(problemId, solution.id)}
+                        >
+                            Edit
+                        </Link>
+                        <button
+                            onClick={() => handleDeleteSolution(solution.id)}
+                            className="delete-link"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                )}
+                <br />
+                <button onClick={() => navigate(-1)} className="btn-dark">Back</button>
+            </div>
+        </MathJaxContext>
+    );
 }
 
-export default SolutionDetail
+export default SolutionDetail;

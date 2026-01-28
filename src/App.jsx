@@ -19,6 +19,7 @@ import TermList from './Components/Term/TermList';
 import TermDetail from './Components/Term/TermDetail';
 import TermForm from './Components/Term/TermForm';
 import SolutionForm from './Components/Solution/SolutionForm';
+import SolutionDetail from './Components/Solution/SolutionDetail';
 
 const App = () => {
   const navigate = useNavigate();
@@ -71,18 +72,31 @@ const addSolution = (newSolution, problemIdFromForm) => {
     }
     return p;
   });
-
   setProblems(updatedProblems);
-
   navigate(`/problems/${problemIdFromForm}`);
 };
 
-  const updateSolutionInState = (updatedSol, problemId) => {
-    setSolutions(solutions.map((solu) => (solu.id === updatedSol.id ? updatedSol : solu)));
-    setSolutionToUpdate(null);
-    navigate(`/problems/${problemId}`);
-  };
+ const updateSolutionInState = (updatedSol, problemId) => {
+  const updatedProblems = problems.map((p) => {
+    if (p.id === Number(problemId)) {
+      const updatedSols = (p.solutions || []).map((s) => 
+        s.id === updatedSol.id ? updatedSol : s
+      );
+      return { ...p, solutions: updatedSols, Solutions: updatedSols };
+    }
+    return p;
+  });
 
+  setProblems(updatedProblems);
+  setSolutionToUpdate(null);
+  navigate(`/problems/${problemId}`);
+};
+const findSolutionToUpdate = (problemId, solutionId) => {
+  const problem = problems.find(p => p.id === Number(problemId));
+  const allSols = problem?.solutions || problem?.Solutions || [];
+  const solution = allSols.find(s => s.id === Number(solutionId));
+  setSolutionToUpdate(solution);
+};
   // --- Terms ---
   const addTerm = (newTerm) => {
     setTerms([...terms, newTerm]);
@@ -130,6 +144,7 @@ const addSolution = (newSolution, problemIdFromForm) => {
 
         {/* Solution Routes */}
         <Route path="/problems/:problemId/solutions/new" element={<SolutionForm updateSolution={addSolution} />} />
+        <Route path="/problems/:problemId/solutions/:solutionId" element={<SolutionDetail user={user}  findSolutionToUpdate={findSolutionToUpdate} />} />
         <Route path="/problems/:problemId/solutions/:solutionId/update" element={<SolutionForm updateSolution={updateSolutionInState} solutionToUpdate={solutionToUpdate} />} />
 
         {/* Terms Routes */}
