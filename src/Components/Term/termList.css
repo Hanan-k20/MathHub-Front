@@ -1,0 +1,181 @@
+.page-wrapper {
+    min-height: 100vh;
+    padding-top: 100px; 
+    background-color: #fcfcfc;
+    display: flex;
+    justify-content: center;
+}
+
+.list-container {
+    width: 90%;
+    max-width: 850px;
+    padding-bottom: 50px;
+}
+
+.list-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.list-top-bar h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0;
+}
+
+.list-top-bar p {
+    color: #888;
+    margin: 5px 0 0 0;
+}
+
+.add-button {
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-button:hover {
+    background: #ff0000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.15);
+}
+
+.cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-wrapper {
+    text-decoration: none;
+    color: inherit;
+}
+.modern-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 20px;
+    
+    border: 1.5px solid #0f0000 !important; 
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+    position: relative;
+    overflow: hidden;
+
+    box-shadow: 10px 4px 15px rgba(38, 37, 37, 0.581) !important;
+}
+
+.modern-card:hover {
+    border: 1.5px solid #0f0000 !important; 
+    
+    transform: translateY(-5px) translateX(5px) !important;
+    
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+}
+.card-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.accent-line {
+    width: 4px;
+    height: 40px;
+    background: #ff0000;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.modern-card:hover .accent-line {
+    height: 55px;
+}
+
+.term-name {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.category-pill {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: #666;
+    background: #f5f5f5;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.card-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.view-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #bbb;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.modern-card:hover .view-text {
+    opacity: 1;
+    color: #000;
+}
+
+.arrow-circle {
+    width: 45px;
+    height: 45px;
+    background: #f9f9f9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #222;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.modern-card:hover .arrow-circle {
+    background: #ff0000;
+    color: #fff;
+}
+
+.loading-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+}
+
+.custom-loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #eee;
+    border-top: 5px solid #000;
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

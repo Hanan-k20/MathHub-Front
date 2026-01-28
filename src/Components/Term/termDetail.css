@@ -1,0 +1,104 @@
+.detail-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.detail-card {
+    background: #ffffff;
+    width: 90%;
+    max-width: 650px;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.detail-title {
+    color: #ff0000;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.section-label {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.math-display {
+    color: #000 !important; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    background: #ffffff !important;
+}
+
+.math-display mjx-container {
+    color: #000 !important;
+    font-size: 1.8rem !important; 
+}
+
+.detail-meta {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+}
+
+.detail-actions {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-edit {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: #d33;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-back {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background: #333;
+}

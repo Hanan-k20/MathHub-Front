@@ -7,3 +7,4 @@ export default defineConfig({
 optimizeDeps: {
     exclude: ['mathlive', 'react-mathlive']
   }})
+

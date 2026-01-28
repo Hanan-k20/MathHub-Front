@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import * as problemService from '../../services/problemService';
+import * as solutionService from '../../services/solutionService';
 import VoteButton from "../VoteButton/VoteButton";
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import Swal from 'sweetalert2';
-import './problemDetail.css'
+import './problemDetail.css';
 
 const mathJaxConfig = {
     loader: { load: ["input/tex", "output/chtml"] },
@@ -16,11 +17,16 @@ const mathJaxConfig = {
 
 function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: propId }) {
     const [problem, setProblem] = useState(null);
-
     const { problemId: paramId } = useParams();
     const problemId = propId || paramId;
-
     const navigate = useNavigate();
+    console.log("CHECK:", {
+        userId: user,
+        userSub: user?.sub,
+        problemOwnerId: problem?.user_id,
+        problemUserObj: problem?.user
+    });
+
     useEffect(() => {
         const getOneProblem = async (pId) => {
             try {
@@ -33,33 +39,52 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
         if (problemId) getOneProblem(problemId);
     }, [problemId]);
 
-    const handleDelete = async () => {
+    const handleDeleteProblem = async () => {
         const result = await Swal.fire({
             title: 'Are you sure?',
-            text: "This will permanently delete the question!",
+            text: "This will delete the question and all its solutions!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!'
         });
 
         if (result.isConfirmed) {
             try {
                 await problemService.remove(problemId);
-
-                Swal.fire('Deleted!', 'The question has been removed.', 'success');
-
+                deleteProblem?.(problemId);
                 navigate('/problems');
-
-                if (deleteProblem) deleteProblem(problemId);
             } catch (error) {
-                Swal.fire('Error', 'Something went wrong while deleting', 'error');
+                Swal.fire('Error', 'Failed to delete question', 'error');
             }
         }
     };
 
-    if (!problemId || !problem) return <h1>Loading...</h1>;
+    const handleDeleteSolution = async (sId) => {
+        const result = await Swal.fire({
+            title: 'Delete your solution?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Delete'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await solutionService.remove(sId);
+                setProblem(prev => ({
+                    ...prev,
+                    solutions: prev.solutions.filter(s => s.id !== sId)
+                }));
+                Swal.fire('Deleted!', '', 'success');
+            } catch (error) {
+                Swal.fire('Error', 'Failed to delete solution', 'error');
+            }
+        }
+    };
+
+    if (!problem) return <h1 style={{ padding: "20px" }}>Loading Problem Data...</h1>;
+
+    const isOwner = user && problem && String(user.sub) === String(problem.user_id);
 
     return (
         <MathJaxContext config={mathJaxConfig}>
@@ -75,80 +100,80 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
                         <div className="equation-display">
                             <MathJax>{`\\(${problem.equation_LaTeX}\\)`}</MathJax>
                         </div>
-                        <div className="meta-info">
-                            <span>ID: #{String(problemId).slice(-5)}</span>
-                            <span>{problem.created_At}</span>
-                        </div>
                     </section>
 
                     <section className="solutions-layout">
+                        {/* AI Section */}
                         <div className="solution-entry ai-entry">
                             <div className="entry-label">AI ASSISTANT SOLUTION</div>
                             <div className="entry-content">
-                                <MathJax dynamic>
-                                    {problem.ai_solution || "Analyzing problem..."}
-                                </MathJax>
+                                <MathJax dynamic>{problem.ai_solution || "Analyzing..."}</MathJax>
                             </div>
                         </div>
 
-                        {/* قسم حلول المستخدمين (تأكدت من وجوده كاملاً هنا) */}
-                        <div className="user-solutions-header">
-                            <h3>COMMUNITY SOLUTIONS ({problem.Solutions?.length || 0})</h3>
-                        </div>
+                        {/* User Solutions Section */}
+                        <div className="user-solutions-area">
+                            <h3>COMMUNITY SOLUTIONS ({problem.solutions?.length || 0})</h3>
 
-                        <div className="solutions-list">
-                            {problem.Solutions && problem.Solutions.length > 0 ? (
-                                problem.Solutions.map((oneSolution) => (
-                                    <div key={oneSolution.id} className="solution-entry user-entry">
-                                        <div className="entry-content">
-                                            <MathJax dynamic>{oneSolution.content}</MathJax>
-                                        </div>
-                                        <div className="entry-footer">
-                                            <div className="user-info">
-                                                <span className="avatar-placeholder"></span>
-                                                <strong>{oneSolution.user?.username || "Anonymous"}</strong>
-                                            </div>
-                                            <div className="vote-section">
-                                                <VoteButton
-                                                    problemId={problem.id}
-                                                    solutionId={oneSolution.id}
-                                                    initialVoted={oneSolution.voted}
-                                                    initialCount={oneSolution.votes_count || 0}
-                                                />
-                                            </div>
+                            {problem.solutions?.map(sol => (
+                                <div key={sol.id} className="solution-entry user-entry">
+                                    <div className="entry-content">
+                                        <MathJax>{`\\(${sol.content}\\)`}</MathJax>
+                                    </div>
+
+                                    <div className="entry-footer">
+                                        <strong>By: {sol.user?.username || "User"}</strong>
+
+                                        <div className="sol-actions">
+
+                                            {user.username === sol.user?.username ? (
+                                                <div className="mini-buttons">
+                                                    <Link to={`/problems/${problemId}/solutions/${sol.id}/update`} className="edit-link">Edit</Link>
+                                                    <button onClick={() => handleDeleteSolution(sol.id)} className="delete-link">Delete</button>
+                                                </div>
+                                            ) : (
+                                                <p></p>
+                                            )}
+
+
+                                            <VoteButton
+                                                problemId={problem.id}
+                                                solutionId={sol.id}
+                                                initialCount={sol.votes_count}
+                                            />
                                         </div>
                                     </div>
-                                ))
-                            ) : (
-                                <div className="empty-state">No community solutions yet. Be the first!</div>
-                            )}
+                                </div>
+                            ))}
                         </div>
                     </section>
 
-                    {/* أزرار التحكم */}
                     <footer className="problem-actions">
-                        {(user?.username === problem.user?.username || user?.sub === String(problem.user_id)) ? (
+                        {user && (
                             <>
-                                <Link
-                                    className="btn btn-outline"
-                                    onClick={() => findProblemToUpdate(problem)}
-                                    to={`/problems/${problemId}/update`}
-                                >
-                                    📝 EDIT
-                                </Link>
-                                <button onClick={handleDelete} className="btn btn-danger">
-                                    🗑️ DELETE
-                                </button>
+                                {user.username === problem.user?.username ? (
+                                    <div className="owner-controls">
+                                        <Link
+                                            className="btn btn-outline"
+                                            to={`/problems/${problemId}/update`}
+                                            onClick={() => findProblemToUpdate(problem)}
+                                        >
+                                            📝 EDIT QUESTION
+                                        </Link>
+                                        <button onClick={handleDeleteProblem} className="btn btn-danger">
+                                            🗑️ DELETE QUESTION
+                                        </button>
+                                    </div>
+                                ) : (
+                                    /* إذا كان مستخدم مسجل ولكن ليس صاحب السؤال */
+                                    <Link to={`/problems/${problemId}/solutions/new`} className="btn btn-primary">
+                                        💡 ADD YOUR SOLUTION
+                                    </Link>
+                                )}
                             </>
-                        ) : (
-                            user && (
-                                <Link to={`/problems/${problemId}/solutions/new`} className="btn btn-primary">
-                                    💡 ADD YOUR SOLUTION
-                                </Link>
-                            )
                         )}
-                        <button onClick={() => navigate('/problems')} className="btn btn-dark">BACK</button>
                     </footer>
+
                 </div>
             </div>
         </MathJaxContext>
