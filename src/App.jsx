@@ -123,7 +123,7 @@ const addSolution = (newSolution, problemIdFromForm) => {
         <Route path='/sign-in' element={<SignInForm />} />
 
         {/* Problem Routes */}
-        <Route path="/problems" element={<ProblemList problems={problems} />} />
+        <Route path="/problems" element={<ProblemList problems={problems} user={user}/>} />
         <Route path="/problems/new" element={<ProblemForm updateProblem={addProblem} />} />
         <Route path="/problems/:problemId" element={<ProblemDetail findProblemToUpdate={setProblemToUpdate} user={user} />} />
         <Route path="/problems/:problemId/update" element={<ProblemForm problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
