@@ -52,7 +52,6 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
 
     if (!solution) return <div className="solution-detail-container"><p>Loading Solution...</p></div>;
 
-    // التحقق من الملكية عن طريق الـ username كما في الكود الخاص بك
     const isOwner = user && solution.user && user.username === solution.user.username;
 
     return (
