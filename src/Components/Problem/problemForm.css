@@ -18,8 +18,8 @@
 .problem-form-card {
     background: #fff;
     width: 100%;
-    max-width: 850px; 
-    padding: 60px;
+    max-width: 700px; /* جعلت العرض أكثر توازناً */
+    padding: 40px 60px;
     border-radius: 24px;
     box-shadow: 0 30px 60px rgba(0,0,0,0.12);
     border: 1px solid #f0f0f0;
@@ -34,93 +34,112 @@
 }
 
 .problem-form-card h1 {
-    font-size: 3rem; 
-    color: #000;
-    margin-bottom: 50px;
+    font-size: 2.5rem; 
+    color: #ff0000; /* الأحمر للعنوان ليعطي طابع الهوية الخاصة بك */
+    margin-bottom: 40px;
     text-align: center;
     font-weight: 900;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
 }
 
 .form-group {
-    margin-bottom: 35px;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .form-group label {
     font-weight: 800;
     text-transform: uppercase;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #444;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
 }
 
 .form-group input[type="text"] {
-    padding: 20px;
+    padding: 18px;
     border: 2px solid #eee;
     border-radius: 12px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     background: #fbfbfb;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: 0.3s ease;
 }
 
 .form-group input[type="text"]:focus {
     border-color: #000;
     background: #fff;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    outline: none;
 }
 
+/* --- تعديلات حقل الرياضيات الهامة --- */
 math-field {
+    width: 100% !important;
+    min-height: 120px !important; /* ارتفاع مريح للبداية */
+    max-height: 300px !important; /* أقصى ارتفاع قبل السحب */
     border: 2px solid #eee !important;
     border-radius: 12px !important;
-    padding: 20px !important;
-    font-size: 2rem !important; 
-    background: #fbfbfb;
+    padding: 15px !important;
+    font-size: 1.8rem !important; 
+    background: #fbfbfb !important;
+    overflow-y: auto !important; /* تفعيل السكرول */
+    display: block !important;
 }
 
 math-field:focus-within {
-    border-color: #ff0000 !important;
-    background: #fff;
-    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.1);
+    border-color: #000 !important; /* تغيير للأسود عند التركيز لراحة العين */
+    background: #fff !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
+/* تخصيص شريط السحب (Scrollbar) */
+math-field::-webkit-scrollbar {
+    width: 6px;
+}
+math-field::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+
+/* --- تعديل الزر ليصبح دائرياً وأسود --- */
 .submit-btn {
     width: 100%;
-    padding: 22px;
-    background: #fff;
-    color: #000;
-    border: 3px solid #000;
-    font-weight: 900;
-    font-size: 1.2rem;
+    padding: 18px;
+    background: #000; /* خلفية سوداء */
+    color: #fff; /* خط أبيض */
+    border: none;
+    font-weight: 800;
+    font-size: 1.1rem;
     text-transform: uppercase;
-    border-radius: 12px;
+    border-radius: 50px; /* شكل دائري Pill */
     cursor: pointer;
     transition: 0.3s all ease;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .submit-btn:hover {
-    background: #ff0000;
-    color: #000;
-    border-color: #ff0000;
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(255, 0, 0, 0.3);
+    background: #ff0000; /* يتحول للأحمر عند التمرير */
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2);
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 .ai-loading-status {
-    margin-top: 25px;
+    margin-top: 20px;
     text-align: center;
     color: #ff0000;
     font-weight: bold;
-    font-size: 1rem;
-    letter-spacing: 1px;
+    font-size: 0.95rem;
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.7; }
+    50% { transform: scale(1.03); opacity: 0.8; }
     100% { transform: scale(1); opacity: 1; }
 }

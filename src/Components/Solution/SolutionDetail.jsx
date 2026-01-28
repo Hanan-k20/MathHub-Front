@@ -91,7 +91,7 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
                             </button>
                         </div>
                     ) : (
-                        <p className="viewer-msg">Viewing as visitor</p>
+                        <p className="viewer-msg"></p>
                     )}
 
                     <div className="actions-footer">

@@ -1,118 +1,160 @@
-.solution-detail-container, 
 .detail-modal-overlay {
     display: flex !important;
-    flex-direction: column !important;
+    justify-content: center !important;
     align-items: center !important;
-    width: 100% !important;
-    min-height: calc(100vh - 70px) !important;
-    padding: 20px !important;
-    background-color: #fafafa !important;
+    width: 100vw !important;
+    min-height: 100vh !important;
+    background-color: #ffffff !important;
+    background-image: radial-gradient(#d1d1d1 1px, transparent 1px) !important;
+    background-size: 30px 30px !important; 
+    margin: 0 !important;
+    padding: 40px 20px !important;
     box-sizing: border-box !important;
     position: relative !important;
-    margin-top: 70px !important; 
 }
 
-.solution-card, 
 .detail-card {
     background: #ffffff !important;
     width: 100% !important;
-    max-width: 750px !important;
-    padding: 35px !important;
-    border-radius: 30px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(255, 0, 0, 0.1) !important;
-    height: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
+    max-width: 800px !important;
+    padding: 50px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid #f0f0f0 !important;
+    animation: entrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.solution-card h2, 
+@keyframes entrance {
+    0% { opacity: 0; transform: scale(0.9) translateY(30px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 .detail-title {
     color: #ff0000 !important;
-    font-size: clamp(1.4rem, 4vw, 2.2rem) !important;
+    font-size: clamp(2rem, 5vw, 3rem) !important;
     font-weight: 900 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 40px !important;
     text-align: center !important;
-    width: 100% !important;
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
-    display: block !important;
-    line-height: 1.2 !important;
+    letter-spacing: -1.5px !important;
+    line-height: 1.1 !important;
 }
 
-.entry-content, 
+.info-block {
+    width: 100% !important;
+    margin-bottom: 30px !important;
+}
+
+.section-label {
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    color: #444 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 12px !important;
+    display: block !important;
+}
+
 .math-display {
-    background: #fdfdfd !important;
-    padding: 20px !important;
+    background: #fbfbfb !important;
+    padding: 25px !important;
     border-radius: 15px !important;
-    border: 1px dashed #ddd !important;
-    margin: 15px 0 !important;
+    border: 2px solid #eee !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    word-wrap: break-word !important;
-    overflow-wrap: anywhere !important;
-    white-space: normal !important;
+    transition: 0.3s ease !important;
 }
 
-mjx-container {
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    display: block !important;
-    margin: 10px 0 !important;
-    text-align: center !important;
+.math-display:hover {
+    border-color: #000 !important;
+    background: #fff !important;
 }
 
-.mini-buttons, 
-.detail-actions, 
-.admin-controls {
+.detail-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: 20px !important;
+    background: #fff !important;
+    border-top: 1px solid #eee !important;
+    border-bottom: 1px solid #eee !important;
+    margin-top: 20px !important;
+    font-size: 0.9rem !important;
+    color: #666 !important;
+}
+
+.detail-meta strong {
+    color: #000 !important;
+}
+
+.detail-actions, .admin-controls {
     display: flex !important;
     justify-content: center !important;
+    align-items: center !important;
     flex-wrap: wrap !important;
-    gap: 12px !important;
-    margin-top: 25px !important;
-}
-
-.btn-edit, 
-.btn-delete, 
-.btn-back, 
-.btn-dark {
-    padding: 12px 28px !important;
-    border-radius: 50px !important;
-    font-weight: 700 !important;
-    cursor: pointer !important;
-    transition: 0.3s !important;
-    font-size: 0.95rem !important;
-    border: none !important;
-    text-decoration: none !important;
-    display: inline-block !important;
+    gap: 15px !important;
+    margin-top: 40px !important;
 }
 
 .btn-edit {
     background: #000 !important;
     color: #fff !important;
+    padding: 15px 35px !important;
+    border-radius: 50px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    font-size: 0.9rem !important;
+    border: none !important;
+    transition: 0.3s !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+}
+
+.btn-edit:hover {
+    background: #333 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
 }
 
 .btn-delete {
     background: #fff !important;
     color: #ff0000 !important;
     border: 2px solid #ff0000 !important;
+    padding: 13px 33px !important;
+    border-radius: 50px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    font-size: 0.9rem !important;
+    cursor: pointer !important;
+    transition: 0.3s !important;
 }
 
-.btn-back, .btn-dark {
+.btn-delete:hover {
+    background: #ff0000 !important;
+    color: #fff !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2) !important;
+}
+
+.btn-back {
     background: transparent !important;
     color: #888 !important;
+    font-weight: 700 !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: 0.3s !important;
+    text-decoration: none !important;
+    font-size: 1rem !important;
+}
+
+.btn-back:hover {
+    color: #000 !important;
     text-decoration: underline !important;
 }
 
-.info-block {
-    width: 100% !important;
-    margin-bottom: 20px !important;
-}
-
-.section-label {
-    font-size: 1.2rem !important;
-    font-weight: 800 !important;
-    color: #000 !important;
-    margin-bottom: 8px !important;
-    display: block !important;
+mjx-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 10px 0 !important;
+    max-width: 100% !important;
 }
