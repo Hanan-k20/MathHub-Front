@@ -1,104 +1,118 @@
+.solution-detail-container, 
 .detail-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-height: calc(100vh - 70px) !important;
+    padding: 20px !important;
+    background-color: #fafafa !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    margin-top: 70px !important; 
 }
 
+.solution-card, 
 .detail-card {
-    background: #ffffff;
-    width: 90%;
-    max-width: 650px;
-    padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    border: 1px solid #f0f0f0;
-}
-
-.detail-title {
-    color: #ff0000;
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 30px;
-}
-
-.section-label {
-    font-size: 1.1rem;
-    color: #444;
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-
-.math-display {
-    color: #000 !important; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80px;
     background: #ffffff !important;
+    width: 100% !important;
+    max-width: 750px !important;
+    padding: 35px !important;
+    border-radius: 30px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(255, 0, 0, 0.1) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-.math-display mjx-container {
-    color: #000 !important;
-    font-size: 1.8rem !important; 
+.solution-card h2, 
+.detail-title {
+    color: #ff0000 !important;
+    font-size: clamp(1.4rem, 4vw, 2.2rem) !important;
+    font-weight: 900 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+    width: 100% !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    display: block !important;
+    line-height: 1.2 !important;
 }
 
-.detail-meta {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #666;
-    display: flex;
-    justify-content: space-between;
+.entry-content, 
+.math-display {
+    background: #fdfdfd !important;
+    padding: 20px !important;
+    border-radius: 15px !important;
+    border: 1px dashed #ddd !important;
+    margin: 15px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    word-wrap: break-word !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
 }
 
-.detail-actions {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+mjx-container {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    display: block !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
 }
 
+.mini-buttons, 
+.detail-actions, 
 .admin-controls {
-    display: flex;
-    justify-content: space-between;
+    display: flex !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-top: 25px !important;
+}
+
+.btn-edit, 
+.btn-delete, 
+.btn-back, 
+.btn-dark {
+    padding: 12px 28px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: 0.3s !important;
+    font-size: 0.95rem !important;
+    border: none !important;
+    text-decoration: none !important;
+    display: inline-block !important;
 }
 
 .btn-edit {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
+    background: #000 !important;
+    color: #fff !important;
 }
 
 .btn-delete {
-    background: none;
-    border: none;
-    color: #d33;
-    font-weight: bold;
-    cursor: pointer;
+    background: #fff !important;
+    color: #ff0000 !important;
+    border: 2px solid #ff0000 !important;
 }
 
-.btn-back {
-    width: 100%;
-    padding: 12px;
-    background: #000;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+.btn-back, .btn-dark {
+    background: transparent !important;
+    color: #888 !important;
+    text-decoration: underline !important;
 }
 
-.btn-back:hover {
-    background: #333;
+.info-block {
+    width: 100% !important;
+    margin-bottom: 20px !important;
+}
+
+.section-label {
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    color: #000 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
 }

@@ -58,19 +58,19 @@ function SolutionForm({ updateSolution }) {
         }
     };
 
-    return (
-    <main className="solution-page-wrapper">
-        <div className="form-card">
-            <header className="form-header">
+  return (
+    <main className="sol-page-container">
+        <div className="sol-form-card">
+            <header className="sol-form-header">
                 <h1>{solutionId ? 'Edit Solution' : 'Add Solution'}</h1>
                 <p>Use the math keyboard to write your steps accurately.</p>
             </header>
 
-            <form onSubmit={handleSubmit} className="math-form">
-                <div className="input-section">
+            <form onSubmit={handleSubmit} className="sol-math-form">
+                <div className="sol-input-group">
                     <label htmlFor='content'>Your Mathematical Solution</label>
                     
-                    <div className="math-field-container">
+                    <div className="sol-math-field-wrapper">
                         <math-field
                             onInput={handleMathChange}
                             smart-mode="true"
@@ -80,12 +80,12 @@ function SolutionForm({ updateSolution }) {
                     </div>
                 </div>
 
-                <div className="button-group">
-                    <button type="submit" className="btn-primary">
+                <div className="sol-actions-group">
+                    <button type="submit" className="sol-btn-submit">
                         {solutionId ? 'Update Solution' : 'Post Solution'}
                     </button>
 
-                    <button type="button" className="btn-secondary" onClick={() => navigate(`/problems/${problemId}`)}>
+                    <button type="button" className="sol-btn-cancel" onClick={() => navigate(`/problems/${problemId}`)}>
                         Cancel
                     </button>
                 </div>

@@ -59,7 +59,6 @@ function TermDetail({ findTermToUpdate, deleteTerm }) {
     if (!term) return <div className="detail-modal-overlay"><h1>Loading...</h1></div>
 
     return (
-        <MathJaxContext config={config} version={3}>
             <div className="detail-modal-overlay">
                 <div className="detail-card">
                     <h1 className="detail-title">{term.name}</h1>
@@ -101,7 +100,6 @@ function TermDetail({ findTermToUpdate, deleteTerm }) {
                     </div>
                 </div>
             </div>
-        </MathJaxContext>
     );
 }
 

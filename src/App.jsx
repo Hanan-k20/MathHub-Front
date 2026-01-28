@@ -21,9 +21,20 @@ import TermForm from './Components/Term/TermForm';
 import SolutionForm from './Components/Solution/SolutionForm';
 import SolutionDetail from './Components/Solution/SolutionDetail';
 
+import { MathJaxContext } from "better-react-mathjax";
+
+const config = {
+    loader: { load: ["input/tex", "output/chtml"] },
+    tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"]]
+    }
+};
+
 const App = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+
 
   const [problems, setProblems] = useState([]);
   const [problemToUpdate, setProblemToUpdate] = useState(null);
@@ -131,6 +142,7 @@ const findSolutionToUpdate = (problemId, solutionId) => {
   return (
     <>
       <NavBar />
+      <MathJaxContext config={config}>
       <Routes>
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
         <Route path='/sign-up' element={<SignUpForm />} />
@@ -157,6 +169,8 @@ const findSolutionToUpdate = (problemId, solutionId) => {
         <Route path="/cards" element={<CardList cards={problems} />} />
         <Route path="/cards/:cardId" element={<CardDetailWrapper />} />
       </Routes>
+
+      </MathJaxContext>
     </>
   );
 };

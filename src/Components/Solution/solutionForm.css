@@ -1,114 +1,123 @@
-/* الحاوية الرئيسية لجعل الفورم في منتصف الصفحة */
-.solution-page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4; /* خلفية رمادية فاتحة جداً لإبراز الكارد */
-    padding: 20px;
+/* Container Wrapper */
+.sol-page-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    padding: 120px 20px 60px !important; 
+    background-color: #fafafa !important;
+    box-sizing: border-box !important;
 }
 
-/* الكارد الأبيض الرئيسي */
-.form-card {
-    background: #ffffff;
-    width: 100%;
-    max-width: 750px;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+/* Form Card */
+.sol-form-card {
+    background: #ffffff !important;
+    width: 100% !important;
+    max-width: 750px !important; 
+    padding: 50px !important;
+    border-radius: 35px !important;
+    box-shadow: 0 15px 50px rgba(255, 0, 0, 0.08) !important; 
+    border: 1px solid rgba(255, 0, 0, 0.1) !important;
 }
 
-/* تنسيق العنوان */
-.form-header h1 {
-    font-size: 2.2rem;
-    color: #000;
-    margin-bottom: 5px;
-    font-weight: 800;
+/* Form Header */
+.sol-form-header {
+    margin-bottom: 40px !important;
 }
 
-.form-header p {
-    color: #666;
-    margin-bottom: 30px;
-    font-size: 0.9rem;
+.sol-form-header h1 {
+    color: #ff0000 !important;
+    text-align: center !important;
+    font-size: 2.8rem !important;
+    font-weight: 900 !important;
+    margin-bottom: 10px !important;
 }
 
-/* قسم الإدخال */
-.input-section label {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: #333;
+.sol-form-header p {
+    color: #666 !important;
+    text-align: center !important;
+    font-size: 1.1rem !important;
 }
 
-/* حاوية حقل الرياضيات مع تأثير التوهج الأحمر */
-.math-field-container {
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    padding: 5px;
-    transition: all 0.4s ease;
-    background: #fff;
-    margin-bottom: 25px;
+/* Input Section */
+.sol-input-group label {
+    display: block !important;
+    font-weight: 800 !important;
+    font-size: 1.6rem !important;
+    color: #111 !important;
+    margin-bottom: 15px !important;
+    text-align: left !important;
 }
 
-/* تأثير عند الضغط على حقل الرياضيات (مثل الصورة) */
-.math-field-container:focus-within {
-    border-color: #ff0000;
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); /* توهج أحمر ناعم */
+/* Math-field Customization */
+.sol-math-field-wrapper math-field {
+    display: block !important;
+    width: 100% !important;
+    min-height: 110px !important; 
+    font-size: 2.1rem !important;
+    padding: 20px !important;
+    border: 2px solid #f0f0f0 !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+    margin-bottom: 10px !important;
+    background: white !important;
 }
 
-/* تنسيق MathLive نفسه */
-math-field {
-    width: 100%;
-    font-size: 1.8rem; /* خط كبير وواضح للمعادلات */
-    padding: 15px;
-    outline: none;
-    border: none;
-    background: transparent;
+/* Mathlive Keyboard Icon Color */
+.sol-math-field-wrapper math-field::part(virtual-keyboard-toggle) {
+    color: #ff0000 !important;
 }
 
-/* تنسيق الأزرار */
-.button-group {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
+/* Focus State */
+.sol-math-field-wrapper math-field:focus-within {
+    border-color: #ff0000 !important;
+    outline: none !important;
 }
 
-.btn-primary {
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+/* Actions (Buttons) */
+.sol-actions-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+    margin-top: 40px !important;
 }
 
-.btn-primary:hover {
-    background: #ff0000;
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+/* Main Post Button */
+.sol-btn-submit {
+    display: block !important;
+    width: 280px !important;
+    padding: 18px !important;
+    background: #000 !important;
+    color: #fff !important;
+    border-radius: 60px !important;
+    font-weight: 900 !important;
+    font-size: 1.2rem !important;
+    border: none !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.btn-secondary {
-    background: #e0e0e0;
-    color: #444;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+.sol-btn-submit:hover {
+    background: #ff0000 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2) !important;
 }
 
-.btn-secondary:hover {
-    background: #d0d0d0;
-    color: #000;
+/* Cancel Button */
+.sol-btn-cancel {
+    background: transparent !important;
+    color: #888 !important;
+    border: none !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    transition: 0.2s !important;
 }
 
-/* تخصيص السكرول داخل حقل الرياضيات إذا كانت المعادلة طويلة */
-math-field::part(content) {
-    overflow-x: auto;
-    overflow-y: hidden;
+.sol-btn-cancel:hover {
+    color: #000 !important;
 }

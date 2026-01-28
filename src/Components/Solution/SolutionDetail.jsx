@@ -10,6 +10,11 @@ const mathJaxConfig = {
     tex: {
         inlineMath: [["$", "$"], ["\\(", "\\)"]],
         displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+    },
+    chtml: {
+        displayAlign: 'center',
+        displayIndent: '0',
+        matchFontHeight: true
     }
 };
 
@@ -52,17 +57,15 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
 
     if (!solution) return <div className="solution-detail-container"><p>Loading Solution...</p></div>;
 
-    // التحقق من الملكية عن طريق الـ username كما في الكود الخاص بك
     const isOwner = user && solution.user && user.username === solution.user.username;
 
     return (
-        <MathJaxContext config={mathJaxConfig}>
             <div className="solution-detail-container">
                 <div className="solution-card">
                     <h2>Solution Detail</h2>
-                    
+
                     <div className="entry-content">
-                        <MathJax>{`\\(${solution.content}\\)`}</MathJax>
+                        <MathJax>{"$$" + solution.content + "$$"}</MathJax>
                     </div>
 
                     <div className="entry-footer">
@@ -73,15 +76,15 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
 
                     {isOwner ? (
                         <div className="mini-buttons">
-                            <Link 
-                                to={`/problems/${problemId}/solutions/${solution.id}/update`} 
+                            <Link
+                                to={`/problems/${problemId}/solutions/${solution.id}/update`}
                                 className="btn-edit"
                                 onClick={() => findSolutionToUpdate(problemId, solution.id)}
                             >
                                 Edit
                             </Link>
-                            <button 
-                                onClick={() => handleDeleteSolution(solution.id)} 
+                            <button
+                                onClick={() => handleDeleteSolution(solution.id)}
                                 className="delete-link"
                             >
                                 Delete
@@ -96,7 +99,6 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
                     </div>
                 </div>
             </div>
-        </MathJaxContext>
     );
 }
 
