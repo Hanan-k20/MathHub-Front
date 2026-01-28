@@ -13,7 +13,7 @@ import Landing from './Components/Landing/Landing';
 import CardList from './components/FlashCard/cardList';
 import CardDetail from './components/FlashCard/CardDetail';
 import ProblemList from './Components/Problem/problemList';
-import ProblemForm from './components/problem/problemForm';
+import ProblemForm from './Components/Problem/ProblemForm';
 import ProblemDetail from './Components/Problem/ProblemDetail';
 import TermList from './Components/Term/TermList';
 import TermDetail from './Components/Term/TermDetail';
@@ -24,17 +24,16 @@ import SolutionDetail from './Components/Solution/SolutionDetail';
 import { MathJaxContext } from "better-react-mathjax";
 
 const config = {
-    loader: { load: ["input/tex", "output/chtml"] },
-    tex: {
-        inlineMath: [["$", "$"], ["\\(", "\\)"]],
-        displayMath: [["$$", "$$"]]
-    }
+  loader: { load: ["input/tex", "output/chtml"] },
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]],
+    displayMath: [["$$", "$$"]]
+  }
 };
 
 const App = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-
 
   const [problems, setProblems] = useState([]);
   const [problemToUpdate, setProblemToUpdate] = useState(null);
@@ -63,51 +62,69 @@ const App = () => {
     navigate('/problems');
   };
 
-  const updateOneProblem = (updatedProblem) => {
-    const newList = problems.map((p) => (p.id === updatedProblem.id ? updatedProblem : p));
-    setProblems(newList);
-    setProblemToUpdate(null);
-    navigate(`/problems/${updatedProblem.id}`);
+  const updateOneProblem = async (id, formData) => {
+    try {
+      const updatedProblem = await problemService.update(id, formData);
+      
+      if (!updatedProblem || !updatedProblem.id && !updatedProblem._id) {
+        throw new Error("Invalid data received from server");
+      }
+
+      const newList = problems.map((p) => {
+        if (!p) return p;
+        const isMatch = String(p.id) === String(id) || String(p._id) === String(id);
+        return isMatch ? updatedProblem : p;
+      });
+
+      setProblems(newList);
+      setProblemToUpdate(null);
+      navigate(`/problems/${id}`);
+    } catch (error) {
+      console.error("Update failed:", error);
+      // لا يتم الانتقال أو تحديث الحالة في حال حدوث خطأ شبكة أو CORS
+    }
   };
 
   // --- Solutions ---
-const addSolution = (newSolution, problemIdFromForm) => {
-  const updatedProblems = problems.map((p) => {
-    if (p.id === Number(problemIdFromForm)) {
-      const currentSols = p.solutions || p.Solutions || [];
-      return {
-        ...p,
-        solutions: [...currentSols, newSolution],
-        Solutions: [...currentSols, newSolution]
-      };
-    }
-    return p;
-  });
-  setProblems(updatedProblems);
-  navigate(`/problems/${problemIdFromForm}`);
-};
+  const addSolution = (newSolution, problemIdFromForm) => {
+    const updatedProblems = problems.map((p) => {
+      if (p && (p.id === Number(problemIdFromForm) || p._id === problemIdFromForm)) {
+        const currentSols = p.solutions || p.Solutions || [];
+        return {
+          ...p,
+          solutions: [...currentSols, newSolution],
+          Solutions: [...currentSols, newSolution]
+        };
+      }
+      return p;
+    });
+    setProblems(updatedProblems);
+    navigate(`/problems/${problemIdFromForm}`);
+  };
 
- const updateSolutionInState = (updatedSol, problemId) => {
-  const updatedProblems = problems.map((p) => {
-    if (p.id === Number(problemId)) {
-      const updatedSols = (p.solutions || []).map((s) => 
-        s.id === updatedSol.id ? updatedSol : s
-      );
-      return { ...p, solutions: updatedSols, Solutions: updatedSols };
-    }
-    return p;
-  });
+  const updateSolutionInState = (updatedSol, problemId) => {
+    const updatedProblems = problems.map((p) => {
+      if (p && (p.id === Number(problemId) || p._id === problemId)) {
+        const updatedSols = (p.solutions || []).map((s) =>
+          s.id === updatedSol.id ? updatedSol : s
+        );
+        return { ...p, solutions: updatedSols, Solutions: updatedSols };
+      }
+      return p;
+    });
 
-  setProblems(updatedProblems);
-  setSolutionToUpdate(null);
-  navigate(`/problems/${problemId}`);
-};
-const findSolutionToUpdate = (problemId, solutionId) => {
-  const problem = problems.find(p => p.id === Number(problemId));
-  const allSols = problem?.solutions || problem?.Solutions || [];
-  const solution = allSols.find(s => s.id === Number(solutionId));
-  setSolutionToUpdate(solution);
-};
+    setProblems(updatedProblems);
+    setSolutionToUpdate(null);
+    navigate(`/problems/${problemId}`);
+  };
+
+  const findSolutionToUpdate = (problemId, solutionId) => {
+    const problem = problems.find(p => p && (p.id === Number(problemId) || p._id === problemId));
+    const allSols = problem?.solutions || problem?.Solutions || [];
+    const solution = allSols.find(s => s && s.id === Number(solutionId));
+    setSolutionToUpdate(solution);
+  };
+
   // --- Terms ---
   const addTerm = (newTerm) => {
     setTerms([...terms, newTerm]);
@@ -115,25 +132,27 @@ const findSolutionToUpdate = (problemId, solutionId) => {
   };
 
   const findTermToUpdate = (id) => {
-    const found = terms.find(oneTerm => oneTerm.id === Number(id));
+    const found = terms.find(oneTerm => oneTerm && (oneTerm.id === Number(id) || oneTerm._id === id));
     setTermToUpdate(found);
   };
 
   const updateOneTerm = (updatedTerm) => {
-    const updatedList = terms.map(oneTerm => oneTerm.id === updatedTerm.id ? updatedTerm : oneTerm);
+    const updatedList = terms.map(oneTerm => 
+      (oneTerm && (oneTerm.id === updatedTerm.id || oneTerm._id === updatedTerm._id)) ? updatedTerm : oneTerm
+    );
     setTerms(updatedList);
     setTermToUpdate(null);
-    navigate(`/terms/${updatedTerm.id}`);
+    navigate(`/terms/${updatedTerm.id || updatedTerm._id}`);
   };
 
   const deleteTerm = (id) => {
-    setTerms(terms.filter(oneTerm => oneTerm.id !== Number(id)));
+    setTerms(terms.filter(oneTerm => oneTerm && oneTerm.id !== Number(id) && oneTerm._id !== id));
   };
 
   // --- Card Wrapper ---
   const CardDetailWrapper = () => {
     const { cardId } = useParams();
-    const problem = problems.find((oneproblem) => oneproblem.id === Number(cardId));
+    const problem = problems.find((oneproblem) => oneproblem && (oneproblem.id === Number(cardId) || oneproblem._id === cardId));
     if (!problem && problems.length > 0) return <h2>Problem not found!</h2>;
     if (!problem) return <h2>Loading Card Data...</h2>;
     return <CardDetail problem={problem} />;
@@ -143,33 +162,44 @@ const findSolutionToUpdate = (problemId, solutionId) => {
     <>
       <NavBar />
       <MathJaxContext config={config}>
-      <Routes>
-        <Route path="/" element={user ? <Dashboard /> : <Landing />} />
-        <Route path='/sign-up' element={<SignUpForm />} />
-        <Route path='/sign-in' element={<SignInForm />} />
+        <Routes>
+          <Route path="/" element={user ? <Dashboard /> : <Landing />} />
+          <Route path='/sign-up' element={<SignUpForm />} />
+          <Route path='/sign-in' element={<SignInForm />} />
 
-        {/* Problem Routes */}
-        <Route path="/problems" element={<ProblemList problems={problems} user={user}/>} />
-        <Route path="/problems/new" element={<ProblemForm updateProblem={addProblem} />} />
-        <Route path="/problems/:problemId" element={<ProblemDetail findProblemToUpdate={setProblemToUpdate} user={user} />} />
-        <Route path="/problems/:problemId/update" element={<ProblemForm problemToUpdate={problemToUpdate} updateOneProblem={updateOneProblem} />} />
+          {/* Problem Routes */}
+          <Route path="/problems" element={<ProblemList problems={problems} user={user} />} />
+          <Route path="/problems/new" element={<ProblemForm updateProblem={addProblem} />} />
+          <Route path="/problems/:problemId" element={
+            <ProblemDetail 
+              findProblemToUpdate={setProblemToUpdate} 
+              user={user} 
+              deleteProblem={(id) => setProblems(problems.filter(p => p && p.id !== id && p._id !== id))} 
+            /> 
+          } />
+          <Route path="/problems/:problemId/update" element={
+            <ProblemForm 
+              problemToUpdate={problemToUpdate} 
+              updateOneProblem={updateOneProblem} 
+              updateProblem={addProblem}
+            /> 
+          } />
 
-        {/* Solution Routes */}
-        <Route path="/problems/:problemId/solutions/new" element={<SolutionForm updateSolution={addSolution} />} />
-        <Route path="/problems/:problemId/solutions/:solutionId" element={<SolutionDetail user={user}  findSolutionToUpdate={findSolutionToUpdate} />} />
-        <Route path="/problems/:problemId/solutions/:solutionId/update" element={<SolutionForm updateSolution={updateSolutionInState} solutionToUpdate={solutionToUpdate} />} />
+          {/* Solution Routes */}
+          <Route path="/problems/:problemId/solutions/new" element={<SolutionForm updateSolution={addSolution} />} />
+          <Route path="/problems/:problemId/solutions/:solutionId" element={<SolutionDetail user={user} findSolutionToUpdate={findSolutionToUpdate} />} />
+          <Route path="/problems/:problemId/solutions/:solutionId/update" element={<SolutionForm updateSolution={updateSolutionInState} solutionToUpdate={solutionToUpdate} />} />
 
-        {/* Terms Routes */}
-        <Route path="/terms" element={<TermList terms={terms} />} />
-        <Route path="/terms/new" element={<TermForm addTerm={addTerm} />} />
-        <Route path="/terms/:id/update" element={<TermForm termToUpdate={termToUpdate} updateOneTerm={updateOneTerm} />} />
-        <Route path="/terms/:id" element={<TermDetail findTermToUpdate={findTermToUpdate} deleteTerm={deleteTerm} />} />
+          {/* Terms Routes */}
+          <Route path="/terms" element={<TermList terms={terms} />} />
+          <Route path="/terms/new" element={<TermForm addTerm={addTerm} />} />
+          <Route path="/terms/:id/update" element={<TermForm termToUpdate={termToUpdate} updateOneTerm={updateOneTerm} />} />
+          <Route path="/terms/:id" element={<TermDetail findTermToUpdate={findTermToUpdate} deleteTerm={deleteTerm} />} />
 
-        {/* Cards Routes */}
-        <Route path="/cards" element={<CardList cards={problems} />} />
-        <Route path="/cards/:cardId" element={<CardDetailWrapper />} />
-      </Routes>
-
+          {/* Cards Routes */}
+          <Route path="/cards" element={<CardList cards={problems} />} />
+          <Route path="/cards/:cardId" element={<CardDetailWrapper />} />
+        </Routes>
       </MathJaxContext>
     </>
   );
