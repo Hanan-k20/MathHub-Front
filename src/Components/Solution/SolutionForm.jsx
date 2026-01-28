@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as solutionService from '../../services/solutionService'
 import 'mathlive';
+import './solutionForm.css'
 import Swal from 'sweetalert2';
 
 function SolutionForm({ updateSolution }) {
@@ -58,42 +59,40 @@ function SolutionForm({ updateSolution }) {
     };
 
     return (
-        <main>
-            <h1>{solutionId ? 'Edit Solution' : 'Add Solution'}</h1>
+    <main className="solution-page-wrapper">
+        <div className="form-card">
+            <header className="form-header">
+                <h1>{solutionId ? 'Edit Solution' : 'Add Solution'}</h1>
+                <p>Use the math keyboard to write your steps accurately.</p>
+            </header>
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='content'>Your Solution:</label>
-
-
-                    {/* (MathLive) */}
-                    <div style={{ border: '1px solid #ccc', borderRadius: '4px', margin: '5px 0' }}>
+            <form onSubmit={handleSubmit} className="math-form">
+                <div className="input-section">
+                    <label htmlFor='content'>Your Mathematical Solution</label>
+                    
+                    <div className="math-field-container">
                         <math-field
                             onInput={handleMathChange}
                             smart-mode="true"
                             virtual-keyboard-mode="onfocus"
-                            style={{ width: '100%', padding: '10px' }}
                             value={content}
-                        >
-
-                        </math-field>
+                        ></math-field>
                     </div>
-
-
                 </div>
 
-                <div>
-                    <button type="submit">
-                        {solutionId ? 'Update Solution' : 'Create Solution'}
+                <div className="button-group">
+                    <button type="submit" className="btn-primary">
+                        {solutionId ? 'Update Solution' : 'Post Solution'}
                     </button>
 
-                    <button type="button" onClick={() => navigate(`/problems/${problemId}`)}>
+                    <button type="button" className="btn-secondary" onClick={() => navigate(`/problems/${problemId}`)}>
                         Cancel
                     </button>
                 </div>
             </form>
-        </main>
-    )
+        </div>
+    </main>
+)
 }
 
 export default SolutionForm;
