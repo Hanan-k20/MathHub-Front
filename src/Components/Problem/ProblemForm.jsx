@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import * as problemService from '../../services/problemService';
 import Swal from 'sweetalert2';
+import'./problemForm.css'
 import 'mathlive';
 
 
@@ -53,48 +54,46 @@ function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
     }
   };
 
-  return (
-    <div>
-      <h1>{problemToUpdate ? 'Edit Problem' : 'New Problem'}</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Question topic </label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={formState.title}
-          onChange={handleChange}
-        />
+ return (
+        <div className="form-container-full">
+            <div className="problem-form-card">
+                <h1>{problemToUpdate ? 'Edit Task' : 'New Question'}</h1>
+                
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="title">Topic Title</label>
+                        <input
+                            type="text"
+                            name="title" 
+                            id="title"
+                            placeholder="What are we solving today?"
+                            value={formState.title}
+                            onChange={handleChange}
+                        />
+                    </div>
 
+                    <div className="form-group">
+                        <label>Mathematical Notation</label>
+                        <math-field
+                            onInput={evt => setFormState({ ...formState, equation_LaTeX: evt.target.value })}
+                        >
+                            {formState.equation_LaTeX}
+                        </math-field>
+                    </div>
 
-        <label htmlFor="equation_LaTeX">Add the question text:</label>
-        <div style={{ border: '1px solid #ccc', margin: '10px 0' }}>
-          <math-field
-            value={formState.equation_LaTeX} 
-            onInput={evt => setFormState({ ...formState, equation_LaTeX: evt.target.value })}
-            style={{ width: '100%', padding: '10px' }}
-          >
-          </math-field>
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? '🤖 AI Processing...' : 'Submit Equation'}
+                    </button>
+
+                    {loading && (
+                        <div className="ai-loading-status">
+                            ✨ AI is formulating the perfect solution...
+                        </div>
+                    )}
+                </form>
+            </div>
         </div>
-
-        <button type="submit" disabled={loading}>
-                {loading ? (
-                    <span>
-                        ⏳ Solving via AI... Please wait
-                    </span>
-                ) : (
-                    'Send Question'
-                )}
-            </button>
-
-            {loading && (
-                <div style={{ marginTop: '10px', color: '#007bff', fontWeight: 'bold' }}>
-                    🤖 AI is thinking about the best solution...
-                </div>
-            )}
-      </form>
-    </div>
-  );
+    );
 }
 
 export default ProblemForm;
