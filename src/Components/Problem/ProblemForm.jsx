@@ -1,99 +1,135 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as problemService from '../../services/problemService';
 import Swal from 'sweetalert2';
-import'./problemForm.css'
+import './problemForm.css';
 import 'mathlive';
 
-
 function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
-
+  const { problemId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [formState, setFormState] = useState(
-    problemToUpdate ? problemToUpdate : { title: "", equation_LaTeX: '' }
-  );
+  const mathRef = useRef(null);
 
-  
+  const [formState, setFormState] = useState({
+    title: "",
+    equation_LaTeX: ""
+  });
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (problemId && !problemToUpdate) {
+        try {
+          const data = await problemService.show(problemId);
+          setFormState(data);
+          if (mathRef.current) {
+            mathRef.current.setValue(data.equation_LaTeX || '');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (problemToUpdate) {
+        setFormState(problemToUpdate);
+        if (mathRef.current) {
+          mathRef.current.setValue(problemToUpdate.equation_LaTeX || '');
+        }
+      }
+    };
+    loadData();
+  }, [problemId, problemToUpdate]);
+
+  useEffect(() => {
+    const mf = mathRef.current;
+    if (mf) {
+      mf.smartMode = true;
+      const syncHeight = () => {
+        mf.style.height = 'auto';
+        mf.style.height = (mf.scrollHeight > 100 ? Math.min(mf.scrollHeight, 300) : 100) + 'px';
+      };
+
+      mf.addEventListener('input', (evt) => {
+        setFormState(prev => ({ ...prev, equation_LaTeX: evt.target.value }));
+        syncHeight();
+      });
+
+      mf.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          mf.executeCommand(['insert', '\\\\']);
+          setTimeout(syncHeight, 10);
+        }
+      });
+      setTimeout(syncHeight, 100);
+    }
+  }, []);
+
   const handleChange = (evt) => {
     const { name, value } = evt.target;
-    const newFormState = { ...formState, [name]: value };
-    setFormState(newFormState);
+    setFormState(prev => ({ ...prev, [name]: value }));
   };
 
- const handleSubmit = async (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const payload = { ...formState };
-
-    if (!payload.equation_LaTeX) {
-      Swal.fire('Error', 'Equation is required', 'error');
+    if (!formState.equation_LaTeX || !formState.title) {
+      Swal.fire('Error', 'Please fill in all fields', 'error');
       return;
     }
 
     setLoading(true);
-
     try {
-      if (problemToUpdate) {
-        const updatedProblem = await problemService.update(problemToUpdate.id, payload);
-        if (updatedProblem) {
-          updateOneProblem(updatedProblem);
-          navigate(`/problems/${updatedProblem.id}`);
-        }
+      if (problemId) {
+        const updatedData = {
+          title: formState.title,
+          equation_LaTeX: formState.equation_LaTeX
+        };
+        await updateOneProblem(problemId, updatedData);
+        Swal.fire('Updated!', 'Your changes have been saved.', 'success');
       } else {
-        const newProblemCreated = await problemService.create(payload);
-        if (newProblemCreated) {
-          updateProblem(newProblemCreated);
-          navigate(`/problems/${newProblemCreated.id}`);
-        }
+        await updateProblem(formState);
+        Swal.fire('Saved!', 'New problem added.', 'success');
       }
+      navigate('/problems');
     } catch (error) {
-      console.error("Submission error:", error);
-      Swal.fire('Error', 'Something went wrong while communicating with AI', 'error');
+      Swal.fire('Error', 'Action failed. Please check connection.', 'error');
     } finally {
       setLoading(false);
     }
   };
 
- return (
-        <div className="form-container-full">
-            <div className="problem-form-card">
-                <h1>{problemToUpdate ? 'Edit Task' : 'New Question'}</h1>
-                
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="title">Topic Title</label>
-                        <input
-                            type="text"
-                            name="title" 
-                            id="title"
-                            placeholder="What are we solving today?"
-                            value={formState.title}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Mathematical Notation</label>
-                        <math-field
-                            onInput={evt => setFormState({ ...formState, equation_LaTeX: evt.target.value })}
-                        >
-                            {formState.equation_LaTeX}
-                        </math-field>
-                    </div>
-
-                    <button type="submit" className="submit-btn" disabled={loading}>
-                        {loading ? '🤖 AI Processing...' : 'Submit Equation'}
-                    </button>
-
-                    {loading && (
-                        <div className="ai-loading-status">
-                            ✨ AI is formulating the perfect solution...
-                        </div>
-                    )}
-                </form>
+  return (
+    <div className="form-container-full">
+      <div className="problem-form-card">
+        <h1>{problemId ? 'Edit Task' : 'New Question'}</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Topic Title</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={formState.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Mathematical Notation</label>
+            <div className="math-input-wrapper">
+              <math-field
+                ref={mathRef}
+                smart-mode="true"
+                virtual-keyboard-mode="onfocus"
+                multiline="true"
+              ></math-field>
             </div>
-        </div>
-    );
+          </div>
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? 'Processing...' : (problemId ? 'Update Changes' : 'Submit Question')}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default ProblemForm;

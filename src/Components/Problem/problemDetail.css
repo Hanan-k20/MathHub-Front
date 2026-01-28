@@ -4,7 +4,7 @@
     width: 100vw;
     display: flex;
     justify-content: center;
-    padding-top: 120px; 
+    padding-top: 120px;
     padding-bottom: 80px;
     box-sizing: border-box;
     overflow-x: hidden;
@@ -17,7 +17,6 @@
     display: flex;
     flex-direction: column;
 }
-
 
 .category-tag {
     color: #ff0000;
@@ -37,59 +36,30 @@
 .equation-section {
     width: 100%;
     border: 3px solid #000;
-    padding: 40px 20px; 
+    padding: 40px 20px;
     margin-bottom: 50px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    position: relative; 
     box-sizing: border-box;
 }
 
-.equation-display { 
-    font-size: 2.2rem; 
-    font-weight: 500; 
-}
-
-.meta-info {
-    position: absolute;
-    bottom: -9px; 
-    right: 25px;
-    font-size: 10px;
-    color: #888;
-    background: #ffffff; 
-    padding: 0 12px; 
-    font-family: monospace;
-    line-height: 1.5;
-    font-weight: bold;
+.equation-display {
+    font-size: 2.2rem;
+    font-weight: 500;
 }
 
 .solution-entry {
     width: 100%;
     border: 2px solid #000;
-    padding: 45px 35px;
+    padding: 35px;
     margin-bottom: 30px;
     box-sizing: border-box;
     background: #fff;
-    box-shadow: 6px 6px 0px rgba(0,0,0,0.03); 
-
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    overflow: hidden;
 }
 
 .ai-entry {
-    border: 2px solid #000;
-    border-left: 12px solid #ff0000; 
-}
-
-.solution-entry mjx-container {
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden;
-    display: block !important;
-    margin: 10px 0 !important;
+    border-left: 12px solid #ff0000;
 }
 
 .entry-label {
@@ -101,25 +71,16 @@
 }
 
 .entry-content {
-    font-size: 1.2rem; 
+    font-size: 1.15rem;
     line-height: 1.8;
-}
-
-.user-solutions-header {
-    margin: 40px 0 20px;
-    font-weight: 900;
-    border-bottom: 3px solid #000;
-    padding-bottom: 10px;
-}
-
-.no-solutions-placeholder {
-    width: 100%;
-    padding: 40px 0;
-    border-radius: 10px;
+    direction: ltr;
     text-align: left;
-    color: #999;
-    font-style: italic;
-    font-size: 1.1rem;
+}
+
+.entry-content mjx-container {
+    display: inline-block !important;
+    margin: 0 5px !important;
+    vertical-align: middle;
 }
 
 .problem-actions {
@@ -136,13 +97,10 @@
     cursor: pointer;
     font-size: 14px;
     text-transform: uppercase;
-    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.btn-primary { background: #ff0000; color: #fff; border-color: #ff0000; }
-.btn-dark { background: #000; color: #fff; }
-
-.btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 8px 8px 0px #000;
-}
+.btn-primary { background: #ff0000; color: #fff; }
+.btn-danger { color: #ff0000; }
+.btn-outline { color: #000; }

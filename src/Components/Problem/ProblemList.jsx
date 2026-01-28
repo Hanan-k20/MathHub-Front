@@ -1,16 +1,23 @@
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import ProblemDetail from './ProblemDetail';
-import './problemList.css'
+import './problemList.css';
 
-function ProblemList({ problems, user, deleteProblem, findProblemToUpdate }) {  
-      const navigate = useNavigate();
+function ProblemList({ problems, user, deleteProblem, findProblemToUpdate }) {   
+    const navigate = useNavigate();
     const [selectedId, setSelectedId] = useState(null);
 
+    useEffect(() => {
+        if (selectedId && !problems.find(p => p.id === selectedId)) {
+            setSelectedId(null);
+        }
+    }, [problems, selectedId]);
+
     if (!problems) {
-        return <h1>Loading....</h1>
+        return <div className="loading-state"><h1>Loading....</h1></div>;
     }
-  return (
+
+    return (
         <div className="page-layout"> 
             <div className="problems-container">
                 <div className="problems-header">
@@ -26,13 +33,13 @@ function ProblemList({ problems, user, deleteProblem, findProblemToUpdate }) {
                     <div className="problems-grid">
                         {problems.map((oneProblem) => (
                             <div 
-                                key={oneProblem.id} 
-                                className={`problem-card ${selectedId === oneProblem.id ? 'active' : ''}`} 
-                                onClick={() => setSelectedId(oneProblem.id)} 
+                                key={oneProblem?.id || Math.random()} 
+                                className={`problem-card ${selectedId === oneProblem?.id ? 'active' : ''}`} 
+                                onClick={() => setSelectedId(oneProblem?.id)} 
                             >
                                 <div className="problem-info">
-                                    <strong>{oneProblem.title}</strong>
-                                    <span>By: {oneProblem.user?.username || 'Unknown'}</span>
+                                    <strong>{oneProblem?.title || 'Untitled'}</strong>
+                                    <span>By: {oneProblem?.user?.username || 'Unknown'}</span>
                                 </div>
                                 <div className="problem-arrow">→</div>
                             </div>
