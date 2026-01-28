@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import * as solutionService from '../../services/solutionService';
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import Swal from 'sweetalert2';
+import "./solutionDetail.css"
 
 const mathJaxConfig = {
     loader: { load: ["input/tex", "output/chtml"] },
@@ -23,7 +24,7 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
                 const data = await solutionService.show(sId);
                 setSolution(data);
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching solution:", error);
             }
         };
         if (solutionId) getOneSolution(solutionId);
@@ -34,7 +35,8 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
             title: 'Delete your solution?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Delete'
+            confirmButtonText: 'Delete',
+            confirmButtonColor: '#ff0000',
         });
 
         if (result.isConfirmed) {
@@ -48,37 +50,51 @@ function SolutionDetail({ user, findSolutionToUpdate }) {
         }
     };
 
-    if (!solution) return <p>Loading Solution...</p>;
+    if (!solution) return <div className="solution-detail-container"><p>Loading Solution...</p></div>;
+
+    // التحقق من الملكية عن طريق الـ username كما في الكود الخاص بك
+    const isOwner = user && solution.user && user.username === solution.user.username;
 
     return (
         <MathJaxContext config={mathJaxConfig}>
-            <div className="solution-detail-container" style={{ padding: "20px" }}>
-                <h2>Solution Detail</h2>
-                <div className="entry-content">
-                    <MathJax>{`\\(${solution.content}\\)`}</MathJax>
-                </div>
-                <hr />
-                <p><strong>By:</strong> {solution.user?.username}</p>
-
-                {user && String(user.sub) === String(solution.user_id) && (
-                    <div className="mini-buttons">
-                        <Link
-                            className="btn-edit"
-                            to={`/problems/${problemId}/solutions/${solution.id}/update`}
-                            onClick={() => findSolutionToUpdate(problemId, solution.id)}
-                        >
-                            Edit
-                        </Link>
-                        <button
-                            onClick={() => handleDeleteSolution(solution.id)}
-                            className="delete-link"
-                        >
-                            Delete
-                        </button>
+            <div className="solution-detail-container">
+                <div className="solution-card">
+                    <h2>Solution Detail</h2>
+                    
+                    <div className="entry-content">
+                        <MathJax>{`\\(${solution.content}\\)`}</MathJax>
                     </div>
-                )}
-                <br />
-                <button onClick={() => navigate(-1)} className="btn-dark">Back</button>
+
+                    <div className="entry-footer">
+                        <p><strong>By:</strong> {solution.user?.username || "Unknown"}</p>
+                    </div>
+
+                    <hr />
+
+                    {isOwner ? (
+                        <div className="mini-buttons">
+                            <Link 
+                                to={`/problems/${problemId}/solutions/${solution.id}/update`} 
+                                className="btn-edit"
+                                onClick={() => findSolutionToUpdate(problemId, solution.id)}
+                            >
+                                Edit
+                            </Link>
+                            <button 
+                                onClick={() => handleDeleteSolution(solution.id)} 
+                                className="delete-link"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    ) : (
+                        <p className="viewer-msg">Viewing as visitor</p>
+                    )}
+
+                    <div className="actions-footer">
+                        <button onClick={() => navigate(-1)} className="btn-dark">Back</button>
+                    </div>
+                </div>
             </div>
         </MathJaxContext>
     );

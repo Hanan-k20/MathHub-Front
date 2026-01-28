@@ -1,0 +1,123 @@
+/* الحاوية الكبرى */
+.solution-detail-container {
+    display: flex;
+    justify-content: center; /* سنتر أفقي */
+    align-items: center;     /* سنتر عمودي */
+    width: 100%;
+    min-height: 100vh;       /* يأخذ كامل طول الشاشة */
+    background-color: #ffffff;
+    background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
+    background-size: 30px 30px;
+    padding: 20px;
+    box-sizing: border-box;
+    padding-top: 100px; 
+}
+
+/* كرت الحل */
+.solution-card {
+    background: #fff;
+    width: 100%;
+    max-width: 800px;
+    padding: 60px;
+    border-radius: 28px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.15); 
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    animation: entrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    margin-top: 300px;
+    margin-left: 1100px;
+}
+
+/* منطقة المعادلة */
+.entry-content {
+    background: #fbfbfb;
+    padding: 50px;
+    border-radius: 20px;
+    border: 2px solid #eee;
+    margin-bottom: 40px;
+    font-size: 1.8rem;
+    color: #111;
+    line-height: 1.5;
+    /* لضمان أن النص الطويل لا يخرج عن الإطار */
+    overflow-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* اسم الكاتب */
+.solution-card p {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-bottom: 30px;
+    font-size: 0.85rem;
+}
+
+.solution-card p strong {
+    color: #ff0000; /* الأحمر القوي الخاص بهوية MathHub */
+}
+
+/* الأزرار */
+.mini-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.btn-edit, .delete-link, .btn-dark {
+    padding: 18px 35px;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    border: 3px solid transparent;
+}
+
+.btn-edit {
+    background: #fff;
+    color: #000;
+    border-color: #000;
+}
+
+.btn-edit:hover {
+    background: #000;
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+.delete-link {
+    background: #fff;
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.delete-link:hover {
+    background: #ff0000;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 0, 0, 0.2);
+}
+
+.btn-dark {
+    background: #000;
+    color: #fff;
+    width: auto;
+    min-width: 150px;
+}
+
+.btn-dark:hover {
+    background: #333;
+    transform: translateY(-5px);
+}
+
+@keyframes entrance {
+    0% { opacity: 0; transform: scale(0.9) translateY(50px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}

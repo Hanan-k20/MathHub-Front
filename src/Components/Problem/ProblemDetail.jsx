@@ -134,7 +134,6 @@ function ProblemDetail({ findProblemToUpdate, deleteProblem, user, problemId: pr
                                         </button>
                                     </div>
                                 ) : (
-                                    /* إذا كان مستخدم مسجل ولكن ليس صاحب السؤال */
                                     <Link to={`/problems/${problemId}/solutions/new`} className="btn btn-primary">
                                         💡 ADD YOUR SOLUTION
                                     </Link>
