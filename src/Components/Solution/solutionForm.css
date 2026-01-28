@@ -1,0 +1,114 @@
+/* الحاوية الرئيسية لجعل الفورم في منتصف الصفحة */
+.solution-page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4; /* خلفية رمادية فاتحة جداً لإبراز الكارد */
+    padding: 20px;
+}
+
+/* الكارد الأبيض الرئيسي */
+.form-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 750px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* تنسيق العنوان */
+.form-header h1 {
+    font-size: 2.2rem;
+    color: #000;
+    margin-bottom: 5px;
+    font-weight: 800;
+}
+
+.form-header p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+/* قسم الإدخال */
+.input-section label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* حاوية حقل الرياضيات مع تأثير التوهج الأحمر */
+.math-field-container {
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 5px;
+    transition: all 0.4s ease;
+    background: #fff;
+    margin-bottom: 25px;
+}
+
+/* تأثير عند الضغط على حقل الرياضيات (مثل الصورة) */
+.math-field-container:focus-within {
+    border-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); /* توهج أحمر ناعم */
+}
+
+/* تنسيق MathLive نفسه */
+math-field {
+    width: 100%;
+    font-size: 1.8rem; /* خط كبير وواضح للمعادلات */
+    padding: 15px;
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+/* تنسيق الأزرار */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background: #ff0000;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #444;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #d0d0d0;
+    color: #000;
+}
+
+/* تخصيص السكرول داخل حقل الرياضيات إذا كانت المعادلة طويلة */
+math-field::part(content) {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
