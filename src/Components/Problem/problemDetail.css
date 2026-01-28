@@ -1,4 +1,3 @@
-/* 1. الحاوية الكبرى - التمركز المعتمد اللي ضابط عندك */
 .problem-page-wrapper {
     background-color: #ffffff;
     min-height: 100vh;
@@ -11,17 +10,15 @@
     overflow-x: hidden;
 }
 
-/* 2. الحاوية الداخلية */
 .problem-container {
     width: 90%;
-    max-width: 800px; /* العرض المثالي للأناقة */
+    max-width: 800px;
     margin: 0 auto !important;
     display: flex;
     flex-direction: column;
 }
 
 
-/* 3. العنوان العلوي (أحمر) */
 .category-tag {
     color: #ff0000;
     font-size: 11px;
@@ -37,11 +34,10 @@
     margin: 0 0 30px 0;
 }
 
-/* 4. مربع المعادلة - صغرنا حجمه شوي ليتناسب مع الحلول */
 .equation-section {
     width: 100%;
     border: 3px solid #000;
-    padding: 40px 20px; /* تقليل الحشوة لتصغير المربع */
+    padding: 40px 20px; 
     margin-bottom: 50px;
     display: flex;
     justify-content: center; 
@@ -55,34 +51,45 @@
     font-weight: 500; 
 }
 
-/* 5. تاريخ الإنشاء - يغطي الخط تماماً (مدمج بالحد) */
 .meta-info {
     position: absolute;
-    bottom: -9px; /* وضعه على الخط بالضبط */
+    bottom: -9px; 
     right: 25px;
     font-size: 10px;
     color: #888;
-    background: #ffffff; /* اللون الأبيض ليخفي الخط الأسود تحته */
-    padding: 0 12px; /* مسافة جانبية كافية لمسح الخط */
+    background: #ffffff; 
+    padding: 0 12px; 
     font-family: monospace;
     line-height: 1.5;
     font-weight: bold;
 }
 
-/* 6. بطاقات الحلول - كبرناها عشان تصير أوضح */
 .solution-entry {
     width: 100%;
     border: 2px solid #000;
-    padding: 45px 35px; /* تكبير الحشوة الداخلية للحل */
+    padding: 45px 35px;
     margin-bottom: 30px;
     box-sizing: border-box;
     background: #fff;
-    box-shadow: 6px 6px 0px rgba(0,0,0,0.03); /* ظل ناعم للبطاقة */
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.03); 
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    overflow: hidden;
 }
 
 .ai-entry {
     border: 2px solid #000;
-    border-left: 12px solid #ff0000; /* خط أحمر عريض لتمييز البوت */
+    border-left: 12px solid #ff0000; 
+}
+
+.solution-entry mjx-container {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    display: block !important;
+    margin: 10px 0 !important;
 }
 
 .entry-label {
@@ -94,11 +101,10 @@
 }
 
 .entry-content {
-    font-size: 1.2rem; /* تكبير خط المحتوى لسهولة القراءة */
+    font-size: 1.2rem; 
     line-height: 1.8;
 }
 
-/* 7. منطقة حلول المجتمع (قبل الأزرار) - تنسيق البطاقة الفارغة */
 .user-solutions-header {
     margin: 40px 0 20px;
     font-weight: 900;
@@ -106,7 +112,6 @@
     padding-bottom: 10px;
 }
 
-/* تنسيق الجملة اللي تحت السليوشن (No community solutions) */
 .no-solutions-placeholder {
     width: 100%;
     padding: 40px 0;
@@ -117,7 +122,6 @@
     font-size: 1.1rem;
 }
 
-/* 8. الأزرار تحت السليوشن */
 .problem-actions {
     display: flex;
     justify-content: center;

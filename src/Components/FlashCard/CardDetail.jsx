@@ -31,15 +31,19 @@ function CardDetail({ problem, onClose }) {
             </div>
 
             <div className="card-face card-back">
-              <button className="close-button" onClick={onClose}>✕</button>
-              <span className="card-label" >Solution</span>
-              <div className="content-group">
-                <div className="scroll-box">
-                  <MathJax dynamic className="math-display ">{problem.ai_solution || "No solution found"}</MathJax>
-                </div>
-              </div>
-              <small className="flip-hint" style={{color: '#fff'}}>Click to go back ↻</small>
-            </div>
+  <button className="close-button" onClick={(e) => { e.stopPropagation(); onClose(); }}>✕</button>
+  <span className="card-label">Solution</span>
+  
+  <div className="content-group">
+    <div className="scroll-box">
+      <MathJax dynamic>{problem.ai_solution || "No solution found"}</MathJax>
+    </div>
+  </div>
+  
+  <small className="flip-hint" style={{position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', color: '#fff'}}>
+    Click to go back ↻
+  </small>
+</div>
 
           </div>
         </div>
