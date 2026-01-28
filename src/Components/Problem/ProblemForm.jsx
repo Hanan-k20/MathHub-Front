@@ -70,22 +70,26 @@ function ProblemForm({ updateProblem, problemToUpdate, updateOneProblem }) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    if (!formState.equation_LaTeX || !formState.title) {
+    
+    const currentMathValue = mathRef.current ? mathRef.current.value : formState.equation_LaTeX;
+
+    if (!currentMathValue || !formState.title) {
       Swal.fire('Error', 'Please fill in all fields', 'error');
       return;
     }
 
+    const finalData = {
+      title: formState.title,
+      equation_LaTeX: currentMathValue
+    };
+
     setLoading(true);
     try {
       if (problemId) {
-        const updatedData = {
-          title: formState.title,
-          equation_LaTeX: formState.equation_LaTeX
-        };
-        await updateOneProblem(problemId, updatedData);
+        await updateOneProblem(problemId, finalData);
         Swal.fire('Updated!', 'Your changes have been saved.', 'success');
       } else {
-        await updateProblem(formState);
+        await updateProblem(finalData);
         Swal.fire('Saved!', 'New problem added.', 'success');
       }
       navigate('/problems');

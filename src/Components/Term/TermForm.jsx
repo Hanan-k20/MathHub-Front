@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react' // تأكد من استيراد useEffect و useRef من react
-import { useNavigate } from "react-router-dom"; // تأكد من المسار الصحيح
+import { useState, useEffect, useRef } from 'react' 
+import { useNavigate } from "react-router-dom"; 
 import * as termService from '../../services/termService'
 import 'mathlive';
 import './termForm.css'
@@ -19,8 +19,6 @@ const category = {
 function TermForm(props) {
     const { addTerm, termToUpdate, updateOneTerm } = props
     const navigate = useNavigate()
-
-    // 1. تعريف المراجع (Refs)
     const defRef = useRef(null);
     const exRef = useRef(null);
 
@@ -31,18 +29,16 @@ function TermForm(props) {
         category: ''
     })
 
-  useEffect(() => {
+    useEffect(() => {
         const setupMathField = (ref) => {
             const mf = ref.current;
             if (mf) {
                 mf.smartMode = true;
-
                 mf.addEventListener('input', () => {
                     mf.style.height = 'auto';
                     const newHeight = Math.min(mf.scrollHeight, 250); 
                     mf.style.height = newHeight + 'px';
                 });
-
                 mf.addEventListener('keydown', (evt) => {
                     if (evt.key === 'Enter') {
                         evt.preventDefault();
@@ -55,8 +51,6 @@ function TermForm(props) {
         setupMathField(exRef);
     }, []);
 
-
-
     const handleChange = (evt) => {
         setFormState({ ...formState, [evt.target.name]: evt.target.value })
     }
@@ -65,11 +59,7 @@ function TermForm(props) {
         evt.preventDefault()
         try {
             if (termToUpdate) {
-                const updatedTerm = await termService.update(termToUpdate.id, formState)
-                if (updatedTerm) {
-                    updateOneTerm(updatedTerm)
-                    navigate('/terms')
-                }
+                await updateOneTerm(termToUpdate.id, formState)
             } else {
                 const newTerm = await termService.create(formState)
                 if (newTerm) {
@@ -86,19 +76,11 @@ function TermForm(props) {
         <div className="term-form-container">
             <div className="term-form-card">
                 <h2>{termToUpdate ? "Edit Term" : "New Term"}</h2>
-                
                 <form onSubmit={handleSubmit}>
                     <div className="term-field-group">
                         <label>Title:</label>
-                        <input 
-                            name="name" 
-                            placeholder="Enter term name..."
-                            value={formState.name} 
-                            onChange={handleChange} 
-                            required 
-                        />
+                        <input name="name" placeholder="Enter term name..." value={formState.name} onChange={handleChange} required />
                     </div>
-
                     <div className="term-field-group">
                         <label>Definition:</label>
                         <div className="math-input-wrapper">
@@ -112,7 +94,6 @@ function TermForm(props) {
                             ></math-field>
                         </div>
                     </div>
-
                     <div className="term-field-group">
                         <label>Example:</label>
                         <div className="math-input-wrapper">
@@ -126,7 +107,6 @@ function TermForm(props) {
                             ></math-field>
                         </div>
                     </div>
-
                     <div className="term-field-group">
                         <label>Category:</label>
                         <select name="category" value={formState.category} onChange={handleChange}>
@@ -138,7 +118,6 @@ function TermForm(props) {
                             ))}
                         </select>
                     </div>
-
                     <button type="submit" className="term-save-btn">Save Term</button>
                 </form>
             </div>
