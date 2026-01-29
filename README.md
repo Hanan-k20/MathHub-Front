@@ -91,4 +91,4 @@ This project was built using the following documentation and tools:
     * [Interactive Animation Concept](https://codepen.io/liyrofx/pen/poVZeEG) by **liyrofx** - Influenced the hover effects and interactive transitions.
 
 ## 🔗 Deployment Links
-- **Backend API:** [Click here to view the API Service](https://github.com/Hanan-k20/MathHub)
+- **Frontend:** [Click here to view ](https://github.com/Hanan-k20/MathHub)
